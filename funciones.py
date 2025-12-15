@@ -1,3 +1,4 @@
+# Pendent afegir les funcions de neteja específiques
 def clean_cache():
     print("Cleaning cache files...")
 
