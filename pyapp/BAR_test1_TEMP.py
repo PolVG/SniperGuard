@@ -1,7 +1,7 @@
 import os
 import getpass
 from pathlib import Path
-# from modules.LogRegister import log
+from modules.LogRegister import log
 
 
 # =========================================================
@@ -24,65 +24,73 @@ def calcular_mida_i_fitxers(ruta: Path):
     Calcula mida total (bytes) i nombre de fitxers dins una carpeta.
     NO segueix symlinks.
     """
-    # log(f"Inici càlcul mida i fitxers: {ruta}", 100)
+    ruta = Path(ruta)
+
+    log(f"Inici càlcul mida i fitxers: {ruta}", 100)
 
     total_size = 0
     total_files = 0
 
     for root, dirs, files in os.walk(ruta, followlinks=False):
         total_files += len(files)
+
         for f in files:
+            fp = Path(root) / f
             try:
-                fp = Path(root) / f
                 total_size += fp.stat().st_size
             except Exception as e:
-                return 0, 0
                 # Error puntual: no atura execució
-    #             log(f"No s'ha pogut accedir a fitxer: {fp} ({repr(e)})", 300)
-    # log(
-    #     f"Càlcul finalitzat: ruta={ruta} | bytes={total_size} | fitxers={total_files}",
-    #     100
-    # )
-            return total_size, total_files
+                log(
+                    f"No s'ha pogut accedir a fitxer: {fp} ({repr(e)})",
+                    300
+                )
+                continue
+
+    log(
+        f"Càlcul finalitzat: ruta={ruta} | bytes={total_size} | fitxers={total_files}",
+        100
+    )
+
+    return total_size, total_files
 
 
 def barometre(size_mb, file_count):
     """
     Retorna (color, text) segons criteris.
     """
-    # log(
-    #     f"Avaluant baròmetre: size_mb={size_mb}, file_count={file_count}",
-    #     100
-    # )
+    log(
+        f"Avaluant baròmetre: size_mb={size_mb}, file_count={file_count}",
+        100
+    )
 
     if size_mb >= URGENT_SIZE_MB or file_count >= URGENT_FILES:
-        #log("Estat URGENT detectat", 300)
+        log("Estat URGENT detectat", 300)
         return "🔴", "URGENT (molt recomanat netejar)"
 
     elif size_mb >= RECOMMENDED_SIZE_MB or file_count >= RECOMMENDED_FILES:
-        #log("Estat RECOMANABLE detectat", 250)
+        log("Estat RECOMANABLE detectat", 250)
         return "🟡", "RECOMANABLE"
 
     else:
-       # log("Estat OK (no cal netejar)", 200)
+        log("Estat OK (no cal netejar)", 200)
         return "🟢", "NO CAL, però es pot netejar"
 
 
 def analitzar_carpeta(nom, ruta_str):
     ruta = Path(ruta_str)
 
-    #log(f"Inici anàlisi carpeta: {nom} | ruta={ruta}", 200)
+    log(f"Inici anàlisi carpeta: {nom} | ruta={ruta}", 200)
 
     print(f"\n===== {nom.upper()} =====")
     print(f"Ruta: {ruta}")
 
     if not ruta.exists():
-       # log(f"La ruta no existeix: {ruta}", 300)
+        log(f"La ruta no existeix: {ruta}", 300)
         print("⚠️  No existeix.")
         return
 
     if not ruta.is_dir():
-        #log(f"La ruta no és una carpeta: {ruta}", 300)
+        log(f"La ruta no és una carpeta: {ruta}", 300)
         print("⚠️  No és una carpeta.")
         return
 
@@ -91,10 +99,10 @@ def analitzar_carpeta(nom, ruta_str):
 
     color, estat = barometre(size_mb, file_count)
 
-    # log(
-    #     f"Resultat carpeta '{nom}': size_mb={size_mb}, files={file_count}, estat={estat}",
-    #     200
-    # )
+    log(
+         f"Resultat carpeta '{nom}': size_mb={size_mb}, files={file_count}, estat={estat}",
+         200
+    )
 
     print(f"Mida total : {size_mb} MB")
     print(f"Fitxers    : {file_count}")
@@ -106,7 +114,7 @@ def analitzar_carpeta(nom, ruta_str):
 # =========================================================
 
 def analitzar_carpetes_sistema():
-    #log("Inici anàlisi carpetes del sistema", 200)
+    log("Inici anàlisi carpetes del sistema", 200)
 
     # 1) C:\Windows\Temp
     carpeta_windows_temp = Path(r"C:\Windows\Temp")
@@ -118,14 +126,14 @@ def analitzar_carpetes_sistema():
     local_appdata = os.environ.get("LOCALAPPDATA")
     if local_appdata:
         carpeta_usuario_temp = Path(local_appdata) / "Temp"
-        #log(f"LOCALAPPDATA detectat: {local_appdata}", 100)
+        log(f"LOCALAPPDATA detectat: {local_appdata}", 100)
     else:
         usuario = getpass.getuser()
         carpeta_usuario_temp = Path(fr"C:\Users\{usuario}\AppData\Local\Temp")
-        # log(
-        #     f"LOCALAPPDATA no definit. Usuari detectat via getpass: {usuario}",
-        #     300
-        # )
+        log(
+             f"LOCALAPPDATA no definit. Usuari detectat via getpass: {usuario}",
+             300
+        )
 
     print("\n========== ANÀLISI CARPETES DEL SISTEMA ==========")
 
@@ -133,7 +141,7 @@ def analitzar_carpetes_sistema():
     analitzar_carpeta("Windows Update Download", carpeta_software_distribution)
     analitzar_carpeta("Temp Usuari", carpeta_usuario_temp)
 
-    # log("Final anàlisi carpetes del sistema", 200)
+    log("Final anàlisi carpetes del sistema", 200)
 
 
 # =========================================================
@@ -142,15 +150,15 @@ def analitzar_carpetes_sistema():
 
 if __name__ == "__main__":
     try:
-        # log("==== Inici diagnòstic Windows (BAR mode segur) ====", 200)
+        log("==== Inici diagnòstic Windows (BAR mode segur) ====", 200)
 
-        print("===== DIAGNÒSTIC WINDOWS (MODE SEGUR – NO ESBORRA RES) =====")
+        print("===== DIAGNÒSTIC WINDOWS (MODE SEGUR - NO ESBORRA RES) =====")
         analitzar_carpetes_sistema()
         print("\n===== ANÀLISI FINALITZADA =====")
 
-        # log("Diagnòstic Windows finalitzat correctament", 250)
+        log("Diagnòstic Windows finalitzat correctament", 250)
 
     except Exception as e:
-        # ❗ Norma del projecte: cap error sense log
-        # log(f"Excepció no controlada al diagnòstic Windows: {repr(e)}", 600)
+        # Norma del projecte: cap error sense log
+        log(f"Excepció no controlada al diagnòstic Windows: {repr(e)}", 600)
         raise
