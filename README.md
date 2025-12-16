@@ -98,7 +98,7 @@ cuando se solicite en el menú.
          (2)  --> Borrar cookies, historial y caché de los navegadores web.
          (3)  --> Borrar la papelera de reciclage de Windows.
         
-        Identificar + Borrar (2): -> Se inspeccionaran los archivos y se borraran.
+        Identificar + Borrar (2): -> Se inspeccionaran los archivos y se borraran.ds
          (1)  --> Borrar archivos temporales.
          (2)  --> Borrar cookies, historial y caché de los navegadores web.
          (3)  --> Borrar la papelera de reciclage de Windows.
