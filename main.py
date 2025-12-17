@@ -4,7 +4,7 @@ import configparser
 from pathlib import Path
 from datetime import datetime
 from modules.LogRegister import log
-from recursos import check_input_user
+from recursos import check_input_user, check_admin_privileges
 
 '''
 --- Rutes absolutes globals ---
@@ -229,7 +229,10 @@ def main():
         print("-------------------------------")
         print("Welcome to SniperGuard!:")
         print("-------------------------------")
-
+        
+        # Verifiquem els privilegis del usuari.
+        check_admin_privileges()
+            
         print("\n")
         print("Select an option:")
         print("1. Hardening")
