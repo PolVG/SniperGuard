@@ -4,30 +4,27 @@ import configparser
 from pathlib import Path
 from datetime import datetime
 from modules.LogRegister import log
-
+from recursos import check_input_user
 
 '''
 --- Rutes absolutes globals ---
 Fitxer: SniperGuard/pyapp/main.py  -> PROJECT_ROOT és SniperGuard/
 '''
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__)))
-PY_DIR = os.path.join(PROJECT_ROOT, "pyapp")
-print(PROJECT_ROOT)
 
-BASE_DIR = Path(__file__).resolve().parent  # SniperGuard/pyapp
+BASE_DIR = Path(__file__).resolve().parent          
+PROJECT_ROOT = BASE_DIR.parent                     
 
-CONFIG_PATH = os.path.join(PROJECT_ROOT, "config", "config.ini")
-print(CONFIG_PATH)
-
-LOGS_DIR = os.path.join(PROJECT_ROOT, "logs")
-MODULES_DIR = os.path.join(PROJECT_ROOT, "modules")
+PYAPP_DIR = PROJECT_ROOT / "pyapp"
+CONFIG_PATH = PROJECT_ROOT / "config" / "config.ini"
+LOGS_DIR = PROJECT_ROOT / "logs"
+MODULES_DIR = PROJECT_ROOT / "modules"
 
 # Cada dia, es crea un nou fitxer de log.
-LOG_FILE = os.path.join(LOGS_DIR, datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
+LOG_FILE = LOGS_DIR / (datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
 
-# Assegurar carpeta logs
-os.makedirs(LOGS_DIR, exist_ok=True)
-
+# Opcions a escollir 
+MODE_BAR = 1 # identificar
+MODE_DEL = 2 # identificar + esborrar
 
 '''
 Funció get_config_ini():
@@ -46,7 +43,9 @@ def get_config_ini():
     if not config.read(CONFIG_PATH, encoding="utf-8"):
         raise RuntimeError(f"No s'ha pogut llegir el fitxer INI: {CONFIG_PATH}")
     
+    # Si tens accés al arxiu, retorna un buffer amb el contingut del arxiu.
     log(f"L'arxiu {CONFIG_PATH} s'ha trobat correctament.", 100)
+    return config
 
 
 '''
@@ -60,31 +59,33 @@ Opció 1: injecta PYTHONPATH perquè els scripts importin modules.*
 
 def run_script(script_name: str):
 
-    script_path = BASE_DIR / PY_DIR / script_name
-    log(f"Preparant execució de script: {script_name} | path={script_path}", 200)
+    script_path = BASE_DIR / script_name
 
     # Verifica si l'script de Python que realitza aquella funcionalitat existeix.
     if not script_path.exists():
         log(f"No existeix el fitxer: {script_path}", 400)
+        # Utilitzarem 'return' per aturar l'execució d'una funció degut a un error.
         return
+    
+    log(f"Preparant execució de script: {script_path}", 200)
 
     # Si existeix, executa aquell arxiu i guarda el seu 'output' als logs.
     try:
         '''
 
-        De la linea 75 a la 87 s'ha fet amb IA, el que fa és executar un script Python
+        La creació de la estructura try-catch está fet amb IA, el que fa és executar un script Python
         des de un altre script Python, capturant la seva sortida (stdout i stderr)
 
         '''
         env = os.environ.copy()
-        env["PYTHONPATH"] = PROJECT_ROOT  
+        env["PYTHONPATH"] = str(PROJECT_ROOT)
 
         result = subprocess.run(
             [sys.executable, 
             str(script_path)],
             check=False,
             env=env,
-            cwd=PROJECT_ROOT,       
+            cwd=str(PROJECT_ROOT),       
             capture_output=True,
             text=True,
             encoding="utf-8",
@@ -92,27 +93,25 @@ def run_script(script_name: str):
 
         # Si el fitxer s'executa correctament, l'script retorna 0.
         if result.returncode == 0:
-            print(f"Script {script_name} finalitzat OK (returncode=0)", 250)
+            log(f"Script {script_name} finalitzat OK (returncode=0)", 250)
         else:
-            print(f"Script {script_name} ha acabat amb returncode={result.returncode}", 300)
+            log(f"Script {script_name} ha acabat amb returncode={result.returncode}", 300)
 
         # Necessitem capturar la sortida del script per guadar el seu comportament als logs
         # Recordar que stdout es el que es mostra per pantalla i stderr els errors.
         if result.stdout and result.stdout.strip(): # TOT OK
-            print(f"STDOUT {script_name}: {result.stdout.strip()}", 100)
+            log(f"STDOUT {script_name}: {result.stdout.strip()}", 100)
 
         if result.stderr and result.stderr.strip(): # ERROR!
-            print(f"STDERR {script_name}: {result.stderr.strip()}", 400)
+            log(f"STDERR {script_name}: {result.stderr.strip()}", 400)
 
     except Exception as e:
         log(f"No s'ha pogut executar {script_name}: {(e)}", 500)
 
-'''
 
+'''
 Funció cleaning_menu():
 Aquest menú permet a l'usuari escollir quina opció de neteja vol executar.
-
-
 '''
 def cleaning_menu(mode):
     log("Mostrant al usuari les opcions disponibles de neteja.", 100)
@@ -131,28 +130,27 @@ def cleaning_menu(mode):
         "4": ("Tornar al menú", None),
     }
 
-    options = BAR_OPTIONS if mode == "BAR" else DEL_OPTIONS
+    if mode == MODE_BAR:
+        log("Mode BAR actiu: mostrant opcions de comprovació", 200)
+        options = BAR_OPTIONS
+    else:
+        log("Mode DEL actiu: mostrant opcions de neteja", 200)
+        options = DEL_OPTIONS
+
 
     print("\n***Cleaning Options:***\n")
     for key, (label, _) in options.items():
         print(f"{key}. {label}")
     print("\n")
 
-    choice = input("Introdueix una opció : ").strip()
-    log(f"Usuari ha triat opció cleaning_menu: '{choice}' (mode={mode})", 200)
+    choice = check_input_user("Introdueix una opció : ", set(options.keys()))
 
-    if not choice:
-        log("La entrada del usuari es buida. Introdueix un número d'1-4.", 400)
+    if choice is None:
+        log("Sortint de la funció cleaning_menu()",100)
         return
+    
+    log(f"L'usuari ha triat opció cleaning_menu: '{choice}' (mode={mode})", 200)
 
-    if not choice.isdigit():
-        log("La entrada del usuari no es pas un dígit. Introdueix un número d'1-4.", 400)
-        return
-
-    if choice not in options:
-        log(f"Opció invàlida a cleaning_menu(): '{choice}'", 300)
-        print(f"Opció {choice} no valida.\n")
-        return
 
     label, script = options[choice]
 
@@ -165,6 +163,7 @@ def cleaning_menu(mode):
 
 '''
 Funció choose_mode():
+
 Funció que permet a l'usuari escollir entre dos modes:
 1. Identificar estat (BAR)  -> només comprovar
 2. Identificar i esborrar (DEL) -> comprovar + netejar
@@ -177,26 +176,17 @@ def choose_mode():
         print("Què vols fer?")
         print("1. Identificar estat (BAR)  -> només comprovar")
         print("2. Identificar i esborrar (DEL) -> comprovar + netejar")
-        choice = input("Introdueix una opció : ").strip()
         
-        # Si l'entrada està buida torna al menú principal
-        if not choice:
-            log("La entrada del usuari es buida. Introdueix un número d'1-4.",400)
-        
-        # Si no es pas un dígit (0-9). Torna al menú principal
-        if not choice.isdigit():
-            log("\nLa entrada del usuari no es pas un dígit. Introdueix un número d'1-4.",400)
+        choice = check_input_user("Introdueix una opció : ", {"1", "2"})
+        if choice is None:
+            continue
 
-        # Convertim de String a Integer per revisar
-        choice = int(choice) 
-        
-        if choice == 1:
+        if choice == "1":
             log("Usuari ha seleccionat mode BAR", 250)
             return "BAR"
-        else:
-            log("Usuari ha seleccionat mode DEL", 250)
-            return "DEL"
 
+        log("Usuari ha seleccionat mode DEL", 250)
+        return MODE_DEL
 
 '''
 
@@ -247,39 +237,28 @@ def main():
         print("3. Exit")
         print("\n")
 
-
-        decisio = input("Introdueix una opció : ").strip()
-
-        # Si l'entrada de l'usuari està buida. Torna al menú principal
-        if not decisio:
-            log("La entrada del usuari es buida. Introdueix un número d'1-4.",400)
-            continue
-        
-        # Si no es pas un dígit (0-9). Torna al menú principal
-        if not decisio.isdigit():
-            log("\nLa entrada del usuari no es pas un dígit. Introdueix un número d'1-4.",400)
+        decisio = check_input_user("Introdueix una opció : ", {"1", "2", "3"})
+        if decisio is None:
             continue
 
-        # Convertim de String a Integer per revisar
-        # si el número del usuari està dintre del rang.
-        decisio = int(decisio) 
-        
-        if decisio not in (1,2): 
-            # Numero incorrecte, NO està en el menú.-
-            log(f"El número: {decisio} no està dintre del rang. El número ha de ser d'1-2.",400)
-            continue
+        if decisio == "1":
+            log("Hardening seleccionat (no implementat)", 300)
+            return MODE_BAR
 
-        if decisio == 1:
-            log("Hardening seleccionat (no implementat)", 300)  
-        else:
+        if decisio == "2":
             log("Cleaning seleccionat", 250)
             print("\n")
-            
+
             # L'usuari ha d'escollir un mode: identificar o identificar + esborrar.
             mode = choose_mode()
 
             # Mostra les opcions de neteja de SniperGuard
             cleaning_menu(mode)
+            continue
+
+        # decisio == "3"
+        log("Usuari ha sortit del programa (Exit).", 200)
+        break
      
       
 '''
