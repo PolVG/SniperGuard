@@ -1,3 +1,8 @@
+"""
+TOT EL CONTINGUT D'AQUEST SCRIPT ESTA FET AMB IA. EN LA SEGUENT ENTREGA ES SUBSTITUIRA PER CODI HUMÀ.
+
+"""
+
 import os
 import shutil
 import subprocess

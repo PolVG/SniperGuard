@@ -1,3 +1,8 @@
+"""
+TOT EL CONTINGUT D'AQUEST SCRIPT ESTA FET AMB IA. EN LA SEGUENT ENTREGA ES SUBSTITUIRA PER CODI HUMÀ.
+"""
+
+
 import subprocess
 from modules.LogRegister import log
 
