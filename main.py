@@ -330,7 +330,7 @@ def main():
 
         decisio = check_input_user("Introdueix una opció : ", {"1", "2", "3"})
         if decisio is None:
-            continue
+            break
 
         if decisio == "1":
             log("Hardening seleccionat", 250)
@@ -341,7 +341,7 @@ def main():
             # Mostra les opcions de neteja de SniperGuard
             hardening_menu(mode)
 
-            continue
+            break
 
         if decisio == "2":
             log("Cleaning seleccionat", 250)
@@ -352,7 +352,7 @@ def main():
 
             # Mostra les opcions de neteja de SniperGuard
             cleaning_menu(mode)
-            continue
+            break
 
         # decisio == "3"
         log("Usuari ha sortit del programa (Exit).", 200)

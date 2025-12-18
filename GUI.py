@@ -2,6 +2,9 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import time
 from tkinter import ttk, messagebox
+import main
+from pathlib import Path
+from datetime import datetime
 
 window = tk.Tk()
 window.title("SniperGuard")
@@ -17,6 +20,58 @@ barra_lateral = tk.Frame(window, bg="#9D9CA8", width=150)
 barra_lateral.grid(row=0, column=0, rowspan=2, sticky='ns')
 barra_lateral.grid_propagate(False)
 
+
+#boton 1
+boton1= Image.open("SniperGuardLogo.png")
+NUEVO_ANCHO=70
+NUEVO_ALTO=70
+boton1_redimensionado = boton1.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
+imagen_del_boton = ImageTk.PhotoImage(boton1_redimensionado)
+boton1_imagen_unico = tk.Button(barra_lateral,image=imagen_del_boton, bg="#9D9CA8",relief="flat",command=lambda: print("Home"))
+boton1_imagen_unico.image = imagen_del_boton
+boton1_imagen_unico.pack(pady=10, padx=10, fill='x')
+
+#boton2
+boton2 = Image.open("cleaner_sin_fondo.png")
+NUEVO_ANCHO=70
+NUEVO_ALTO=70
+boton2_redimensionado = boton2.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
+imagen_del_boton = ImageTk.PhotoImage(boton2_redimensionado)
+boton2_imagen_unico = tk.Button(barra_lateral,image=imagen_del_boton, bg="#9D9CA8",relief="flat",command=lambda: print("CLEANER clicked"))
+boton2_imagen_unico.image = imagen_del_boton
+boton2_imagen_unico.pack(pady=10, padx=10, fill='x')
+
+#boton3
+boton3 = Image.open("registry_sin_nombre.png")
+NUEVO_ANCHO=70
+NUEVO_ALTO=70
+boton3_redimensionado = boton3.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
+imagen_del_boton = ImageTk.PhotoImage(boton3_redimensionado)
+boton3_imagen_unico = tk.Button(barra_lateral,image=imagen_del_boton, bg="#9D9CA8",relief="flat",command=lambda: print("REGISTRY clicked"))
+boton3_imagen_unico.image = imagen_del_boton
+boton3_imagen_unico.pack(pady=10, padx=10, fill='x')
+
+#boton4
+boton3 = Image.open("herramientas_sin_fondo.png")
+NUEVO_ANCHO=70
+NUEVO_ALTO=70
+boton3_redimensionado = boton3.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
+imagen_del_boton = ImageTk.PhotoImage(boton3_redimensionado)
+boton3_imagen_unico = tk.Button(barra_lateral,image=imagen_del_boton, bg="#9D9CA8",relief="flat",command=lambda: print("HERRAMIENTAS clicked"))
+boton3_imagen_unico.image = imagen_del_boton
+boton3_imagen_unico.pack(pady=10, padx=10, fill='x')
+
+#boton5
+boton4 = Image.open("opciones_sin_fondo.png")
+NUEVO_ANCHO=70
+NUEVO_ALTO=70
+boton4_redimensionado = boton4.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
+imagen_del_boton = ImageTk.PhotoImage(boton4_redimensionado)
+boton4_imagen_unico = tk.Button(barra_lateral,image=imagen_del_boton, bg="#9D9CA8",relief="flat",command=lambda: print("OPCIONES clicked"))
+boton4_imagen_unico.image = imagen_del_boton
+boton4_imagen_unico.pack(pady=10, padx=10, fill='x')
+
+''''
 # Funcion para evitar codigo repetido para cada boton
 def crear_boton(ruta, texto_log, fila):
     img = Image.open(ruta).resize((70, 70), Image.LANCZOS)
@@ -32,6 +87,7 @@ crear_boton("img/registry_sin_nombre.png", "REGISTRY clicked", 2)
 crear_boton("img/herramientas_sin_fondo.png", "HERRAMIENTAS clicked", 3)
 crear_boton("img/opciones_sin_fondo.png", "OPCIONES clicked", 4)
 
+'''
 # banner de sniperguard
 banner = Image.open("img/banersinlogo.png")
 banner_redimensionado = banner.resize((650, 100), Image.LANCZOS)
@@ -53,12 +109,45 @@ label_porcentaje.grid(row=1, column=0, pady=5)
 
 #funcion falseada para la barra de progreso
 def iniciar_carga():
-    for i in range(101):
-        time.sleep(0.02)
-        progreso['value'] = i
-        label_porcentaje.config(text=f"{i}%")
-        window.update_idletasks()
+    # Ejecuta la lógica principal
+    main.main()
+    
+    # Limpiar el cuadro de texto antes de empezar
+    arch_encontrados.delete('1.0', tk.END)
+    
+    # Configuración de rutas
+    BASE_DIR = Path(__file__).resolve().parent       
+    PROJECT_ROOT = BASE_DIR.parent                     
+    LOGS_DIR = PROJECT_ROOT / "logs"
+    # Usamos el archivo específico que mencionaste
+    LOG_FILE = LOGS_DIR /(datetime.now().strftime("%Y-%m-%d")+ "_logs_py.txt")
 
+    try:
+        with open(LOG_FILE, "r",encoding="utf-8") as f:
+            lineas = f.readlines()
+            total = len(lineas)
+            
+            if total == 0:
+                arch_encontrados.insert(tk.END, "Archivo vacío.")
+                return
+
+            for i, linea in enumerate(lineas):
+                # Actualizar barra de progreso y porcentaje
+                porcentaje_actual = int(((i + 1) / total) * 100)
+                progreso['value'] = porcentaje_actual
+                label_porcentaje.config(text=f"{porcentaje_actual}%")
+                
+                # Insertar línea en el widget Text
+                arch_encontrados.insert(tk.END, linea)
+                arch_encontrados.see(tk.END) # Scroll automático
+                
+                # Refrescar interfaz y esperar 1 segundo
+                window.update()
+                time.sleep(0.1)
+                
+    except FileNotFoundError:
+        messagebox.showerror("Error", f"No se encontró el archivo en: {LOG_FILE}")
+    
 boton_iniciar = tk.Button(contenedor_principal, text="Iniciar Escaneo", command=iniciar_carga, font=("Arial", 12, "bold"))
 boton_iniciar.grid(row=2, column=0, pady=10)
 
@@ -93,6 +182,8 @@ logs = tk.Text(contenedor_principal, bg="#D3D3D3", height=8, width=60, font=("Ar
 logs.grid(row=5, column=0, pady=10)
 
 window.mainloop()
+
+
 
 
 
