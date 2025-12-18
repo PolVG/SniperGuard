@@ -5,7 +5,7 @@ from tkinter import ttk, messagebox
 
 window = tk.Tk()
 window.title("SniperGuard")
-window.geometry("800x900")
+window.geometry("800x600")
 window.resizable(False, False)
 window.configure(bg="gray20")
 
@@ -26,14 +26,14 @@ def crear_boton(ruta, texto_log, fila):
     btn.grid(row=fila, column=0, pady=10, padx=40, sticky='ew')
     return btn
 
-crear_boton("SniperGuardLogo.png", "Home", 0)
-crear_boton("cleaner_sin_fondo.png", "CLEANER clicked", 1)
-crear_boton("registry_sin_nombre.png", "REGISTRY clicked", 2)
-crear_boton("herramientas_sin_fondo.png", "HERRAMIENTAS clicked", 3)
-crear_boton("opciones_sin_fondo.png", "OPCIONES clicked", 4)
+crear_boton("img/SniperGuardLogo.png", "Home", 0)
+crear_boton("img/cleaner_sin_fondo.png", "CLEANER clicked", 1)
+crear_boton("img/registry_sin_nombre.png", "REGISTRY clicked", 2)
+crear_boton("img/herramientas_sin_fondo.png", "HERRAMIENTAS clicked", 3)
+crear_boton("img/opciones_sin_fondo.png", "OPCIONES clicked", 4)
 
 # banner de sniperguard
-banner = Image.open("banersinlogo.png")
+banner = Image.open("img/banersinlogo.png")
 banner_redimensionado = banner.resize((650, 100), Image.LANCZOS)
 imagen_banner = ImageTk.PhotoImage(banner_redimensionado)
 label_del_banner = tk.Label(window, image=imagen_banner, bg="gray20")
@@ -93,7 +93,6 @@ logs = tk.Text(contenedor_principal, bg="#D3D3D3", height=8, width=60, font=("Ar
 logs.grid(row=5, column=0, pady=10)
 
 window.mainloop()
-
 
 
 
