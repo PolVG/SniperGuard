@@ -67,9 +67,9 @@ NUEVO_ANCHO=70
 NUEVO_ALTO=70
 boton5_redimensionado = boton5.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
 imagen_del_boton = ImageTk.PhotoImage(boton5_redimensionado)
-boton4_imagen_unico = tk.Button(barra_lateral,image=imagen_del_boton, bg="#9D9CA8",relief="flat",command=lambda: print("OPCIONES clicked"))
-boton4_imagen_unico.image = imagen_del_boton
-boton4_imagen_unico.pack(pady=10, padx=10, fill='x')
+boton5_imagen_unico = tk.Button(barra_lateral,image=imagen_del_boton, bg="#9D9CA8",relief="flat",command=lambda: print("OPCIONES clicked"))
+boton5_imagen_unico.image = imagen_del_boton
+boton5_imagen_unico.pack(pady=10, padx=10, fill='x')
 
 ''''
 # Funcion para evitar codigo repetido para cada boton
