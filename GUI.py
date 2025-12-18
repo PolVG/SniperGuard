@@ -22,7 +22,7 @@ barra_lateral.grid_propagate(False)
 
 
 #boton 1
-boton1= Image.open("SniperGuardLogo.png")
+boton1= Image.open("img/SniperGuardLogo.png")
 NUEVO_ANCHO=70
 NUEVO_ALTO=70
 boton1_redimensionado = boton1.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
@@ -32,7 +32,7 @@ boton1_imagen_unico.image = imagen_del_boton
 boton1_imagen_unico.pack(pady=10, padx=10, fill='x')
 
 #boton2
-boton2 = Image.open("cleaner_sin_fondo.png")
+boton2 = Image.open("img/cleaner_sin_fondo.png")
 NUEVO_ANCHO=70
 NUEVO_ALTO=70
 boton2_redimensionado = boton2.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
@@ -42,7 +42,7 @@ boton2_imagen_unico.image = imagen_del_boton
 boton2_imagen_unico.pack(pady=10, padx=10, fill='x')
 
 #boton3
-boton3 = Image.open("registry_sin_nombre.png")
+boton3 = Image.open("img/registry_sin_nombre.png")
 NUEVO_ANCHO=70
 NUEVO_ALTO=70
 boton3_redimensionado = boton3.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
@@ -52,21 +52,21 @@ boton3_imagen_unico.image = imagen_del_boton
 boton3_imagen_unico.pack(pady=10, padx=10, fill='x')
 
 #boton4
-boton3 = Image.open("herramientas_sin_fondo.png")
+boton4 = Image.open("img/herramientas_sin_fondo.png")
 NUEVO_ANCHO=70
 NUEVO_ALTO=70
-boton3_redimensionado = boton3.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
+boton4_redimensionado = boton3.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
 imagen_del_boton = ImageTk.PhotoImage(boton3_redimensionado)
-boton3_imagen_unico = tk.Button(barra_lateral,image=imagen_del_boton, bg="#9D9CA8",relief="flat",command=lambda: print("HERRAMIENTAS clicked"))
-boton3_imagen_unico.image = imagen_del_boton
-boton3_imagen_unico.pack(pady=10, padx=10, fill='x')
+boton4_imagen_unico = tk.Button(barra_lateral,image=imagen_del_boton, bg="#9D9CA8",relief="flat",command=lambda: print("HERRAMIENTAS clicked"))
+boton4_imagen_unico.image = imagen_del_boton
+boton4_imagen_unico.pack(pady=10, padx=10, fill='x')
 
 #boton5
-boton4 = Image.open("opciones_sin_fondo.png")
+boton5 = Image.open("img/opciones_sin_fondo.png")
 NUEVO_ANCHO=70
 NUEVO_ALTO=70
-boton4_redimensionado = boton4.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
-imagen_del_boton = ImageTk.PhotoImage(boton4_redimensionado)
+boton5_redimensionado = boton5.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
+imagen_del_boton = ImageTk.PhotoImage(boton5_redimensionado)
 boton4_imagen_unico = tk.Button(barra_lateral,image=imagen_del_boton, bg="#9D9CA8",relief="flat",command=lambda: print("OPCIONES clicked"))
 boton4_imagen_unico.image = imagen_del_boton
 boton4_imagen_unico.pack(pady=10, padx=10, fill='x')
