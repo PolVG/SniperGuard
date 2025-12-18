@@ -1,5 +1,5 @@
 import subprocess
-
+from modules.LogRegister import log
 
 
 """
@@ -26,10 +26,7 @@ def defender_update_available():
     '''
 
     ps = r"""
-    $s = New-Object -ComObject Microsoft.Update.Session
-    $searcher = $s.CreateUpdateSearcher()
-    $r = $searcher.Search("IsInstalled=0 and Type='Software'")
-    if ($r.Updates.Count -gt 0) { "true" } else { "false" }
+    Get-MpComputerStatus | Select-Object AntivirusSignatureLastUpdated, AntivirusSignatureVersion
     """
 
 
@@ -37,22 +34,15 @@ def defender_update_available():
         # Explicació dels paràmetres dificls: .decode() per convertir bytes a string, subpross.check_output() per capturar la sortida de la comanda
         # i [powershell, -Command, ps] per executar la comanda ps en powershell
         out = subprocess.check_output(["powershell", "-Command", ps]).decode().strip().lower()
-
-
-        if out == "true":
-            return True
-        if out == "false":
-            return False
-        return None
+        return out
     except Exception:
         return None
     
 # Evitar que s'executi directament en ser importat, només quan s'executa directament o sigui cridat dins d'un altre script
 if __name__ == "__main__":
     result = defender_update_available()
-    if result is True:
-        print("Hi ha actualitzacions de Windows Defender disponibles.")
-    elif result is False:
-        print("No hi ha actualitzacions de Windows Defender disponibles.")
+    
+    if result is None:
+        log("No s'ha pogut obtenir l'estat de Windows Defender.")
     else:
-        print("No s'ha pogut determinar si hi ha actualitzacions de Windows Defender disponibles.")
+        log(result)

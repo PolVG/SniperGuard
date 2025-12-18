@@ -45,6 +45,6 @@ def check_admin_privileges():
     if privilegis_elevats:
         log("El programa s'està executant amb privilegis elevats.",250)
     else:
-        log("Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides",400)
+        log("Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides",300)
 
     return privilegis_elevats

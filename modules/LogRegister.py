@@ -3,14 +3,18 @@ import inspect
 import re
 import configparser
 from datetime import datetime
-
+from pathlib import Path
 # Rutes globals del fitxer de logs
 # Pujem dos nivells de l'arrel del projecte per oferir la ruta: /var/www/html/projecteimatges/config/config.ini
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..','..'))
-LOGS_DIR = os.path.join(PROJECT_ROOT, "logs")
-LOG_FILE = os.path.join(LOGS_DIR, datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
-CONFIG_PATH = os.path.join(PROJECT_ROOT, "config", "config.ini")
-
+# PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..','..'))
+# LOGS_DIR = os.path.join(PROJECT_ROOT, "logs")
+# LOG_FILE = os.path.join(LOGS_DIR, datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
+# CONFIG_PATH = os.path.join(PROJECT_ROOT, "config", "config.ini")
+BASE_DIR = Path(__file__).resolve().parent       
+PROJECT_ROOT = BASE_DIR.parent     
+LOGS_DIR = PROJECT_ROOT / "logs"
+LOG_FILE = LOGS_DIR / (datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
+CONFIG_PATH = PROJECT_ROOT / "config" / "config.ini"
 #
 # obtenirTextNivell() -> Funció que serveix per classificar 
 #                        el log segons el seu valor númeric

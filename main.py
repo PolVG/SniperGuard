@@ -11,7 +11,7 @@ from recursos import check_input_user, check_admin_privileges
 Fitxer: SniperGuard/pyapp/main.py  -> PROJECT_ROOT és SniperGuard/
 '''
 
-BASE_DIR = Path(__file__).resolve().parent          
+BASE_DIR = Path(__file__).resolve().parent       
 PROJECT_ROOT = BASE_DIR.parent                     
 
 PYAPP_DIR = PROJECT_ROOT / "pyapp"
@@ -59,7 +59,7 @@ Opció 1: injecta PYTHONPATH perquè els scripts importin modules.*
 
 def run_script(script_name: str):
 
-    script_path = BASE_DIR / script_name
+    script_path = PYAPP_DIR / script_name
 
     # Verifica si l'script de Python que realitza aquella funcionalitat existeix.
     if not script_path.exists():
@@ -161,6 +161,55 @@ def cleaning_menu(mode):
     log(f"Executant acció: {label}", 200)
     run_script(script)
 
+
+'''
+Funció hardening_menu():
+Aquest menú permet a l'usuari escollir quina opció de neteja vol executar.
+'''
+def hardening_menu(mode):
+    log("Mostrant al usuari les opcions disponibles de hardening.", 100)
+
+    BAR_OPTIONS = {
+        "1": ("Comprobar si Windows Defender està actiu", "CHECK_WinDefender.py"),
+        "2": ("Comprobar si falten actualitzacions a Windows Defender", "CHECK_WinDefenderUpdateAvailable.py"),
+        "3": ("Tornar al menú", None),
+    }
+
+    DEL_OPTIONS = {
+        "1": ("Actualitzar Windows Defender", "APPLY_WinDefenderUpdate.py"),
+        "2": ("Tornar al menú", None),
+    }
+
+    if mode == MODE_BAR:
+        log("Mode BAR actiu: mostrant opcions de comprovació", 200)
+        options = BAR_OPTIONS
+    else:
+        log("Mode DEL actiu: mostrant opcions de neteja", 200)
+        options = DEL_OPTIONS
+
+
+    print("\n***Cleaning Options:***\n")
+    for key, (label, _) in options.items():
+        print(f"{key}. {label}")
+    print("\n")
+
+    choice = check_input_user("Introdueix una opció : ", set(options.keys()))
+
+    if choice is None:
+        log("Sortint de la funció cleaning_menu()",100)
+        return
+    
+    log(f"L'usuari ha triat opció cleaning_menu: '{choice}' (mode={mode})", 200)
+
+
+    label, script = options[choice]
+
+    if script is None:
+        log("Usuari torna al menú anterior", 250)
+        return
+
+    log(f"Executant acció: {label}", 200)
+    run_script(script)
 '''
 Funció choose_mode():
 
@@ -183,7 +232,7 @@ def choose_mode():
 
         if choice == "1":
             log("Usuari ha seleccionat mode BAR", 250)
-            return "BAR"
+            return MODE_BAR
 
         log("Usuari ha seleccionat mode DEL", 250)
         return MODE_DEL
@@ -245,8 +294,15 @@ def main():
             continue
 
         if decisio == "1":
-            log("Hardening seleccionat (no implementat)", 300)
-            return MODE_BAR
+            log("Hardening seleccionat", 250)
+            
+            # L'usuari ha d'escollir un mode: identificar o identificar + esborrar.
+            mode = choose_mode()
+
+            # Mostra les opcions de neteja de SniperGuard
+            hardening_menu(mode)
+
+            continue
 
         if decisio == "2":
             log("Cleaning seleccionat", 250)
