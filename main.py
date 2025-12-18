@@ -170,14 +170,16 @@ def hardening_menu(mode):
     log("Mostrant al usuari les opcions disponibles de hardening.", 100)
 
     BAR_OPTIONS = {
-        "1": ("Comprobar si Windows Defender està actiu", "CHECK_WinDefender.py"),
-        "2": ("Comprobar si falten actualitzacions a Windows Defender", "CHECK_WinDefenderUpdateAvailable.py"),
-        "3": ("Tornar al menú", None),
+        "1": ("Comprobar si Windows Defender està actiu", "HARD_WinDefender.py"),
+        "2": ("Comprobar si falten actualitzacions a Windows Defender", "HARD_WinDefenderUpdateAvailable.py"),
+        "3": ("Comprobar si falten actualitzacions a Windows Update", "BAR_test5_UPDATE.py"),
+        "4": ("Tornar al menú", None),
     }
 
     DEL_OPTIONS = {
-        "1": ("Actualitzar Windows Defender", "APPLY_WinDefenderUpdate.py"),
-        "2": ("Tornar al menú", None),
+        "1": ("Actualitzar Windows Defender", "HARD_WinDefenderUpdate.py"),
+        "2": ("Actualizar Windows amb Windows Update", "HARD_WindowsUpdate.py"),
+        "3": ("Tornar al menú", None),
     }
 
     if mode == MODE_BAR:
@@ -236,6 +238,43 @@ def choose_mode():
 
         log("Usuari ha seleccionat mode DEL", 250)
         return MODE_DEL
+
+
+def choose_cleaning_mode():
+
+    while True:
+        print("Què vols fer?")
+        print("1. Identificar estat (BAR)  -> només comprovar")
+        print("2. Identificar i esborrar (DEL) -> comprovar + netejar")
+        
+        choice = check_input_user("Introdueix una opció : ", {"1", "2"})
+        if choice is None:
+            continue
+
+        if choice == "1":
+            log("Usuari ha seleccionat mode BAR", 250)
+            return MODE_BAR
+
+        log("Usuari ha seleccionat mode DEL", 250)
+        return MODE_DEL
+    
+def choose_hardening_mode():
+
+    while True:
+        print("Què vols fer?")
+        print("1. Identificar estat (BAR)  -> només comprovar")
+        print("2. Implementar hardening (HARD) -> comprovar + hardening")
+        
+        choice = check_input_user("Introdueix una opció : ", {"1", "2"})
+        if choice is None:
+            continue
+
+        if choice == "1":
+            log("Usuari ha seleccionat mode BAR", 250)
+            return MODE_BAR
+
+        log("Usuari ha seleccionat mode HARD", 250)
+        return MODE_DEL   
 
 '''
 
@@ -297,7 +336,7 @@ def main():
             log("Hardening seleccionat", 250)
             
             # L'usuari ha d'escollir un mode: identificar o identificar + esborrar.
-            mode = choose_mode()
+            mode = choose_hardening_mode()
 
             # Mostra les opcions de neteja de SniperGuard
             hardening_menu(mode)
@@ -308,7 +347,7 @@ def main():
             log("Cleaning seleccionat", 250)
             print("\n")
 
-            # L'usuari ha d'escollir un mode: identificar o identificar + esborrar.
+            # L'usuari ha d'escollir un mode: identificar o identificar + HARDENING.
             mode = choose_mode()
 
             # Mostra les opcions de neteja de SniperGuard

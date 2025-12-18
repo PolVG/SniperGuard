@@ -4,6 +4,7 @@ import re
 import configparser
 from datetime import datetime
 from pathlib import Path
+
 # Rutes globals del fitxer de logs
 # Pujem dos nivells de l'arrel del projecte per oferir la ruta: /var/www/html/projecteimatges/config/config.ini
 # PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..','..'))
