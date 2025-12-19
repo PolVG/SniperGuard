@@ -1,0 +1,11 @@
+[19-12-2025 14:44:54] [main] ✅📝 S'ha creat un nou fitxer de log anomenat: \\VBoxSvr\DEF2_SniperGuard\logs\ID2.1.1_2025-12-19_14-44-54_logs_py.txt .
+[19-12-2025 14:44:54] [main] [ℹ️ INFO] ==== Starting SniperGuard  ====
+[19-12-2025 14:44:54] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[19-12-2025 14:44:54] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[19-12-2025 14:44:54] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[19-12-2025 14:44:54] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[19-12-2025 14:44:54] [main] [🔍 DEBUG] LOG_FILE(2025-12-19) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-19_logs_py.txt
+[19-12-2025 14:44:54] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[19-12-2025 14:44:54] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[19-12-2025 14:44:56] [main] [✅ NOTICE] Hardening seleccionat
+[19-12-2025 14:45:01] [recursos] [❌ ERROR] La entrada del usuari no es pas un dígit. Introdueix un número.

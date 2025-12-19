@@ -1,0 +1,12 @@
+[19-12-2025 14:36:21] [main] ✅📝 S'ha creat un nou fitxer de log anomenat: \\VBoxSvr\DEF2_SniperGuard\logs\ID2.1.2_2025-12-19_14-36-21_logs_py.txt .
+[19-12-2025 14:36:21] [main] [ℹ️ INFO] Preparant execució de script: \\VBoxSvr\DEF2_SniperGuard\pyapp\DEL_test1_TEMP.py
+[19-12-2025 14:36:23] [main] [✅ NOTICE] Script DEL_test1_TEMP.py finalitzat OK (returncode=0)
+[19-12-2025 14:36:23] [main] [🔍 DEBUG] STDOUT DEL_test1_TEMP.py: ===== NETEJA TEMP + SOFTWAREDISTRIBUTION\DOWNLOAD =====
+[%TEMP%] Esborrats: 1, Errors: 4
+[C:\Windows\Temp] Esborrats: 3, Errors: 0
+[WARN] No estàs com Administrador: NO es netejarà SoftwareDistribution\Download.
+
+--- RESUM ---
+Total esborrats (TEMP): 4
+Total errors (fitxers en ús/permisos): 4
+===== PROCÉS FINALITZAT =====

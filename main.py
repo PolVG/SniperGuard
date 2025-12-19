@@ -15,9 +15,12 @@ BASE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = BASE_DIR.parent                     
 
 PYAPP_DIR = PROJECT_ROOT / "pyapp"
+
+
 CONFIG_PATH = PROJECT_ROOT / "config" / "config.ini"
 LOGS_DIR = PROJECT_ROOT / "logs"
 MODULES_DIR = PROJECT_ROOT / "modules"
+
 
 # Cada dia, es crea un nou fitxer de log.
 LOG_FILE = LOGS_DIR / (datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
@@ -25,6 +28,9 @@ LOG_FILE = LOGS_DIR / (datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
 # Opcions a escollir 
 MODE_BAR = 1 # identificar
 MODE_DEL = 2 # identificar + esborrar
+
+
+
 
 '''
 Funció get_config_ini():
