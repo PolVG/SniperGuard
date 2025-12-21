@@ -48,10 +48,10 @@
 
 # Què és SniperGuard?
 
-SniperGuard és un programa open-source (de codi lliure) que permet fer una neteja 
-i hardening de lequip mitjançant lús de codi Python.
-D'aquesta manera, l'usuari podrà conèixer quins programes desfasats i processos inservibles 
-està consumint el PC amb l'objectiu d'eradicar-los de l'equip.
+SniperGuard és un programa open-source (de codi lliure) fet amb Python que permet fer una neteja 
+i hardening (bastionatge) de l'equip en una sola eina.
+D'aquesta manera, l'usuari podrà conèixer quins arxius residuals ocupen al disc dur del seu PC,
+a més a més de saber si el té actualizat a la última versió.
 
 
 # Requeriments
@@ -59,10 +59,11 @@ està consumint el PC amb l'objectiu d'eradicar-los de l'equip.
 - Python 3.8 o superior
 - Llibreria Python (instal·lar amb `pip`):
   - `Pillow` (per a la gestió d'imatges de la GUI)
-- Ejecutar com administrador Visual Studio per funcionament complet
-- Python ha de estar vinculat al PATH del usuari (enviorment variables)
+- Executar com administrador Visual Studio pel funcionament complet.
+  (Exemple: Necessitem permisos elevats per borrar el contingut de la carpeta 'SoftwareDistribution")
+- Python ha d'estar vinculat al PATH del usuari (enviorment variables).
 
-Com instal·lar depèndencies en un entorn virtual (Windows PowerShell):
+(OPcional) -> Com instal·lar depèndencies en un entorn virtual (Windows PowerShell):
 
 ```powershell
 python -m venv .\venv
@@ -76,21 +77,24 @@ pip install Pillow
 
 La versió Alpha de SniperGuard conté les següents 
 funcionalitats mitjançant l'ús de la Terminal o interficie gràfica.
-D'aquesta manera, l'usuari ha d'introduir els números i prémer Enter
-quan se sol·liciti al menú o per interficie gràfica.
 
 # Comentaris Alpha
 
-- Hardening només esta disponible per terminal
-- Resum dels logs només esta per consola
-- Terminal els logs no estan processats "maquillats".
--  
+- !! Hardening només esta disponible per terminal !!
+- Els logs de la versió de Terminal es genera un fitxer TXT per cada dia
+- Els logs de la versió GUI es genera un fitxer TXT per cada escaneig.
 
--- Opcions del menú principal: --
+# Opcions del menú principal:
 
     Hardening (1): 
-        (1) --> Identificar si faltan actualizacions de Windows Update en el equip.
-        (2) --> Instalar actualizacions restants de Windows Update en el equip.
+        1. Identificar estat (BAR)  -> només comprovar
+            (1) --> Identificar si faltan actualizacions de Windows Update en el equip.
+            (2) --> Comprovar si falten actualitzacions a Windows Defender
+            (3) Comprovar si falten actualitzacions a Windows Updat
+        
+        2. Implementar hardening (HARD) -> comprovar + hardening
+            (1) --> Instalar actualizacions restants de Windows Defender en el equip.
+            (2) --> Instalar actualizacions restants de Windows Update en el equip.
 
     Cleaning (2):
         Identificar (1): -> Mode Inspecció.
@@ -102,6 +106,4 @@ quan se sol·liciti al menú o per interficie gràfica.
          (1) --> Esborrar fitxers temporals.
          (2) --> Esborrar cookies, historial i memòria dels navegadors web.
          (3) --> Esborrar la paperera de reciclatge de Windows.
-
-
 
