@@ -56,8 +56,10 @@ style.configure(
 )
 
 # Configuració de la quadrícula principal
-window.columnconfigure(1, weight=1)
-window.rowconfigure(1, weight=1)
+window.columnconfigure(0, weight=0)   # sidebar
+window.columnconfigure(1, weight=1)   # content
+window.rowconfigure(0, weight=0)      # banner
+window.rowconfigure(1, weight=1)      # content
 
 # Barra Lateral
 sidebar_frame = tk.Frame(window, bg=COL_SIDEBAR, width=150)
@@ -67,6 +69,7 @@ sidebar_frame.grid_propagate(False)
 # Redimensionament d'imatges per als botons
 IMG_WID = 70
 IMG_HGT = 70
+
 
 # Funcions auxiliars
 def add_hover(widget, normal_bg, hover_bg):
@@ -84,17 +87,6 @@ def crear_avis(message):
     def cmd():
         messagebox.showinfo("Información", message)
     return cmd
-
-
-# Lista de (ruta_imagen, texto_mensaje)
-# NOTE: The first item will be rendered as a static image (not a Button).
-sidebar_buttons = [
-    ("img/SniperGuardLogo.png", "Estas ja en la pantalla inicial."),
-    ("img/cleaner_sin_fondo.png", "Boto en desenvolupament."),
-    ("img/registry_sin_nombre.png", "Boto en desenvolupament."),
-    ("img/herramientas_sin_fondo.png", "Boto en desenvolupament."),
-    ("img/opciones_sin_fondo.png", "Boto en desenvolupament."),
-]
 
 
 def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_color=None, hover_color=None):
@@ -118,19 +110,22 @@ def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_colo
     return btn
 
 
-# First sidebar image: static (non-clickable)
-if sidebar_buttons:
-    home_img_path, _home_msg = sidebar_buttons[0]
-    home_img = Image.open(home_img_path)
-    home_img_resized = home_img.resize((IMG_WID, IMG_HGT))
-    home_photo = ImageTk.PhotoImage(home_img_resized)
 
-    home_label = tk.Label(sidebar_frame, image=home_photo, bg=COL_SIDEBAR, bd=0)
-    home_label.image = home_photo
-    home_label.pack(pady=10, padx=10)
+logo_img = Image.open("img/SniperGuardLogo.png")
+logo_resized = logo_img.resize((IMG_WID, IMG_HGT))
+logo_photo = ImageTk.PhotoImage(logo_resized)
+logo_label = tk.Label(sidebar_frame, image=logo_photo, bg=COL_SIDEBAR)
+logo_label.image = logo_photo
+logo_label.pack(pady=10, padx=10)
 
-# Remaining sidebar items: buttons
-for img_path, msg in sidebar_buttons[1:]:
+sidebar_buttons = [
+    ("img/cleaner_sin_fondo.png", "Estas actualment aquesta pantalla."),
+    ("img/registry_sin_nombre.png", "Boto en desenvolupament."),
+    ("img/herramientas_sin_fondo.png", "Boto en desenvolupament."),
+    ("img/opciones_sin_fondo.png", "Boto en desenvolupament."),
+]
+
+for img_path, msg in sidebar_buttons:
     cmd = crear_avis(msg)
     create_sidebar_button(
         sidebar_frame,
@@ -141,28 +136,36 @@ for img_path, msg in sidebar_buttons[1:]:
         hover_color=COL_BTN_HOVER,
     )
 
-# banner de sniperguard
-banner_img = Image.open("img/banersinlogo.png")
-banner_resized = banner_img.resize((650, 100), Image.LANCZOS)
-banner_photo = ImageTk.PhotoImage(banner_resized)
-banner_label = tk.Label(window, image=banner_photo, bg=COL_BG)
-banner_label.grid(row=0, column=1, sticky="nwe")
-banner_label.image = banner_photo
+
+banner_label = tk.Label(
+    window,
+    text="CLEANING",
+    bg=COL_BG,
+    fg=COL_ACCENT,
+    font=("Segoe UI", 28, "bold"),
+)
+banner_label.grid(row=0, column=1, sticky="n", pady=(14, 0))
+
 
 main_container = tk.Frame(window, bg=COL_BG)
-main_container.grid(row=1, column=1, sticky="nsew", padx=20)
+main_container.grid(row=1, column=1, sticky="nsew")
+main_container.rowconfigure(0, weight=1)
+main_container.columnconfigure(0, weight=1)
+
+center_frame = tk.Frame(main_container, bg=COL_BG)
+center_frame.grid(row=0, column=0)
 
 progress_bar = ttk.Progressbar(
-    main_container,
+    center_frame,
     orient="horizontal",
-    length=500,
+    length=600,
     mode="determinate",
     style="Sniper.Horizontal.TProgressbar",
 )
 progress_bar.grid(row=0, column=0, pady=(20, 0))
 
 progress_label = tk.Label(
-    main_container,
+    center_frame,
     text="0%",
     bg=COL_BG,
     fg=COL_TEXT,
@@ -170,23 +173,14 @@ progress_label = tk.Label(
 )
 progress_label.grid(row=1, column=0, pady=6)
 
-# ─ Frame principal: botons (esquerra) + requadres (dreta) ─ #
-content_frame = tk.Frame(main_container, bg=COL_BG)
-content_frame.grid(row=2, column=0, pady=10, sticky="nsew")
-
-content_frame.columnconfigure(0, weight=0)
-content_frame.columnconfigure(1, weight=1)
+content_frame = tk.Frame(center_frame, bg=COL_BG)
+content_frame.grid(row=2, column=0, pady=10)
 
 buttons_frame = tk.Frame(content_frame, bg=COL_BG)
-buttons_frame.grid(row=0, column=0, sticky="n")
+buttons_frame.grid(row=0, column=0, sticky="n", padx=(0, 20))
 
 panels_frame = tk.Frame(content_frame, bg=COL_BG)
-panels_frame.grid(row=0, column=1, sticky="nsew")
-
-panels_frame.rowconfigure(0, weight=0)
-panels_frame.rowconfigure(1, weight=1)
-panels_frame.rowconfigure(2, weight=0)
-panels_frame.rowconfigure(3, weight=1)
+panels_frame.grid(row=0, column=1, sticky="n")
 panels_frame.columnconfigure(0, weight=1)
 
 
@@ -201,18 +195,17 @@ def reset_gui():
     keep_button.config(state="disabled")
     start_button.config(state="normal")
 
-    deleted_label.grid_forget()
-    kept_label.grid_forget()
+    deleted_label.grid_remove()
+    kept_label.grid_remove()
 
 
 def execute_action_temp(action_id: str, run_callback):
-    kept_label.grid_forget()
-    deleted_label.grid_forget()
+    deleted_label.grid_remove()
+    kept_label.grid_remove()
 
     start_button.config(state="disabled")
     delete_button.config(state="disabled")
     keep_button.config(state="disabled")
-    run_selected_button.config(state="disabled")
 
     summary_text.delete("1.0", tk.END)
     logs_text.delete("1.0", tk.END)
@@ -263,7 +256,7 @@ def execute_action_temp(action_id: str, run_callback):
                 current_section["barometre"] = line.split(":", 1)[1].strip()
 
             window.update()
-            time.sleep(0.05)
+            time.sleep(0.03)
 
         summary_text.insert(tk.END, "RESUM DE L'ANÀLISI\n")
         summary_text.insert(tk.END, f"Acció: {action_id}\n")
@@ -297,33 +290,28 @@ def execute_action_temp(action_id: str, run_callback):
         start_button.config(state="normal")
         delete_button.config(state="normal")
         keep_button.config(state="normal")
-        run_selected_button.config(state="normal")
 
 
-# ----------------------------
-# GUI flow (NO consola): defaults 2 -> 1 -> 1
-# ----------------------------
 
-# input 2 (mode): default "1"
-selected_mode_var = tk.StringVar(value="1")  # por defecto: Identificar (BAR)
-
-# input 3 (cleaning option): default "1"
-selected_cleaning_option_var = tk.StringVar(value="1")  # por defecto: TEMP
+selected_position_var = tk.StringVar(value="2.1") 
+selected_mode_var = tk.StringVar(value="1")        
+selected_action_var = tk.StringVar(value="1")     
 
 
 def run_selected_cleaning():
-    mode_choice = selected_mode_var.get()
-    option_choice = selected_cleaning_option_var.get()
+    action = selected_action_var.get()      
+    mode_choice = selected_mode_var.get()    
+
+    
+    action_id = f"2.{mode_choice}.{action}"
 
     def callback():
-        # Nueva API en main.py (sin pedir input)
-        main.run_cleaning_from_gui(mode_choice, option_choice)
+        main.run_cleaning_from_gui(mode_choice, action)
 
-    execute_action_temp("ID2.1.1", callback)
+    execute_action_temp(action_id, callback)
 
 
 def confirm_delete():
-    kept_label.grid_forget()
     question = messagebox.askquestion(
         "Eliminacion",
         "Los siguientes archivos seran eliminados.\n¿Está seguro?",
@@ -332,28 +320,29 @@ def confirm_delete():
         try:
             keep_button.config(state="disabled")
             execute_action_temp("ID2.1.2", lambda: main.run_script("DEL_test1_TEMP.py"))
-            deleted_label.grid(row=7, column=0, pady=5, sticky="w")
+            deleted_label.grid_remove()
+            kept_label.grid_remove()
+            deleted_label.grid(row=0, column=0, sticky="w")
         except Exception as e:
             messagebox.showerror("Error", f"No se pudieron eliminar los archivos. {e}")
 
 
 def mark_keep():
-    reset_gui()
-    kept_label.grid(row=7, column=0, pady=5, sticky="w")
-    deleted_label.grid_forget()
+    deleted_label.grid_remove()
+    kept_label.grid_remove()
+    kept_label.grid(row=1, column=0, sticky="w")
 
 
 # Títol columna esquerra
 options_label = tk.Label(buttons_frame, text="Opciones", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
 options_label.grid(row=0, column=0, padx=10, pady=(0, 10), sticky="w")
 
-# Botón principal (ahora ejecuta el flujo GUI con defaults)
 start_button = tk.Button(
     buttons_frame,
     text="Iniciar",
     command=run_selected_cleaning,
     font=FONT_UI_BOLD,
-    width=15,
+    width=18,
     bg=COL_ACCENT,
     fg=COL_ACCENT_DARKTXT,
     activebackground="#7BE3FF",
@@ -368,7 +357,7 @@ keep_button = tk.Button(
     buttons_frame,
     text="Conservar",
     command=mark_keep,
-    width=15,
+    width=18,
     state="disabled",
     font=FONT_UI_BOLD,
     bg=COL_BTN,
@@ -386,7 +375,7 @@ delete_button = tk.Button(
     buttons_frame,
     text="Eliminar",
     command=confirm_delete,
-    width=15,
+    width=18,
     state="disabled",
     font=FONT_UI_BOLD,
     bg=COL_BTN,
@@ -400,21 +389,39 @@ delete_button = tk.Button(
 )
 delete_button.grid(row=3, column=0, padx=10, pady=(0, 10), sticky="w")
 
-# NUEVO: Radiobuttons debajo de conservar/eliminar
-selection_title_label = tk.Label(
+
+advanced_label = tk.Label(
     buttons_frame,
-    text="Seleccion (Cleaning)",
+    text="Opciones avanzadas",
     bg=COL_BG,
     fg=COL_TEXT,
     font=FONT_TITLE,
 )
-selection_title_label.grid(row=4, column=0, padx=10, pady=(10, 5), sticky="w")
+advanced_label.grid(row=4, column=0, padx=10, pady=(10, 5), sticky="w")
+
+
+position_frame = tk.Frame(buttons_frame, bg=COL_BG)
+position_frame.grid(row=5, column=0, padx=10, pady=(0, 10), sticky="w")
+
+tk.Label(position_frame, text="Posicion:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
+
+tk.Radiobutton(
+    position_frame,
+    text="2.1 Cleaning",
+    variable=selected_position_var,
+    value="2.1",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    selectcolor=COL_PANEL,
+    activebackground=COL_BG,
+    activeforeground=COL_TEXT,
+).grid(row=1, column=0, sticky="w")
+
 
 mode_frame = tk.Frame(buttons_frame, bg=COL_BG)
-mode_frame.grid(row=5, column=0, padx=10, pady=(0, 10), sticky="w")
+mode_frame.grid(row=6, column=0, padx=10, pady=(0, 10), sticky="w")
 
-mode_label = tk.Label(mode_frame, text="Modo:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI)
-mode_label.grid(row=0, column=0, sticky="w")
+tk.Label(mode_frame, text="Modo:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
 tk.Radiobutton(
     mode_frame,
@@ -440,17 +447,16 @@ tk.Radiobutton(
     activeforeground=COL_TEXT,
 ).grid(row=2, column=0, sticky="w")
 
-cleaning_frame = tk.Frame(buttons_frame, bg=COL_BG)
-cleaning_frame.grid(row=6, column=0, padx=10, pady=(0, 10), sticky="w")
+action_frame = tk.Frame(buttons_frame, bg=COL_BG)
+action_frame.grid(row=7, column=0, padx=10, pady=(0, 10), sticky="w")
 
-cleaning_label = tk.Label(cleaning_frame, text="Accion:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI)
-cleaning_label.grid(row=0, column=0, sticky="w")
+tk.Label(action_frame, text="Accion:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
 tk.Radiobutton(
-    cleaning_frame,
+    action_frame,
     text="Temporales",
-    variable=selected_cleaning_option_var,
-    value="1",
+    variable=selected_action_var,
+    value="1",  
     bg=COL_BG,
     fg=COL_TEXT,
     selectcolor=COL_PANEL,
@@ -459,10 +465,10 @@ tk.Radiobutton(
 ).grid(row=1, column=0, sticky="w")
 
 tk.Radiobutton(
-    cleaning_frame,
+    action_frame,
     text="Navegadores",
-    variable=selected_cleaning_option_var,
-    value="2",
+    variable=selected_action_var,
+    value="2", 
     bg=COL_BG,
     fg=COL_TEXT,
     selectcolor=COL_PANEL,
@@ -471,10 +477,10 @@ tk.Radiobutton(
 ).grid(row=2, column=0, sticky="w")
 
 tk.Radiobutton(
-    cleaning_frame,
+    action_frame,
     text="Papelera",
-    variable=selected_cleaning_option_var,
-    value="3",
+    variable=selected_action_var,
+    value="3",  
     bg=COL_BG,
     fg=COL_TEXT,
     selectcolor=COL_PANEL,
@@ -482,38 +488,20 @@ tk.Radiobutton(
     activeforeground=COL_TEXT,
 ).grid(row=3, column=0, sticky="w")
 
-tk.Radiobutton(
-    cleaning_frame,
-    text="Volver",
-    variable=selected_cleaning_option_var,
-    value="4",
-    bg=COL_BG,
-    fg=COL_TEXT,
-    selectcolor=COL_PANEL,
-    activebackground=COL_BG,
-    activeforeground=COL_TEXT,
-).grid(row=4, column=0, sticky="w")
 
-run_selected_button = tk.Button(
-    buttons_frame,
-    text="Ejecutar seleccion",
-    command=run_selected_cleaning,
-    font=FONT_UI_BOLD,
-    width=15,
-    bg=COL_ACCENT,
-    fg=COL_ACCENT_DARKTXT,
-    activebackground="#7BE3FF",
-    activeforeground=COL_ACCENT_DARKTXT,
-    relief="flat",
-    bd=0,
-    highlightthickness=0,
-)
-run_selected_button.grid(row=7, column=0, padx=10, pady=(0, 10), sticky="w")
+status_frame = tk.Frame(buttons_frame, bg=COL_BG)
+status_frame.grid(row=8, column=0, padx=10, pady=(10, 0), sticky="w")
 
-deleted_label = tk.Label(buttons_frame, text="Archivos eliminados", font=FONT_UI, bg=COL_BG, fg=COL_DANGER)
-kept_label = tk.Label(buttons_frame, text="Archivos conservados", font=FONT_UI, bg=COL_BG, fg=COL_OK)
+deleted_label = tk.Label(status_frame, text="Archivos eliminados", font=FONT_UI, bg=COL_BG, fg=COL_DANGER)
+kept_label = tk.Label(status_frame, text="Archivos conservados", font=FONT_UI, bg=COL_BG, fg=COL_OK)
 
-# Etiqueta "Resumen"
+deleted_label.grid(row=0, column=0, sticky="w")
+kept_label.grid(row=1, column=0, sticky="w")
+deleted_label.grid_remove()
+kept_label.grid_remove()
+
+
+
 summary_label = tk.Label(panels_frame, text="Resumen", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
 summary_label.grid(row=0, column=0, padx=10, pady=(0, 5), sticky="w")
 
@@ -522,14 +510,14 @@ summary_text = tk.Text(
     bg=COL_PANEL,
     fg=COL_TEXT,
     insertbackground=COL_TEXT,
-    height=8,
+    height=10,
     width=60,
     font=("Consolas", 10),
     relief="flat",
     highlightthickness=1,
     highlightbackground=COL_BORDER,
 )
-summary_text.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="nsew")
+summary_text.grid(row=1, column=0, padx=10, pady=(0, 10))
 
 logs_label = tk.Label(panels_frame, text="Todos los logs", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
 logs_label.grid(row=2, column=0, padx=10, pady=(15, 0), sticky="w")
@@ -539,18 +527,17 @@ logs_text = tk.Text(
     bg=COL_PANEL,
     fg=COL_TEXT,
     insertbackground=COL_TEXT,
-    height=8,
+    height=10,
     width=60,
     font=("Consolas", 10),
     relief="flat",
     highlightthickness=1,
     highlightbackground=COL_BORDER,
 )
-logs_text.grid(row=3, column=0, padx=10, pady=(10, 0), sticky="nsew")
+logs_text.grid(row=3, column=0, padx=10, pady=(10, 0))
 
 add_hover(start_button, COL_ACCENT, "#7BE3FF")
 add_hover(keep_button, COL_BTN, COL_BTN_HOVER)
 add_hover(delete_button, COL_BTN, COL_BTN_HOVER)
-add_hover(run_selected_button, COL_ACCENT, "#7BE3FF")
 
 window.mainloop()
