@@ -82,12 +82,18 @@ def add_hover(widget, normal_bg, hover_bg):
     widget.bind("<Enter>", on_enter)
     widget.bind("<Leave>", on_leave)
 
-
+'''
+def crear_avis(message):
+Aquesta funció crea una comanda que mostra un missatge d'informació quan s'executa.
+'''
 def crear_avis(message):
     def cmd():
-        messagebox.showinfo("Información", message)
+        messagebox.showinfo("Informació", message)
     return cmd
-
+'''
+def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_color=None, hover_color=None):
+Aquesta funció crea un botó de barra lateral amb una imatge i efectes de hover.
+'''
 
 def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_color=None, hover_color=None):
     img = Image.open(image_path)
@@ -119,10 +125,10 @@ logo_label.image = logo_photo
 logo_label.pack(pady=10, padx=10)
 
 sidebar_buttons = [
-    ("img/cleaner_sin_fondo.png", "Estas actualment aquesta pantalla."),
-    ("img/registry_sin_nombre.png", "Boto en desenvolupament."),
-    ("img/herramientas_sin_fondo.png", "Boto en desenvolupament."),
-    ("img/opciones_sin_fondo.png", "Boto en desenvolupament."),
+    ("img/cleaner_sin_fondo.png", "Estàs actualment en aquesta pantalla."),
+    ("img/registry_sin_nombre.png", "Botó en desenvolupament."),
+    ("img/herramientas_sin_fondo.png", "Botó en desenvolupament."),
+    ("img/opciones_sin_fondo.png", "Botó en desenvolupament."),
 ]
 
 for img_path, msg in sidebar_buttons:
@@ -139,7 +145,7 @@ for img_path, msg in sidebar_buttons:
 
 banner_label = tk.Label(
     window,
-    text="CLEANING",
+    text="NETEJA",
     bg=COL_BG,
     fg=COL_ACCENT,
     font=("Segoe UI", 28, "bold"),
@@ -183,7 +189,14 @@ panels_frame = tk.Frame(content_frame, bg=COL_BG)
 panels_frame.grid(row=0, column=1, sticky="n")
 panels_frame.columnconfigure(0, weight=1)
 
+'''
+Aquesta funció esta feta per IA 
 
+def reset_gui():
+Aquesta funció reinicia la interfície gràfica d'usuari, restablint la barra de progrés, els textos de resum i logs, i l'estat dels botons.
+
+
+'''
 def reset_gui():
     progress_bar["value"] = 0
     progress_label.config(text="0%")
@@ -197,7 +210,13 @@ def reset_gui():
 
     deleted_label.grid_remove()
     kept_label.grid_remove()
+'''
+Aquesta funció esta feta per IA 
 
+def execute_action_temp(action_id: str, run_callback):
+Aquesta funció executa una acció específica i actualitza la interfície gràfica d'usuari amb els resultats i els logs generats durant l'execució.
+
+'''
 
 def execute_action_temp(action_id: str, run_callback):
     deleted_label.grid_remove()
@@ -221,7 +240,7 @@ def execute_action_temp(action_id: str, run_callback):
             total = len(lines)
 
         if total == 0:
-            summary_text.insert(tk.END, "Archivo vacío.")
+            summary_text.insert(tk.END, "Arxiu buit.")
             return
 
         sections = []
@@ -266,7 +285,7 @@ def execute_action_temp(action_id: str, run_callback):
         useful_sections = [s for s in sections if "ruta" in s]
 
         if not useful_sections:
-            summary_text.insert(tk.END, "No s'ha trobat cap carpeta analitzada.\n")
+            summary_text.insert(tk.END, "No s'ha trobat cap carpeta analitzada. (DE MOMENT ÉS FUNCIONAL, A LA SEGUENT ENTREGA SERÀ FUNCIONAL)\n")
         else:
             for sec in useful_sections:
                 nom = sec.get("nom", "Secció")
@@ -285,7 +304,7 @@ def execute_action_temp(action_id: str, run_callback):
         summary_text.see(tk.END)
 
     except FileNotFoundError:
-        messagebox.showerror("Error", f"No se encontró el archivo en: {log_file_path}")
+        messagebox.showerror("Error", f"No s'ha trobat el fitxer a: {log_file_path}")
     finally:
         start_button.config(state="normal")
         delete_button.config(state="normal")
@@ -296,7 +315,14 @@ def execute_action_temp(action_id: str, run_callback):
 selected_position_var = tk.StringVar(value="2.1") 
 selected_mode_var = tk.StringVar(value="1")        
 selected_action_var = tk.StringVar(value="1")     
+'''
+Aquesta funció esta feta per IA 
 
+def run_selected_cleaning():
+Aquesta funció obté les opcions seleccionades per l'usuari i executa l'acció de neteja corresponent.
+
+
+'''
 
 def run_selected_cleaning():
     action = selected_action_var.get()      
@@ -310,11 +336,18 @@ def run_selected_cleaning():
 
     execute_action_temp(action_id, callback)
 
+'''
+Aquesta funció esta feta per IA 
 
 def confirm_delete():
+Aquesta funció mostra un diàleg de confirmació abans d'eliminar els fitxers i actualitza la interfície gràfica d'usuari segons l'acció realitzada.
+
+
+'''
+def confirm_delete():
     question = messagebox.askquestion(
-        "Eliminacion",
-        "Los siguientes archivos seran eliminados.\n¿Está seguro?",
+        "Eliminació",
+        "Els següents fitxers s'eliminaran.\nEstàs segur?",
     )
     if question == "yes":
         try:
@@ -324,9 +357,16 @@ def confirm_delete():
             kept_label.grid_remove()
             deleted_label.grid(row=0, column=0, sticky="w")
         except Exception as e:
-            messagebox.showerror("Error", f"No se pudieron eliminar los archivos. {e}")
+            messagebox.showerror("Error", f"No s'han pogut eliminar els fitxers. {e}")
+
+'''
+Aquesta funció esta feta per IA 
+
+def mark_keep():
+Aquesta funció actualitza la interfície gràfica d'usuari per indicar que els fitxers han estat conservats.
 
 
+'''
 def mark_keep():
     deleted_label.grid_remove()
     kept_label.grid_remove()
@@ -334,7 +374,7 @@ def mark_keep():
 
 
 # Títol columna esquerra
-options_label = tk.Label(buttons_frame, text="Opciones", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
+options_label = tk.Label(buttons_frame, text="Opcions", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
 options_label.grid(row=0, column=0, padx=10, pady=(0, 10), sticky="w")
 
 start_button = tk.Button(
@@ -392,7 +432,7 @@ delete_button.grid(row=3, column=0, padx=10, pady=(0, 10), sticky="w")
 
 advanced_label = tk.Label(
     buttons_frame,
-    text="Opciones avanzadas",
+    text="Opcions avançades",
     bg=COL_BG,
     fg=COL_TEXT,
     font=FONT_TITLE,
@@ -403,11 +443,11 @@ advanced_label.grid(row=4, column=0, padx=10, pady=(10, 5), sticky="w")
 position_frame = tk.Frame(buttons_frame, bg=COL_BG)
 position_frame.grid(row=5, column=0, padx=10, pady=(0, 10), sticky="w")
 
-tk.Label(position_frame, text="Posicion:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
+tk.Label(position_frame, text="Posició:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
 tk.Radiobutton(
     position_frame,
-    text="2.1 Cleaning",
+    text="2.1 Neteja",
     variable=selected_position_var,
     value="2.1",
     bg=COL_BG,
@@ -421,7 +461,7 @@ tk.Radiobutton(
 mode_frame = tk.Frame(buttons_frame, bg=COL_BG)
 mode_frame.grid(row=6, column=0, padx=10, pady=(0, 10), sticky="w")
 
-tk.Label(mode_frame, text="Modo:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
+tk.Label(mode_frame, text="Mode:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
 tk.Radiobutton(
     mode_frame,
@@ -437,7 +477,7 @@ tk.Radiobutton(
 
 tk.Radiobutton(
     mode_frame,
-    text="Identificar y esborrar (DEL)",
+    text="Identificar i eliminar (DEL)",
     variable=selected_mode_var,
     value="2",
     bg=COL_BG,
@@ -450,11 +490,11 @@ tk.Radiobutton(
 action_frame = tk.Frame(buttons_frame, bg=COL_BG)
 action_frame.grid(row=7, column=0, padx=10, pady=(0, 10), sticky="w")
 
-tk.Label(action_frame, text="Accion:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
+tk.Label(action_frame, text="Acció:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
 tk.Radiobutton(
     action_frame,
-    text="Temporales",
+    text="Temporals",
     variable=selected_action_var,
     value="1",  
     bg=COL_BG,
@@ -466,7 +506,7 @@ tk.Radiobutton(
 
 tk.Radiobutton(
     action_frame,
-    text="Navegadores",
+    text="Navegadors",
     variable=selected_action_var,
     value="2", 
     bg=COL_BG,
@@ -478,7 +518,7 @@ tk.Radiobutton(
 
 tk.Radiobutton(
     action_frame,
-    text="Papelera",
+    text="Paperera",
     variable=selected_action_var,
     value="3",  
     bg=COL_BG,
@@ -492,8 +532,8 @@ tk.Radiobutton(
 status_frame = tk.Frame(buttons_frame, bg=COL_BG)
 status_frame.grid(row=8, column=0, padx=10, pady=(10, 0), sticky="w")
 
-deleted_label = tk.Label(status_frame, text="Archivos eliminados", font=FONT_UI, bg=COL_BG, fg=COL_DANGER)
-kept_label = tk.Label(status_frame, text="Archivos conservados", font=FONT_UI, bg=COL_BG, fg=COL_OK)
+deleted_label = tk.Label(status_frame, text="Fitxers eliminats", font=FONT_UI, bg=COL_BG, fg=COL_DANGER)
+kept_label = tk.Label(status_frame, text="Fitxers conservats", font=FONT_UI, bg=COL_BG, fg=COL_OK)
 
 deleted_label.grid(row=0, column=0, sticky="w")
 kept_label.grid(row=1, column=0, sticky="w")
@@ -502,7 +542,7 @@ kept_label.grid_remove()
 
 
 
-summary_label = tk.Label(panels_frame, text="Resumen", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
+summary_label = tk.Label(panels_frame, text="Resum", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
 summary_label.grid(row=0, column=0, padx=10, pady=(0, 5), sticky="w")
 
 summary_text = tk.Text(
@@ -519,7 +559,7 @@ summary_text = tk.Text(
 )
 summary_text.grid(row=1, column=0, padx=10, pady=(0, 10))
 
-logs_label = tk.Label(panels_frame, text="Todos los logs", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
+logs_label = tk.Label(panels_frame, text="Tots els logs", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
 logs_label.grid(row=2, column=0, padx=10, pady=(15, 0), sticky="w")
 
 logs_text = tk.Text(

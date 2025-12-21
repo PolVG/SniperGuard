@@ -1,8 +1,26 @@
+'''
+Aquest programa s'ha fet a partir de l'us de IA es fara manualment a la seguent entrega
+
+'''
+
+
 from modules.LogRegister import log
 import os,sys, ctypes
 # Llegeix una opció per input i valida que:
 #  no sigui buida, sigui un dígit, i el número sigui una opció del menú.
 # ID 400 logs = ERROR
+
+
+'''
+def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 400):
+Aquesta funció demana a l'usuari una entrada i valida que sigui vàlida segons les opcions proporcionades.
+Rep com a paràmetres:
+- prompt: El missatge que es mostrarà a l'usuari per demanar l'entrada.
+- valid_options: Un conjunt d'opcions vàlides (com a cadenes).
+- log_level_bad: El nivell de registre per a entrades invàlides (per defecte 400).
+Retorna:    L'opció vàlida seleccionada per l'usuari, o None si l'entrada és invàlida.
+
+'''
 def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 400):
     
     choice = input(prompt).strip()
@@ -25,9 +43,9 @@ def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 
     return choice
 
 """
-    Comprova si el script s'està executant amb privilegis elevats.
-    SniperGuard necessita alerta de quines funcionalitats requerixen
-    privilegis d'admin i quines no.
+    def check_admin_privileges():
+Aquesta funció comprova si l'usuari té privilegis elevats (administrador) en un sistema Windows.
+Retorna:    True si l'usuari té privilegis elevats, False en cas contrari.
 """
 def check_admin_privileges():
 

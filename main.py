@@ -27,7 +27,10 @@ LOG_FILE = LOGS_DIR / (datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
 MODE_BAR = 1  # identificar
 MODE_DEL = 2  # identificar + esborrar
 
-
+'''
+def get_config_ini():
+Aquesta funció llegeix i retorna la configuració des d'un fitxer INI.
+'''
 def get_config_ini():
     log(f"Inici get_config_ini(). CONFIG_PATH={CONFIG_PATH}", 100)
 
@@ -38,7 +41,12 @@ def get_config_ini():
 
     log(f"L'arxiu {CONFIG_PATH} s'ha trobat correctament.", 100)
     return config
+'''
+def run_script(script_name: str):
+Aquesta funció s'utilitza per executar un script Python específic des de la ubicació PYAPP_DIR.
+Rep com a paràmetre el nom de l'script i gestiona la seva execució, capturant la sortida i els errors.
 
+'''
 
 def run_script(script_name: str):
     script_path = PYAPP_DIR / script_name
@@ -95,7 +103,7 @@ def run_cleaning_from_gui(mode_choice: str, cleaning_choice: str):
     check_admin_privileges()
 
     if mode_choice not in {"1", "2"}:
-        log(f"Mode inválid rebut des de GUI: {mode_choice}", 400)
+        log(f"Mode invàlid rebut des de GUI: {mode_choice}", 400)
         return
 
     mode = MODE_BAR if mode_choice == "1" else MODE_DEL
@@ -117,7 +125,7 @@ def run_cleaning_from_gui(mode_choice: str, cleaning_choice: str):
     options = bar_options if mode == MODE_BAR else del_options
 
     if cleaning_choice not in options:
-        log(f"Opció cleaning inválida rebuda des de GUI: {cleaning_choice}", 400)
+        log(f"Opció cleaning invàlida rebuda des de GUI: {cleaning_choice}", 400)
         return
 
     label, script = options[cleaning_choice]
@@ -192,15 +200,15 @@ def hardening_menu(mode):
     log("Mostrant al usuari les opcions disponibles de hardening.", 100)
 
     BAR_OPTIONS = {
-        "1": ("Comprobar si Windows Defender està actiu", "HARD_WinDefender.py"),
-        "2": ("Comprobar si falten actualitzacions a Windows Defender", "HARD_WinDefenderUpdateAvailable.py"),
-        "3": ("Comprobar si falten actualitzacions a Windows Update", "BAR_test5_UPDATE.py"),
+        "1": ("Comprovar si Windows Defender està actiu", "HARD_WinDefender.py"),
+        "2": ("Comprovar si falten actualitzacions a Windows Defender", "HARD_WinDefenderUpdateAvailable.py"),
+        "3": ("Comprovar si falten actualitzacions a Windows Update", "BAR_test5_UPDATE.py"),
         "4": ("Tornar al menú", None),
     }
 
     DEL_OPTIONS = {
         "1": ("Actualitzar Windows Defender", "HARD_WinDefenderUpdate.py"),
-        "2": ("Actualizar Windows amb Windows Update", "HARD_WindowsUpdate.py"),
+        "2": ("Actualitzar Windows amb Windows Update", "HARD_WindowsUpdate.py"),
         "3": ("Tornar al menú", None),
     }
 
@@ -211,7 +219,7 @@ def hardening_menu(mode):
         log("Mode DEL actiu: mostrant opcions de neteja", 200)
         options = DEL_OPTIONS
 
-    print("\n***Cleaning Options:***\n")
+    print("\n***Opcions Hardening:***\n")
     for key, (label, _) in options.items():
         print(f"{key}. {label}")
     print("\n")
@@ -303,7 +311,7 @@ Segons l'elecció de l'usuari, es criden les funcions corresponents per gestiona
 '''
 def main():
     while True:
-        log("==== Starting SniperGuard  ====", 200)
+        log("==== SNIPERGUARD iniciant  ====", 200)
         log(f"PROJECT_ROOT = {PROJECT_ROOT}", 100)
         log(f"BASE_DIR = {BASE_DIR}", 100)
         log(f"CONFIG_PATH = {CONFIG_PATH}", 100)
@@ -339,8 +347,8 @@ def main():
 
            
             if decisio is None:
-                log("Entrada vacía / cancelada. Reintentando menú principal.", 300)
-                print("Entrada no válida. Inténtalo de nuevo.")
+                log("Entrada buida / cancel·lada. Reintentant el menú principal.", 300)
+                print("Entrada no vàlida. Torna-ho a provar.")
                 continue
 
             if decisio == "1":
