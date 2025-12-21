@@ -856,3 +856,11 @@ CMD.EXE was started with the above path as the current directory.
 UNC paths are not supported.  Defaulting to Windows directory.
 [19-12-2025 14:52:49] [DEL_test1_TEMP] [✅ NOTICE] Resum TEMP: esborrats=0 errors=3
 [19-12-2025 14:52:50] [DEL_test1_TEMP] [ℹ️ INFO] ==== Fi neteja TEMP + SoftwareDistribution\Download ====
+[19-12-2025 19:53:01] [main] [ℹ️ INFO] ==== Starting SniperGuard  ====
+[19-12-2025 19:53:01] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\hola\Desktop\projecte
+[19-12-2025 19:53:01] [main] [🔍 DEBUG] BASE_DIR = C:\Users\hola\Desktop\projecte\projecte
+[19-12-2025 19:53:01] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\hola\Desktop\projecte\config\config.ini
+[19-12-2025 19:53:02] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\hola\Desktop\projecte\logs
+[19-12-2025 19:53:02] [main] [🔍 DEBUG] LOG_FILE(2025-12-19) = C:\Users\hola\Desktop\projecte\logs\2025-12-19_logs_py.txt
+[19-12-2025 19:53:02] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[19-12-2025 19:53:02] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides

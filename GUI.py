@@ -1,339 +1,556 @@
+#Llibreries externes
 import tkinter as tk
 from PIL import Image, ImageTk
 import time
 from tkinter import ttk, messagebox
-import main
 from pathlib import Path
 from datetime import datetime
+
+#Llibreries internes
+import main
 from modules.LogRegister import init_log_file, CURRENT_LOG_FILE
 
-window = tk.Tk()
-window.title("SniperGuard")
-window.geometry("800x600")
-window.resizable(False, False)
-window.configure(bg="gray20")
 
+#Plantilla de Colors utilitzats
+COL_BG = "#0B0F14"
+COL_SIDEBAR = "#121926"
+COL_PANEL = "#161F2E"
+COL_BORDER = "#2A3A52"
+COL_TEXT = "#F2F5F9"
+COL_MUTED = "#B7C0CC"
+COL_ACCENT = "#4CC9F0"
+COL_ACCENT_DARKTXT = "#061018"
+COL_BTN = "#1B2638"
+COL_BTN_HOVER = "#23314A"
+COL_DANGER = "#FF5A5F"
+COL_OK = "#2BD576"
+PROGRESSBAR_THEME = "clam"
+
+'''
+Font Paraules
+'''
+FONT_UI = ("Segoe UI", 11)
+FONT_UI_BOLD = ("Segoe UI", 11, "bold")
+FONT_TITLE = ("Segoe UI", 11, "bold")
+
+window = tk.Tk()
+
+'''
+Inicialitzar GUI
+'''
+window.title("SniperGuard")
+window.geometry("900x700")
+window.resizable(False, False)
+window.configure(bg=COL_BG)
+
+# ProgessBar configuració d'estil
+style = ttk.Style()
+style.theme_use(PROGRESSBAR_THEME)
+style.configure(
+    "Sniper.Horizontal.TProgressbar",
+    troughcolor=COL_PANEL,
+    background=COL_ACCENT,
+    bordercolor=COL_BORDER,
+    lightcolor=COL_ACCENT,
+    darkcolor=COL_ACCENT,
+)
+
+# Configuració de la quadrícula principal
 window.columnconfigure(1, weight=1)
 window.rowconfigure(1, weight=1)
 
-# barra Lateral
-barra_lateral = tk.Frame(window, bg="#9D9CA8", width=150)
-barra_lateral.grid(row=0, column=0, rowspan=2, sticky='ns')
-barra_lateral.grid_propagate(False)
+# Barra Lateral
+sidebar_frame = tk.Frame(window, bg=COL_SIDEBAR, width=150)
+sidebar_frame.grid(row=0, column=0, rowspan=2, sticky="ns")
+sidebar_frame.grid_propagate(False)
 
-#boton 1
-boton1 = Image.open("img/SniperGuardLogo.png")
-NUEVO_ANCHO = 70
-NUEVO_ALTO = 70
-boton1_redimensionado = boton1.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
-imagen_del_boton = ImageTk.PhotoImage(boton1_redimensionado)
-boton1_imagen_unico = tk.Button(
-    barra_lateral,
-    image=imagen_del_boton,
-    bg="#9D9CA8",
-    relief="flat",
-    command=lambda: print("Home")
-)
-boton1_imagen_unico.image = imagen_del_boton
-boton1_imagen_unico.pack(pady=10, padx=10, fill='x')
+# Redimensionament d'imatges per als botons
+IMG_WID = 70
+IMG_HGT = 70
 
-#boton2
-boton2 = Image.open("img/cleaner_sin_fondo.png")
-boton2_redimensionado = boton2.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
-imagen_del_boton = ImageTk.PhotoImage(boton2_redimensionado)
-boton2_imagen_unico = tk.Button(
-    barra_lateral,
-    image=imagen_del_boton,
-    bg="#9D9CA8",
-    relief="flat",
-    command=lambda: print("CLEANER clicked")
-)
-boton2_imagen_unico.image = imagen_del_boton
-boton2_imagen_unico.pack(pady=10, padx=10, fill='x')
+# Funcions auxiliars
+def add_hover(widget, normal_bg, hover_bg):
+    def on_enter(event):
+        widget.config(bg=hover_bg)
 
-#boton3
-boton3 = Image.open("img/registry_sin_nombre.png")
-boton3_redimensionado = boton3.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
-imagen_del_boton = ImageTk.PhotoImage(boton3_redimensionado)
-boton3_imagen_unico = tk.Button(
-    barra_lateral,
-    image=imagen_del_boton,
-    bg="#9D9CA8",
-    relief="flat",
-    command=lambda: print("REGISTRY clicked")
-)
-boton3_imagen_unico.image = imagen_del_boton
-boton3_imagen_unico.pack(pady=10, padx=10, fill='x')
+    def on_leave(event):
+        widget.config(bg=normal_bg)
 
-#boton4
-boton4 = Image.open("img/herramientas_sin_fondo.png")
-boton4_redimensionado = boton3.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
-imagen_del_boton = ImageTk.PhotoImage(boton3_redimensionado)
-boton4_imagen_unico = tk.Button(
-    barra_lateral,
-    image=imagen_del_boton,
-    bg="#9D9CA8",
-    relief="flat",
-    command=lambda: print("HERRAMIENTAS clicked")
-)
-boton4_imagen_unico.image = imagen_del_boton
-boton4_imagen_unico.pack(pady=10, padx=10, fill='x')
+    widget.bind("<Enter>", on_enter)
+    widget.bind("<Leave>", on_leave)
 
-#boton5
-boton5 = Image.open("img/opciones_sin_fondo.png")
-boton5_redimensionado = boton5.resize((NUEVO_ANCHO, NUEVO_ALTO), Image.LANCZOS)
-imagen_del_boton = ImageTk.PhotoImage(boton5_redimensionado)
-boton5_imagen_unico = tk.Button(
-    barra_lateral,
-    image=imagen_del_boton,
-    bg="#9D9CA8",
-    relief="flat",
-    command=lambda: print("OPCIONES clicked")
-)
-boton5_imagen_unico.image = imagen_del_boton
-boton5_imagen_unico.pack(pady=10, padx=10, fill='x')
+
+def crear_avis(message):
+    def cmd():
+        messagebox.showinfo("Información", message)
+    return cmd
+
+
+# Lista de (ruta_imagen, texto_mensaje)
+# NOTE: The first item will be rendered as a static image (not a Button).
+sidebar_buttons = [
+    ("img/SniperGuardLogo.png", "Estas ja en la pantalla inicial."),
+    ("img/cleaner_sin_fondo.png", "Boto en desenvolupament."),
+    ("img/registry_sin_nombre.png", "Boto en desenvolupament."),
+    ("img/herramientas_sin_fondo.png", "Boto en desenvolupament."),
+    ("img/opciones_sin_fondo.png", "Boto en desenvolupament."),
+]
+
+
+def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_color=None, hover_color=None):
+    img = Image.open(image_path)
+    img_resized = img.resize((IMG_WID, IMG_HGT))
+    photo = ImageTk.PhotoImage(img_resized)
+
+    btn = tk.Button(
+        parent,
+        image=photo,
+        bg=bg_color,
+        activebackground=hover_color,
+        relief="flat",
+        bd=0,
+        highlightthickness=0,
+        command=command,
+    )
+    btn.image = photo
+    btn.pack(pady=padding[0], padx=padding[1])
+    add_hover(btn, bg_color, hover_color)
+    return btn
+
+
+# First sidebar image: static (non-clickable)
+if sidebar_buttons:
+    home_img_path, _home_msg = sidebar_buttons[0]
+    home_img = Image.open(home_img_path)
+    home_img_resized = home_img.resize((IMG_WID, IMG_HGT))
+    home_photo = ImageTk.PhotoImage(home_img_resized)
+
+    home_label = tk.Label(sidebar_frame, image=home_photo, bg=COL_SIDEBAR, bd=0)
+    home_label.image = home_photo
+    home_label.pack(pady=10, padx=10)
+
+# Remaining sidebar items: buttons
+for img_path, msg in sidebar_buttons[1:]:
+    cmd = crear_avis(msg)
+    create_sidebar_button(
+        sidebar_frame,
+        img_path,
+        cmd,
+        padding=(10, 10),
+        bg_color=COL_SIDEBAR,
+        hover_color=COL_BTN_HOVER,
+    )
 
 # banner de sniperguard
-banner = Image.open("img/banersinlogo.png")
-banner_redimensionado = banner.resize((650, 100), Image.LANCZOS)
-imagen_banner = ImageTk.PhotoImage(banner_redimensionado)
-label_del_banner = tk.Label(window, image=imagen_banner, bg="gray20")
-label_del_banner.grid(row=0, column=1, sticky='nwe')
-label_del_banner.image = imagen_banner
+banner_img = Image.open("img/banersinlogo.png")
+banner_resized = banner_img.resize((650, 100), Image.LANCZOS)
+banner_photo = ImageTk.PhotoImage(banner_resized)
+banner_label = tk.Label(window, image=banner_photo, bg=COL_BG)
+banner_label.grid(row=0, column=1, sticky="nwe")
+banner_label.image = banner_photo
 
-contenedor_principal = tk.Frame(window, bg="gray20")
-contenedor_principal.grid(row=1, column=1, sticky="nsew", padx=20)
+main_container = tk.Frame(window, bg=COL_BG)
+main_container.grid(row=1, column=1, sticky="nsew", padx=20)
 
-progreso = ttk.Progressbar(contenedor_principal, orient="horizontal", length=500, mode="determinate")
-progreso.grid(row=0, column=0, pady=(20, 0))
-
-label_porcentaje = tk.Label(
-    contenedor_principal,
-    text="0%",
-    bg="gray20",
-    fg="#9D9CA8",
-    font=("Impact", 15, "bold")
+progress_bar = ttk.Progressbar(
+    main_container,
+    orient="horizontal",
+    length=500,
+    mode="determinate",
+    style="Sniper.Horizontal.TProgressbar",
 )
-label_porcentaje.grid(row=1, column=0, pady=5)
+progress_bar.grid(row=0, column=0, pady=(20, 0))
+
+progress_label = tk.Label(
+    main_container,
+    text="0%",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    font=("Segoe UI", 14, "bold"),
+)
+progress_label.grid(row=1, column=0, pady=6)
 
 # ─ Frame principal: botons (esquerra) + requadres (dreta) ─ #
-frame_main = tk.Frame(contenedor_principal, bg="gray20")
-frame_main.grid(row=2, column=0, pady=10, sticky="nsew")
+content_frame = tk.Frame(main_container, bg=COL_BG)
+content_frame.grid(row=2, column=0, pady=10, sticky="nsew")
 
-# Columnes del frame principal
-frame_main.columnconfigure(0, weight=0)  # botons
-frame_main.columnconfigure(1, weight=1)  # requadres
+content_frame.columnconfigure(0, weight=0)
+content_frame.columnconfigure(1, weight=1)
 
-# Esquerra: frame per als botons
-frame_botons = tk.Frame(frame_main, bg="gray20")
-frame_botons.grid(row=0, column=0, sticky="n")
+buttons_frame = tk.Frame(content_frame, bg=COL_BG)
+buttons_frame.grid(row=0, column=0, sticky="n")
 
-# Dreta: frame per als requadres (resum + logs)
-frame_requadres = tk.Frame(frame_main, bg="gray20")
-frame_requadres.grid(row=0, column=1, sticky="nsew")
+panels_frame = tk.Frame(content_frame, bg=COL_BG)
+panels_frame.grid(row=0, column=1, sticky="nsew")
 
-# files: 0 = títol Resumen, 1 = quadre Resum,
-#        2 = títol Todos los logs, 3 = quadre Logs
-frame_requadres.rowconfigure(0, weight=0)
-frame_requadres.rowconfigure(1, weight=1)
-frame_requadres.rowconfigure(2, weight=0)
-frame_requadres.rowconfigure(3, weight=1)
-frame_requadres.columnconfigure(0, weight=1)
+panels_frame.rowconfigure(0, weight=0)
+panels_frame.rowconfigure(1, weight=1)
+panels_frame.rowconfigure(2, weight=0)
+panels_frame.rowconfigure(3, weight=1)
+panels_frame.columnconfigure(0, weight=1)
+
 
 def reset_gui():
-    """Retorna la GUI a l'estat inicial (sense resultats)."""
-    progreso['value'] = 0
-    label_porcentaje.config(text="0%")
+    progress_bar["value"] = 0
+    progress_label.config(text="0%")
 
-    arch_encontrados.delete('1.0', tk.END)
-    logs.delete('1.0', tk.END)
+    summary_text.delete("1.0", tk.END)
+    logs_text.delete("1.0", tk.END)
 
-    btn_el.config(state="disabled")
-    btn_cons.config(state="disabled")
-    boton_iniciar.config(state="normal")
+    delete_button.config(state="disabled")
+    keep_button.config(state="disabled")
+    start_button.config(state="normal")
 
-    arch_eliminados.grid_forget()
-    arch_conservados.grid_forget()
+    deleted_label.grid_forget()
+    kept_label.grid_forget()
 
-def executar_accio_temp(action_id: str, run_callback):
-    """
-    Funció comuna per executar una acció sobre temporals (BAR o DEL),
-    escriure el log i mostrar-lo a la GUI.
-    """
-    # Amaguem missatges previs
-    arch_conservados.grid_forget()
-    arch_eliminados.grid_forget()
 
-    # Desactivar botons mentre treballem
-    boton_iniciar.config(state="disabled")
-    btn_el.config(state="disabled")
-    btn_cons.config(state="disabled")
+def execute_action_temp(action_id: str, run_callback):
+    kept_label.grid_forget()
+    deleted_label.grid_forget()
 
-    # Netejar quadres
-    arch_encontrados.delete('1.0', tk.END)
-    logs.delete('1.0', tk.END)
+    start_button.config(state="disabled")
+    delete_button.config(state="disabled")
+    keep_button.config(state="disabled")
+    run_selected_button.config(state="disabled")
 
-    # Crear fitxer de log per aquesta execució
+    summary_text.delete("1.0", tk.END)
+    logs_text.delete("1.0", tk.END)
+
     log_path = init_log_file()
-    LOG_FILE = log_path
+    log_file_path = log_path
 
     try:
-        # Executar la lògica (BAR o DEL)
         run_callback()
 
-        # Llegir el log generat
-        with open(LOG_FILE, "r", encoding="utf-8") as f:
-            lineas = f.readlines()
-            total = len(lineas)
+        with open(log_file_path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+            total = len(lines)
 
         if total == 0:
-            arch_encontrados.insert(tk.END, "Archivo vacío.")
+            summary_text.insert(tk.END, "Archivo vacío.")
             return
 
-        seccions = []
-        seccio_actual = None
-        
- 
+        sections = []
+        current_section = None
 
-        for i, linea in enumerate(lineas):
-            porcentaje_actual = int(((i + 1) / total) * 100)
-            progreso['value'] = porcentaje_actual
-            label_porcentaje.config(text=f"{porcentaje_actual}%")
+        for i, line in enumerate(lines):
+            current_percent = int(((i + 1) / total) * 100)
+            progress_bar["value"] = current_percent
+            progress_label.config(text=f"{current_percent}%")
 
-            # Logs complets
-            logs.insert(tk.END, linea)
-            logs.see(tk.END)
+            logs_text.insert(tk.END, line)
+            logs_text.see(tk.END)
 
-            text = linea.strip()
+            text = line.strip()
 
-            # Seccions de resum (línies amb ==== ...)
             if text.startswith("="):
-                nom = text.strip("=").strip()
-                if nom:
-                    seccio_actual = {"nom": nom}
-                    seccions.append(seccio_actual)
+                name = text.strip("=").strip()
+                if name:
+                    current_section = {"nom": name}
+                    sections.append(current_section)
 
-            # Extreure camps rellevants de cada secció
-            elif linea.startswith("Ruta:") and seccio_actual is not None:
-                seccio_actual["ruta"] = linea.split("Ruta:", 1)[1].strip()
+            elif line.startswith("Ruta:") and current_section is not None:
+                current_section["ruta"] = line.split("Ruta:", 1)[1].strip()
 
-            elif linea.lstrip().startswith("Mida total") and seccio_actual is not None:
-                seccio_actual["mida_total"] = linea.split(":", 1)[1].strip()
+            elif line.lstrip().startswith("Mida total") and current_section is not None:
+                current_section["mida_total"] = line.split(":", 1)[1].strip()
 
-            elif linea.lstrip().startswith("Fitxers") and seccio_actual is not None:
-                seccio_actual["fitxers"] = linea.split(":", 1)[1].strip()
+            elif line.lstrip().startswith("Fitxers") and current_section is not None:
+                current_section["fitxers"] = line.split(":", 1)[1].strip()
 
-            elif linea.lstrip().startswith("Baròmetre") and seccio_actual is not None:
-                seccio_actual["barometre"] = linea.split(":", 1)[1].strip()
+            elif line.lstrip().startswith("Baròmetre") and current_section is not None:
+                current_section["barometre"] = line.split(":", 1)[1].strip()
 
             window.update()
             time.sleep(0.05)
 
-        # Resum al quadre superior
-        arch_encontrados.insert(tk.END, "RESUM DE L'ANÀLISI\n")
-        arch_encontrados.insert(tk.END, f"Acció: {action_id}\n")
-        arch_encontrados.insert(tk.END, f"Fitxer log: {log_path.name}\n")
-        arch_encontrados.insert(tk.END, "----------------------------------------\n")
+        summary_text.insert(tk.END, "RESUM DE L'ANÀLISI\n")
+        summary_text.insert(tk.END, f"Acció: {action_id}\n")
+        summary_text.insert(tk.END, f"Fitxer log: {log_path.name}\n")
+        summary_text.insert(tk.END, "----------------------------------------\n")
 
-        seccions_utiles = [s for s in seccions if "ruta" in s]
+        useful_sections = [s for s in sections if "ruta" in s]
 
-        if not seccions_utiles:
-            arch_encontrados.insert(tk.END, "No s'ha trobat cap carpeta analitzada.\n")
+        if not useful_sections:
+            summary_text.insert(tk.END, "No s'ha trobat cap carpeta analitzada.\n")
         else:
-            for sec in seccions_utiles:
+            for sec in useful_sections:
                 nom = sec.get("nom", "Secció")
                 ruta = sec.get("ruta", "Desconeguda")
                 mida = sec.get("mida_total", "Desconeguda")
                 fitxers = sec.get("fitxers", "Desconegut")
                 barometre = sec.get("barometre", "Sense dades")
 
-                arch_encontrados.insert(tk.END, f"{nom}\n")
-                arch_encontrados.insert(tk.END, f"  Ruta       : {ruta}\n")
-                arch_encontrados.insert(tk.END, f"  Mida total : {mida}\n")
-                arch_encontrados.insert(tk.END, f"  Fitxers    : {fitxers}\n")
-                arch_encontrados.insert(tk.END, f"  Baròmetre  : {barometre}\n")
-                arch_encontrados.insert(tk.END, "----------------------------------------\n")
+                summary_text.insert(tk.END, f"{nom}\n")
+                summary_text.insert(tk.END, f"  Ruta       : {ruta}\n")
+                summary_text.insert(tk.END, f"  Mida total : {mida}\n")
+                summary_text.insert(tk.END, f"  Fitxers    : {fitxers}\n")
+                summary_text.insert(tk.END, f"  Baròmetre  : {barometre}\n")
+                summary_text.insert(tk.END, "----------------------------------------\n")
 
-        arch_encontrados.see(tk.END)
+        summary_text.see(tk.END)
 
     except FileNotFoundError:
-        messagebox.showerror("Error", f"No se encontró el archivo en: {LOG_FILE}")
+        messagebox.showerror("Error", f"No se encontró el archivo en: {log_file_path}")
     finally:
-        # Reactivar botons quan acaba l’acció
-        boton_iniciar.config(state="normal")
-        btn_el.config(state="normal")
-        btn_cons.config(state="normal")
+        start_button.config(state="normal")
+        delete_button.config(state="normal")
+        keep_button.config(state="normal")
+        run_selected_button.config(state="normal")
 
-def iniciar_carga():
-    """
-    Botó 'Iniciar Escaneo' -> analitza temporals (BAR_test1_TEMP.py via main.main()).
-    """
-    executar_accio_temp("ID2.1.1", lambda: main.main())
 
-def aviso_eliminar():
-    """
-    Botó 'Eliminar' -> esborra temporals (DEL_test1_TEMP.py) i mostra el log igual.
-    """
-    arch_conservados.grid_forget()
-    pregunta = messagebox.askquestion(
-        'Eliminacion',
-        'Los siguientes archivos seran eliminados.\n¿Está seguro?'
+# ----------------------------
+# GUI flow (NO consola): defaults 2 -> 1 -> 1
+# ----------------------------
+
+# input 2 (mode): default "1"
+selected_mode_var = tk.StringVar(value="1")  # por defecto: Identificar (BAR)
+
+# input 3 (cleaning option): default "1"
+selected_cleaning_option_var = tk.StringVar(value="1")  # por defecto: TEMP
+
+
+def run_selected_cleaning():
+    mode_choice = selected_mode_var.get()
+    option_choice = selected_cleaning_option_var.get()
+
+    def callback():
+        # Nueva API en main.py (sin pedir input)
+        main.run_cleaning_from_gui(mode_choice, option_choice)
+
+    execute_action_temp("ID2.1.1", callback)
+
+
+def confirm_delete():
+    kept_label.grid_forget()
+    question = messagebox.askquestion(
+        "Eliminacion",
+        "Los siguientes archivos seran eliminados.\n¿Está seguro?",
     )
-    if pregunta == 'yes':
+    if question == "yes":
         try:
-            btn_cons.config(state="disabled")
-            executar_accio_temp("ID2.1.2", lambda: main.run_script("DEL_test1_TEMP.py"))
-            arch_eliminados.grid(row=4, column=0, pady=5, sticky="w")
+            keep_button.config(state="disabled")
+            execute_action_temp("ID2.1.2", lambda: main.run_script("DEL_test1_TEMP.py"))
+            deleted_label.grid(row=7, column=0, pady=5, sticky="w")
         except Exception as e:
             messagebox.showerror("Error", f"No se pudieron eliminar los archivos. {e}")
 
-def aviso_conservar():
-    # Restablim la GUI de zero
+
+def mark_keep():
     reset_gui()
-    # Feedback visual
-    arch_conservados.grid(row=4, column=0, pady=5, sticky="w")
-    arch_eliminados.grid_forget()
+    kept_label.grid(row=7, column=0, pady=5, sticky="w")
+    deleted_label.grid_forget()
+
 
 # Títol columna esquerra
-label_opciones = tk.Label(frame_botons, text="Opciones", bg="gray20", fg="white", font=("Arial", 11, "bold"))
-label_opciones.grid(row=0, column=0, padx=10, pady=(0, 10), sticky="w")
+options_label = tk.Label(buttons_frame, text="Opciones", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
+options_label.grid(row=0, column=0, padx=10, pady=(0, 10), sticky="w")
 
-# Botó Iniciar (fila 1)
-boton_iniciar = tk.Button(
-    frame_botons,
-    text="Iniciar Escaneo",
-    command=iniciar_carga,
-    font=("Arial", 12, "bold"),
-    width=15
+# Botón principal (ahora ejecuta el flujo GUI con defaults)
+start_button = tk.Button(
+    buttons_frame,
+    text="Iniciar",
+    command=run_selected_cleaning,
+    font=FONT_UI_BOLD,
+    width=15,
+    bg=COL_ACCENT,
+    fg=COL_ACCENT_DARKTXT,
+    activebackground="#7BE3FF",
+    activeforeground=COL_ACCENT_DARKTXT,
+    relief="flat",
+    bd=0,
+    highlightthickness=0,
 )
-boton_iniciar.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="w")
+start_button.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="w")
 
-# Botó Conservar (fila 2) – desactivat al principi
-btn_cons = tk.Button(frame_botons, text="Conservar", command=aviso_conservar, width=15, state="disabled")
-btn_cons.grid(row=2, column=0, padx=10, pady=(0, 10), sticky="w")
+keep_button = tk.Button(
+    buttons_frame,
+    text="Conservar",
+    command=mark_keep,
+    width=15,
+    state="disabled",
+    font=FONT_UI_BOLD,
+    bg=COL_BTN,
+    fg=COL_TEXT,
+    activebackground=COL_BTN_HOVER,
+    activeforeground=COL_TEXT,
+    relief="flat",
+    bd=0,
+    highlightthickness=1,
+    highlightbackground=COL_BORDER,
+)
+keep_button.grid(row=2, column=0, padx=10, pady=(0, 10), sticky="w")
 
-# Botó Eliminar (fila 3) – desactivat al principi
-btn_el = tk.Button(frame_botons, text="Eliminar", command=aviso_eliminar, width=15, state="disabled")
-btn_el.grid(row=3, column=0, padx=10, pady=(0, 10), sticky="w")
+delete_button = tk.Button(
+    buttons_frame,
+    text="Eliminar",
+    command=confirm_delete,
+    width=15,
+    state="disabled",
+    font=FONT_UI_BOLD,
+    bg=COL_BTN,
+    fg=COL_TEXT,
+    activebackground=COL_BTN_HOVER,
+    activeforeground=COL_TEXT,
+    relief="flat",
+    bd=0,
+    highlightthickness=1,
+    highlightbackground=COL_BORDER,
+)
+delete_button.grid(row=3, column=0, padx=10, pady=(0, 10), sticky="w")
 
-# Etiquetes d’estat (sota els botons, també a l’esquerra)
-arch_eliminados = tk.Label(frame_botons, text='Archivos eliminados', font=("Arial", 11), bg="gray20", fg="red")
-arch_conservados = tk.Label(frame_botons, text='Archivos conservados', font=("Arial", 11), bg="gray20", fg="green")
+# NUEVO: Radiobuttons debajo de conservar/eliminar
+selection_title_label = tk.Label(
+    buttons_frame,
+    text="Seleccion (Cleaning)",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    font=FONT_TITLE,
+)
+selection_title_label.grid(row=4, column=0, padx=10, pady=(10, 5), sticky="w")
+
+mode_frame = tk.Frame(buttons_frame, bg=COL_BG)
+mode_frame.grid(row=5, column=0, padx=10, pady=(0, 10), sticky="w")
+
+mode_label = tk.Label(mode_frame, text="Modo:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI)
+mode_label.grid(row=0, column=0, sticky="w")
+
+tk.Radiobutton(
+    mode_frame,
+    text="Identificar (BAR)",
+    variable=selected_mode_var,
+    value="1",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    selectcolor=COL_PANEL,
+    activebackground=COL_BG,
+    activeforeground=COL_TEXT,
+).grid(row=1, column=0, sticky="w")
+
+tk.Radiobutton(
+    mode_frame,
+    text="Identificar y esborrar (DEL)",
+    variable=selected_mode_var,
+    value="2",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    selectcolor=COL_PANEL,
+    activebackground=COL_BG,
+    activeforeground=COL_TEXT,
+).grid(row=2, column=0, sticky="w")
+
+cleaning_frame = tk.Frame(buttons_frame, bg=COL_BG)
+cleaning_frame.grid(row=6, column=0, padx=10, pady=(0, 10), sticky="w")
+
+cleaning_label = tk.Label(cleaning_frame, text="Accion:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI)
+cleaning_label.grid(row=0, column=0, sticky="w")
+
+tk.Radiobutton(
+    cleaning_frame,
+    text="Temporales",
+    variable=selected_cleaning_option_var,
+    value="1",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    selectcolor=COL_PANEL,
+    activebackground=COL_BG,
+    activeforeground=COL_TEXT,
+).grid(row=1, column=0, sticky="w")
+
+tk.Radiobutton(
+    cleaning_frame,
+    text="Navegadores",
+    variable=selected_cleaning_option_var,
+    value="2",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    selectcolor=COL_PANEL,
+    activebackground=COL_BG,
+    activeforeground=COL_TEXT,
+).grid(row=2, column=0, sticky="w")
+
+tk.Radiobutton(
+    cleaning_frame,
+    text="Papelera",
+    variable=selected_cleaning_option_var,
+    value="3",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    selectcolor=COL_PANEL,
+    activebackground=COL_BG,
+    activeforeground=COL_TEXT,
+).grid(row=3, column=0, sticky="w")
+
+tk.Radiobutton(
+    cleaning_frame,
+    text="Volver",
+    variable=selected_cleaning_option_var,
+    value="4",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    selectcolor=COL_PANEL,
+    activebackground=COL_BG,
+    activeforeground=COL_TEXT,
+).grid(row=4, column=0, sticky="w")
+
+run_selected_button = tk.Button(
+    buttons_frame,
+    text="Ejecutar seleccion",
+    command=run_selected_cleaning,
+    font=FONT_UI_BOLD,
+    width=15,
+    bg=COL_ACCENT,
+    fg=COL_ACCENT_DARKTXT,
+    activebackground="#7BE3FF",
+    activeforeground=COL_ACCENT_DARKTXT,
+    relief="flat",
+    bd=0,
+    highlightthickness=0,
+)
+run_selected_button.grid(row=7, column=0, padx=10, pady=(0, 10), sticky="w")
+
+deleted_label = tk.Label(buttons_frame, text="Archivos eliminados", font=FONT_UI, bg=COL_BG, fg=COL_DANGER)
+kept_label = tk.Label(buttons_frame, text="Archivos conservados", font=FONT_UI, bg=COL_BG, fg=COL_OK)
 
 # Etiqueta "Resumen"
-label_resumen = tk.Label(frame_requadres, text="Resumen", bg="gray20", fg="white", font=("Arial", 11, "bold"))
-label_resumen.grid(row=0, column=0, padx=10, pady=(0, 5), sticky="w")
+summary_label = tk.Label(panels_frame, text="Resumen", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
+summary_label.grid(row=0, column=0, padx=10, pady=(0, 5), sticky="w")
 
-# 1r requadre: RESUM (dalt a la dreta)
-arch_encontrados = tk.Text(frame_requadres, bg="#D3D3D3", height=8, width=60, font=("Arial", 11))
-arch_encontrados.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="nsew")
+summary_text = tk.Text(
+    panels_frame,
+    bg=COL_PANEL,
+    fg=COL_TEXT,
+    insertbackground=COL_TEXT,
+    height=8,
+    width=60,
+    font=("Consolas", 10),
+    relief="flat",
+    highlightthickness=1,
+    highlightbackground=COL_BORDER,
+)
+summary_text.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="nsew")
 
-# Etiqueta "Todos los logs"
-label_logs = tk.Label(frame_requadres, text="Todos los logs", bg="gray20", fg="white", font=("Arial", 11, "bold"))
-label_logs.grid(row=2, column=0, padx=10, pady=(15, 0), sticky="w")
+logs_label = tk.Label(panels_frame, text="Todos los logs", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
+logs_label.grid(row=2, column=0, padx=10, pady=(15, 0), sticky="w")
 
-# 2n requadre: LOGS (baix a la dreta)
-logs = tk.Text(frame_requadres, bg="#D3D3D3", height=8, width=60, font=("Arial", 11))
-logs.grid(row=3, column=0, padx=10, pady=(10, 0), sticky="nsew")
+logs_text = tk.Text(
+    panels_frame,
+    bg=COL_PANEL,
+    fg=COL_TEXT,
+    insertbackground=COL_TEXT,
+    height=8,
+    width=60,
+    font=("Consolas", 10),
+    relief="flat",
+    highlightthickness=1,
+    highlightbackground=COL_BORDER,
+)
+logs_text.grid(row=3, column=0, padx=10, pady=(10, 0), sticky="nsew")
+
+add_hover(start_button, COL_ACCENT, "#7BE3FF")
+add_hover(keep_button, COL_BTN, COL_BTN_HOVER)
+add_hover(delete_button, COL_BTN, COL_BTN_HOVER)
+add_hover(run_selected_button, COL_ACCENT, "#7BE3FF")
 
 window.mainloop()
