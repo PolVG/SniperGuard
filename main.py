@@ -19,13 +19,12 @@ CONFIG_PATH = PROJECT_ROOT / "config" / "config.ini"
 LOGS_DIR = PROJECT_ROOT / "logs"
 MODULES_DIR = PROJECT_ROOT / "modules"
 
-
 # Cada dia, es crea un nou fitxer de log.
 LOG_FILE = LOGS_DIR / (datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
 
-
 MODE_BAR = 1  # identificar
 MODE_DEL = 2  # identificar + esborrar
+
 
 '''
 def get_config_ini():
@@ -36,23 +35,28 @@ def get_config_ini():
 
     config = configparser.ConfigParser()
 
-    if not config.read(CONFIG_PATH):
+
+    if not config.read(CONFIG_PATH, encoding="utf-8"):
         raise RuntimeError(f"No s'ha pogut llegir el fitxer INI: {CONFIG_PATH}")
 
     log(f"L'arxiu {CONFIG_PATH} s'ha trobat correctament.", 100)
     return config
+
+
 '''
 def run_script(script_name: str):
 Aquesta funció s'utilitza per executar un script Python específic des de la ubicació PYAPP_DIR.
 Rep com a paràmetre el nom de l'script i gestiona la seva execució, capturant la sortida i els errors.
-
 '''
-
 def run_script(script_name: str):
     script_path = PYAPP_DIR / script_name
 
     if not script_path.exists():
         log(f"No existeix el fitxer: {script_path}", 400)
+        return
+
+    if not sys.executable:
+        log("sys.executable no està disponible. No es pot executar subprocess.", 500)
         return
 
     log(f"Preparant execució de script: {script_path}", 200)
@@ -73,6 +77,7 @@ def run_script(script_name: str):
             capture_output=True,
             text=True,
             encoding="utf-8",
+            timeout=300, 
         )
 
         if result.returncode == 0:
@@ -86,6 +91,9 @@ def run_script(script_name: str):
         if result.stderr and result.stderr.strip():
             log(f"STDERR {script_name}: {result.stderr.strip()}", 400)
 
+    except subprocess.TimeoutExpired:
+        log(f"Timeout executant {script_name}. El procés ha trigat massa.", 500)
+        print("Error: el procés ha trigat massa i s'ha aturat.")
     except Exception as e:
         log(f"No s'ha pogut executar {script_name}: {(e)}", 500)
 
@@ -94,13 +102,15 @@ def run_script(script_name: str):
 def run_cleaning_from_gui(mode_choice: str, cleaning_choice: str):
 Aquesta funció s'utilitza per executar les operacions de neteja des de la interfície gràfica d'usuari (GUI).
 Rep com a paràmetres les opcions seleccionades per l'usuari a la GUI i executa l'script corresponent segons aquestes opcions.
-
 '''
 def run_cleaning_from_gui(mode_choice: str, cleaning_choice: str):
-
     log("Executant run_cleaning_from_gui() des de GUI", 200)
 
-    check_admin_privileges()
+    try:
+        check_admin_privileges()
+    except Exception as e:
+        log(f"Error en check_admin_privileges() (GUI): {e}", 600)
+        return
 
     if mode_choice not in {"1", "2"}:
         log(f"Mode invàlid rebut des de GUI: {mode_choice}", 400)
@@ -112,14 +122,12 @@ def run_cleaning_from_gui(mode_choice: str, cleaning_choice: str):
         "1": ("Estat arxius temporals", "BAR_test1_TEMP.py"),
         "2": ("Estat navegadors (historial/cookies/caché)", "BAR_test12_Full_Clean_browser.py"),
         "3": ("Estat paperera de reciclatge", "BAR_test4_Empty_Recycle_Bin.py"),
-        "4": ("Tornar al menú", None),
     }
 
     del_options = {
         "1": ("Netejar arxius temporals", "DEL_test1_TEMP.py"),
         "2": ("Netejar navegadors (historial/cookies/caché)", "DEL_test12_Full_Clean_browser.py"),
         "3": ("Buidar paperera de reciclatge", "DEL_test4_Empty_Recycle_Bin.py"),
-        "4": ("Tornar al menú", None),
     }
 
     options = bar_options if mode == MODE_BAR else del_options
@@ -129,20 +137,14 @@ def run_cleaning_from_gui(mode_choice: str, cleaning_choice: str):
         return
 
     label, script = options[cleaning_choice]
-
-    if script is None:
-        log("Usuari torna al menú anterior (GUI)", 250)
-        return
-
     log(f"Executant acció (GUI): {label}", 200)
     run_script(script)
+
 
 '''
 def cleaning_menu(mode):
 Aquesta funció mostra un menú de neteja a l'usuari i executa l'script corresponent segons la seva elecció.
-
 '''
-
 def cleaning_menu(mode):
     log("Mostrant al usuari les opcions disponibles de neteja.", 100)
 
@@ -188,14 +190,11 @@ def cleaning_menu(mode):
     log(f"Executant acció: {label}", 200)
     run_script(script)
 
-    
+
 '''
 def hardening_menu(mode):
 Aquesta funció mostra un menú de hardening a l'usuari i executa l'script corresponent segons la seva elecció.
-
-
 '''
-
 def hardening_menu(mode):
     log("Mostrant al usuari les opcions disponibles de hardening.", 100)
 
@@ -226,10 +225,10 @@ def hardening_menu(mode):
 
     choice = check_input_user("Introdueix una opció : ", set(options.keys()))
     if choice is None:
-        log("Sortint de la funció cleaning_menu()", 100)
+        log("Sortint de la funció hardening_menu()", 100)
         return
 
-    log(f"L'usuari ha triat opció cleaning_menu: '{choice}' (mode={mode})", 200)
+    log(f"L'usuari ha triat opció hardening_menu: '{choice}' (mode={mode})", 200)
 
     label, script = options[choice]
 
@@ -240,19 +239,30 @@ def hardening_menu(mode):
     log(f"Executant acció: {label}", 200)
     run_script(script)
 
+
 '''
 def choose_mode():
 Aquesta funció demana a l'usuari que triï entre dos modes: BAR (només comprovar) o DEL (comprovar + esborrar).
 '''
-
 def choose_mode():
+    attempts = 0
     while True:
         print("Què vols fer?")
         print("1. Identificar estat (BAR)  -> només comprovar")
         print("2. Identificar i esborrar (DEL) -> comprovar + netejar")
 
-        choice = check_input_user("Introdueix una opció : ", {"1", "2"})
+        try:
+            choice = check_input_user("Introdueix una opció : ", {"1", "2"})
+        except Exception as e:
+            log(f"Error en check_input_user() dins choose_mode(): {e}", 600)
+            choice = None
+
         if choice is None:
+            attempts += 1
+            if attempts >= 3:
+                log("Massa intents fallits a choose_mode(). Tornant al menú principal.", 400)
+                return None
+            print("Entrada no vàlida. Reintenta-ho.")
             continue
 
         if choice == "1":
@@ -262,19 +272,30 @@ def choose_mode():
         log("Usuari ha seleccionat mode DEL", 250)
         return MODE_DEL
 
-'''
-def choose_hardening_mode():
-Aquesta funció demana a l'usuari que triï entre dos modes de hardening: BAR (només comprovar) o HARD (comprovar + hardening).
 
 '''
 def choose_hardening_mode():
+Aquesta funció demana a l'usuari que triï entre dos modes de hardening: BAR (només comprovar) o HARD (comprovar + hardening).
+'''
+def choose_hardening_mode():
+    attempts = 0
     while True:
         print("Què vols fer?")
         print("1. Identificar estat (BAR)  -> només comprovar")
         print("2. Implementar hardening (HARD) -> comprovar + hardening")
 
-        choice = check_input_user("Introdueix una opció : ", {"1", "2"})
+        try:
+            choice = check_input_user("Introdueix una opció : ", {"1", "2"})
+        except Exception as e:
+            log(f"Error en check_input_user() dins choose_hardening_mode(): {e}", 600)
+            choice = None
+
         if choice is None:
+            attempts += 1
+            if attempts >= 3:
+                log("Massa intents fallits a choose_hardening_mode(). Tornant al menú principal.", 400)
+                return None
+            print("Entrada no vàlida. Reintenta-ho.")
             continue
 
         if choice == "1":
@@ -289,7 +310,6 @@ def choose_hardening_mode():
 def print_banner():
 Aquesta funció imprimeix un banner inicial de SniperGuard a la consola.
 '''
-
 def print_banner():
     log("Executant la funció 'print_banner()' per mostrar el banner inicial.", 100)
     print("\n")
@@ -301,13 +321,11 @@ def print_banner():
     print("╚══════╝╚═╝  ╚═══╝╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝")
     print("\n")
 
+
 '''
 def main():
-
 Aquesta funció gestiona el flux principal del programa SniperGuard.
 Mostra un menú a l'usuari per triar entre les opcions de Hardening, Cleaning o sortir del programa.
-Segons l'elecció de l'usuari, es criden les funcions corresponents per gestionar les opcions seleccionades.
-
 '''
 def main():
     while True:
@@ -323,7 +341,6 @@ def main():
         print("             Menú              ")
         print("-------------------------------")
 
-      
         try:
             check_admin_privileges()
         except Exception as e:
@@ -331,6 +348,7 @@ def main():
             print("Error: no es van poder comprovar els privilegis d'administrador.")
             break
 
+        attempts = 0
         while True:
             print("Escolleix una opció:")
             print("1. Hardening")
@@ -342,12 +360,13 @@ def main():
                 decisio = check_input_user("Introdueix una opció : ", {"1", "2", "3"})
             except Exception as e:
                 log(f"Error en check_input_user(): {e}", 600)
-                print("Error: entrada no vàlida. Reintenta-ho.")
-                continue
+                decisio = None
 
-           
             if decisio is None:
-                log("Entrada buida / cancel·lada. Reintentant el menú principal.", 300)
+                attempts += 1
+                if attempts >= 3:
+                    log("Massa intents fallits al menú principal. Sortint.", 400)
+                    return
                 print("Entrada no vàlida. Torna-ho a provar.")
                 continue
 
@@ -355,6 +374,8 @@ def main():
                 log("Hardening seleccionat", 250)
                 try:
                     mode = choose_hardening_mode()
+                    if mode is None:
+                        break
                     hardening_menu(mode)
                 except Exception as e:
                     log(f"Error executant Hardening: {e}", 600)
@@ -366,15 +387,17 @@ def main():
                 print("\n")
                 try:
                     mode = choose_mode()
+                    if mode is None:
+                        break
                     cleaning_menu(mode)
                 except Exception as e:
                     log(f"Error executant Cleaning: {e}", 600)
                     print("Error executant Cleaning. Revisa els logs.")
                 break
 
-            # decisio == "3"
             log("Usuari ha sortit del programa (Exit).", 200)
             return
+
 
 if __name__ == "__main__":
     try:
