@@ -1,0 +1,56 @@
+[21-12-2025 16:15:58] [main] ✅📝 S'ha creat un nou fitxer de log anomenat: C:\Users\hola\Desktop\projecte\projecte\logs\2025-12-21_logs_py.txt .
+[21-12-2025 16:15:58] [main] [ℹ️ INFO] ==== Starting SniperGuard  ====
+[21-12-2025 16:15:58] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\hola\Desktop\projecte
+[21-12-2025 16:15:58] [main] [🔍 DEBUG] BASE_DIR = C:\Users\hola\Desktop\projecte\projecte
+[21-12-2025 16:15:58] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\hola\Desktop\projecte\config\config.ini
+[21-12-2025 16:15:58] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\hola\Desktop\projecte\logs
+[21-12-2025 16:15:58] [main] [🔍 DEBUG] LOG_FILE(2025-12-21) = C:\Users\hola\Desktop\projecte\logs\2025-12-21_logs_py.txt
+[21-12-2025 16:15:58] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[21-12-2025 16:15:58] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
+[21-12-2025 16:16:32] [main] [ℹ️ INFO] ==== Starting SniperGuard  ====
+[21-12-2025 16:16:32] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\hola\Desktop\projecte
+[21-12-2025 16:16:32] [main] [🔍 DEBUG] BASE_DIR = C:\Users\hola\Desktop\projecte\projecte
+[21-12-2025 16:16:32] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\hola\Desktop\projecte\config\config.ini
+[21-12-2025 16:16:32] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\hola\Desktop\projecte\logs
+[21-12-2025 16:16:32] [main] [🔍 DEBUG] LOG_FILE(2025-12-21) = C:\Users\hola\Desktop\projecte\logs\2025-12-21_logs_py.txt
+[21-12-2025 16:16:32] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[21-12-2025 16:16:32] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
+[21-12-2025 16:16:36] [recursos] [❌ ERROR] La entrada del usuari no es pas un dígit. Introdueix un número.
+[21-12-2025 16:16:36] [main] [⚠️ WARNING] Entrada vacía / cancelada. Reintentando menú principal.
+[21-12-2025 16:16:38] [recursos] [❌ ERROR] La entrada del usuari no es pas un dígit. Introdueix un número.
+[21-12-2025 16:16:38] [main] [⚠️ WARNING] Entrada vacía / cancelada. Reintentando menú principal.
+[21-12-2025 16:16:38] [recursos] [❌ ERROR] La entrada del usuari no es pas un dígit. Introdueix un número.
+[21-12-2025 16:16:38] [main] [⚠️ WARNING] Entrada vacía / cancelada. Reintentando menú principal.
+[21-12-2025 16:16:40] [recursos] [❌ ERROR] La entrada del usuari no es pas un dígit. Introdueix un número.
+[21-12-2025 16:16:40] [main] [⚠️ WARNING] Entrada vacía / cancelada. Reintentando menú principal.
+[21-12-2025 16:16:44] [main] [ℹ️ INFO] ==== Starting SniperGuard  ====
+[21-12-2025 16:16:44] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\hola\Desktop\projecte
+[21-12-2025 16:16:44] [main] [🔍 DEBUG] BASE_DIR = C:\Users\hola\Desktop\projecte\projecte
+[21-12-2025 16:16:44] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\hola\Desktop\projecte\config\config.ini
+[21-12-2025 16:16:44] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\hola\Desktop\projecte\logs
+[21-12-2025 16:16:44] [main] [🔍 DEBUG] LOG_FILE(2025-12-21) = C:\Users\hola\Desktop\projecte\logs\2025-12-21_logs_py.txt
+[21-12-2025 16:16:44] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[21-12-2025 16:16:44] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
+[21-12-2025 16:17:45] [main] [✅ NOTICE] Cleaning seleccionat
+[21-12-2025 16:17:46] [main] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[21-12-2025 16:17:46] [main] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de neteja.
+[21-12-2025 16:17:46] [main] [ℹ️ INFO] Mode BAR actiu: mostrant opcions de comprovació
+[21-12-2025 16:17:46] [main] [ℹ️ INFO] L'usuari ha triat opció cleaning_menu: '1' (mode=1)
+[21-12-2025 16:17:46] [main] [ℹ️ INFO] Executant acció: Estat arxius temporals
+[21-12-2025 16:17:46] [main] [❌ ERROR] No existeix el fitxer: C:\Users\hola\Desktop\projecte\pyapp\BAR_test1_TEMP.py
+[21-12-2025 16:17:46] [main] [ℹ️ INFO] ==== Starting SniperGuard  ====
+[21-12-2025 16:17:46] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\hola\Desktop\projecte
+[21-12-2025 16:17:46] [main] [🔍 DEBUG] BASE_DIR = C:\Users\hola\Desktop\projecte\projecte
+[21-12-2025 16:17:46] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\hola\Desktop\projecte\config\config.ini
+[21-12-2025 16:17:46] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\hola\Desktop\projecte\logs
+[21-12-2025 16:17:46] [main] [🔍 DEBUG] LOG_FILE(2025-12-21) = C:\Users\hola\Desktop\projecte\logs\2025-12-21_logs_py.txt
+[21-12-2025 16:17:46] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[21-12-2025 16:17:46] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
+[21-12-2025 17:27:51] [recursos] [❌ ERROR] Opció invàlida: '54'. Opcions vàlides: ['1', '2', '3']
+[21-12-2025 17:27:51] [main] [⚠️ WARNING] Entrada vacía / cancelada. Reintentando menú principal.
+[21-12-2025 17:27:52] [recursos] [❌ ERROR] Opció invàlida: '4'. Opcions vàlides: ['1', '2', '3']
+[21-12-2025 17:27:52] [main] [⚠️ WARNING] Entrada vacía / cancelada. Reintentando menú principal.
+[21-12-2025 17:27:53] [recursos] [❌ ERROR] Opció invàlida: '343'. Opcions vàlides: ['1', '2', '3']
+[21-12-2025 17:27:53] [main] [⚠️ WARNING] Entrada vacía / cancelada. Reintentando menú principal.
+[21-12-2025 17:27:53] [recursos] [❌ ERROR] La entrada del usuari es buida. Introdueix una opció vàlida.
+[21-12-2025 17:27:53] [main] [⚠️ WARNING] Entrada vacía / cancelada. Reintentando menú principal.

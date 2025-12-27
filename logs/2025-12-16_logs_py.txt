@@ -1,0 +1,127 @@
+[16-12-2025 11:50:39] [main] ✅📝 S'ha creat un nou fitxer de log anomenat: \\vboxsvr\DEF2_SniperGuard\logs\2025-12-16_logs_py.txt .
+[16-12-2025 11:50:39] [main] [ℹ️ INFO] ==== Inici SniperGuard (pyapp/main) ====
+[16-12-2025 11:50:40] [main] [🔍 DEBUG] PROJECT_ROOT=\\vboxsvr\DEF2_SniperGuard\
+[16-12-2025 11:50:40] [main] [🔍 DEBUG] BASE_DIR=\\VBoxSvr\DEF2_SniperGuard\
+[16-12-2025 11:50:40] [main] [🔍 DEBUG] CONFIG_PATH=\\vboxsvr\DEF2_SniperGuard\config\config.ini
+[16-12-2025 11:50:40] [main] [🔍 DEBUG] LOGS_DIR=\\vboxsvr\DEF2_SniperGuard\logs
+[16-12-2025 11:50:40] [main] [🔍 DEBUG] LOG_FILE(today)=\\vboxsvr\DEF2_SniperGuard\logs\2025-12-16_logs_py.txt
+[16-12-2025 11:50:40] [main] [🔍 DEBUG] Mostrant banner inicial
+[16-12-2025 11:51:34] [main] [✅ NOTICE] Cleaning seleccionat
+[16-12-2025 11:51:40] [main] [✅ NOTICE] Usuari ha seleccionat mode DEL
+[16-12-2025 11:51:44] [main] [ℹ️ INFO] Preparant execució de script: DEL_test4_Empty_Recycle_Bin.py | path=\\vboxsvr\DEF2_SniperGuard\pyapp\DEL_test4_Empty_Recycle_Bin.py
+[16-12-2025 11:51:46] [DEL_test4_Empty_Recycle_Bin] [ℹ️ INFO] Inici buidat paperera amb PowerShell (Clear-RecycleBin)
+[16-12-2025 11:51:46] [DEL_test4_Empty_Recycle_Bin] [🔍 DEBUG] Executant comanda PowerShell: powershell -NoProfile -ExecutionPolicy Bypass -Command Clear-RecycleBin -Force
+[16-12-2025 11:51:50] [DEL_test4_Empty_Recycle_Bin] [✅ NOTICE] PowerShell ha retornat 'The system cannot find the path specified' (interpretat com a OK funcional: unitat/paperera inexistent)
+[16-12-2025 11:51:50] [DEL_test4_Empty_Recycle_Bin] [⚠️ WARNING] PowerShell STDERR (ignorat): Clear-RecycleBin : The system cannot find the path specified
+At line:1 char:1
++ Clear-RecycleBin -Force
++ ~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (RecycleBin:String) [Clea 
+   r-RecycleBin], Win32Exception
+    + FullyQualifiedErrorId : FailedToClearRecycleBin,Microsoft.PowerShel 
+   l.Commands.ClearRecycleBinCommand
+[16-12-2025 11:51:50] [DEL_test4_Empty_Recycle_Bin] [ℹ️ INFO] Fi buidat paperera PowerShell: OK (amb avisos controlats)
+[16-12-2025 11:51:50] [main] [ℹ️ INFO] ==== Inici SniperGuard (pyapp/main) ====
+[16-12-2025 11:51:50] [main] [🔍 DEBUG] PROJECT_ROOT=\\vboxsvr\DEF2_SniperGuard\
+[16-12-2025 11:51:51] [main] [🔍 DEBUG] BASE_DIR=\\VBoxSvr\DEF2_SniperGuard\
+[16-12-2025 11:51:51] [main] [🔍 DEBUG] CONFIG_PATH=\\vboxsvr\DEF2_SniperGuard\config\config.ini
+[16-12-2025 11:51:51] [main] [🔍 DEBUG] LOGS_DIR=\\vboxsvr\DEF2_SniperGuard\logs
+[16-12-2025 11:51:51] [main] [🔍 DEBUG] LOG_FILE(today)=\\vboxsvr\DEF2_SniperGuard\logs\2025-12-16_logs_py.txt
+[16-12-2025 11:51:51] [main] [🔍 DEBUG] Mostrant banner inicial
+[16-12-2025 12:16:09] [main] [ℹ️ INFO] ==== Inici SniperGuard (pyapp/main) ====
+[16-12-2025 12:16:13] [main] [🔍 DEBUG] PROJECT_ROOT=\\vboxsvr\DEF2_SniperGuard\
+[16-12-2025 12:16:13] [main] [🔍 DEBUG] BASE_DIR=\\VBoxSvr\DEF2_SniperGuard\
+[16-12-2025 12:16:13] [main] [🔍 DEBUG] CONFIG_PATH=\\vboxsvr\DEF2_SniperGuard\config\config.ini
+[16-12-2025 12:16:14] [main] [🔍 DEBUG] LOGS_DIR=\\vboxsvr\DEF2_SniperGuard\logs
+[16-12-2025 12:16:14] [main] [🔍 DEBUG] LOG_FILE(today)=\\vboxsvr\DEF2_SniperGuard\logs\2025-12-16_logs_py.txt
+[16-12-2025 12:16:14] [main] [🔍 DEBUG] Mostrant banner inicial
+[16-12-2025 12:16:22] [main] [✅ NOTICE] Cleaning seleccionat
+[16-12-2025 12:16:28] [main] [✅ NOTICE] Usuari ha seleccionat mode DEL
+[16-12-2025 12:16:38] [main] [ℹ️ INFO] Preparant execució de script: DEL_test12_Full_Clean_browser.py | path=\\vboxsvr\DEF2_SniperGuard\pyapp\DEL_test12_Full_Clean_browser.py
+[16-12-2025 12:16:40] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] ==== Inici neteja navegadors (DEL) ====
+[16-12-2025 12:16:40] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Inici detecció navegadors via registre
+[16-12-2025 12:16:40] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] Registre: root=18446744071562067970 path=Software\Clients\StartMenuInternet -> 4 entrades
+[16-12-2025 12:16:40] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] Registre: root=18446744071562067970 path=Software\WOW6432Node\Clients\StartMenuInternet -> 4 entrades
+[16-12-2025 12:16:40] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] Clau registre inexistent: root=18446744071562067969 path=Software\Clients\StartMenuInternet
+[16-12-2025 12:16:40] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] Clau registre inexistent: root=18446744071562067969 path=Software\WOW6432Node\Clients\StartMenuInternet
+[16-12-2025 12:16:40] [DEL_test12_Full_Clean_browser] [✅ NOTICE] Fi detecció registre: 4 entrades úniques
+[16-12-2025 12:16:40] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Navegadors detectats (raw): Firefox-308046B0AF4A39CB, Google Chrome, IEXPLORE.EXE, Microsoft Edge
+[16-12-2025 12:16:40] [DEL_test12_Full_Clean_browser] [✅ NOTICE] Navegadors normalitzats: chrome, edge, firefox
+[16-12-2025 12:16:40] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Inici neteja Chromium: Google Chrome | process=chrome.exe
+[16-12-2025 12:16:41] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] Ruta base Chromium: C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data
+[16-12-2025 12:16:41] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] Intentant tancar procés: chrome.exe
+[16-12-2025 12:16:41] [DEL_test12_Full_Clean_browser] [⚠️ WARNING] taskkill returncode=128 | proc=chrome.exe | stdout='' | stderr='ERROR: The process "chrome.exe" not found.'
+[16-12-2025 12:16:41] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Perfils Chromium trobats: base=C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data count=1
+[16-12-2025 12:16:41] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Netejant perfil Chromium: Google Chrome | perfil=Default
+[16-12-2025 12:16:41] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Inici buidat contingut carpeta: C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\Cache
+[16-12-2025 12:16:41] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Fi buidat carpeta: C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\Cache
+[16-12-2025 12:16:41] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Inici buidat contingut carpeta: C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\Code Cache
+[16-12-2025 12:16:41] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Fi buidat carpeta: C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\Code Cache
+[16-12-2025 12:16:41] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Inici buidat contingut carpeta: C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\GPUCache
+[16-12-2025 12:16:41] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Fi buidat carpeta: C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\GPUCache
+[16-12-2025 12:16:41] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Carpeta no existeix (no es buida): C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\Media Cache
+[16-12-2025 12:16:41] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Carpeta no existeix (no es buida): C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\Service Worker\CacheStorage
+[16-12-2025 12:16:41] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Cookies: no existeix (C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\Cookies)
+[16-12-2025 12:16:42] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Cookies: no existeix (C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\Cookies-journal)
+[16-12-2025 12:16:42] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Cookies (Network): no existeix (C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\Network\Cookies)
+[16-12-2025 12:16:42] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Cookies (Network): no existeix (C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\Network\Cookies-journal)
+[16-12-2025 12:16:42] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Historial: no existeix (C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\History)
+[16-12-2025 12:16:42] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Historial: no existeix (C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\History-journal)
+[16-12-2025 12:16:42] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Visited Links: no existeix (C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\Visited Links)
+[16-12-2025 12:16:42] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Visited Links: no existeix (C:\Users\CannonW11\AppData\Local\Google\Chrome\User Data\Default\Visited Links-journal)
+[16-12-2025 12:16:42] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Fi neteja Chromium: Google Chrome
+[16-12-2025 12:16:42] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Inici neteja Chromium: Microsoft Edge | process=msedge.exe
+[16-12-2025 12:16:42] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] Ruta base Chromium: C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data
+[16-12-2025 12:16:42] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] Intentant tancar procés: msedge.exe
+[16-12-2025 12:16:42] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] taskkill OK: msedge.exe
+[16-12-2025 12:16:42] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Perfils Chromium trobats: base=C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data count=1
+[16-12-2025 12:16:42] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Netejant perfil Chromium: Microsoft Edge | perfil=Default
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Inici buidat contingut carpeta: C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Cache
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [✅ NOTICE] [OK] Carpeta esborrada: C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Cache\Cache_Data
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [✅ NOTICE] [OK] Carpeta esborrada: C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Cache\No_Vary_Search
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Fi buidat carpeta: C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Cache
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Inici buidat contingut carpeta: C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Code Cache
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [✅ NOTICE] [OK] Carpeta esborrada: C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Code Cache\js
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [✅ NOTICE] [OK] Carpeta esborrada: C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Code Cache\wasm
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Fi buidat carpeta: C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Code Cache
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Inici buidat contingut carpeta: C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\GPUCache
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Fi buidat carpeta: C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\GPUCache
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Carpeta no existeix (no es buida): C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Media Cache
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Carpeta no existeix (no es buida): C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Service Worker\CacheStorage
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Cookies: no existeix (C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Cookies)
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Cookies: no existeix (C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Cookies-journal)
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [✅ NOTICE] [OK] Cookies (Network): esborrat (C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Network\Cookies)
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Cookies (Network): no existeix (C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Network\Cookies-journal)
+[16-12-2025 12:16:43] [DEL_test12_Full_Clean_browser] [✅ NOTICE] [OK] Historial: esborrat (C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\History)
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [✅ NOTICE] [OK] Historial: esborrat (C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\History-journal)
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Visited Links: no existeix (C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Visited Links)
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Visited Links: no existeix (C:\Users\CannonW11\AppData\Local\Microsoft\Edge\User Data\Default\Visited Links-journal)
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Fi neteja Chromium: Microsoft Edge
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [✅ NOTICE] [SKIP] Brave no detectat
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Inici neteja Firefox (cache + cookies + historial)
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] Ruta perfils Firefox: C:\Users\CannonW11\AppData\Local\Mozilla\Firefox\Profiles
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] Intentant tancar procés: firefox.exe
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [⚠️ WARNING] taskkill returncode=128 | proc=firefox.exe | stdout='' | stderr='ERROR: The process "firefox.exe" not found.'
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Netejant perfil Firefox: 193pn5v7.default-release
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Inici buidat contingut carpeta: C:\Users\CannonW11\AppData\Local\Mozilla\Firefox\Profiles\193pn5v7.default-release\cache2
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Fi buidat carpeta: C:\Users\CannonW11\AppData\Local\Mozilla\Firefox\Profiles\193pn5v7.default-release\cache2
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Cookies Firefox: no existeix (C:\Users\CannonW11\AppData\Local\Mozilla\Firefox\Profiles\193pn5v7.default-release\cookies.sqlite)
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Cookies Firefox: no existeix (C:\Users\CannonW11\AppData\Local\Mozilla\Firefox\Profiles\193pn5v7.default-release\cookies.sqlite-wal)
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Cookies Firefox: no existeix (C:\Users\CannonW11\AppData\Local\Mozilla\Firefox\Profiles\193pn5v7.default-release\cookies.sqlite-shm)
+[16-12-2025 12:16:44] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] places.sqlite no existeix: C:\Users\CannonW11\AppData\Local\Mozilla\Firefox\Profiles\193pn5v7.default-release\places.sqlite
+[16-12-2025 12:16:45] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Netejant perfil Firefox: 8acpnzgi.default
+[16-12-2025 12:16:45] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Carpeta no existeix (no es buida): C:\Users\CannonW11\AppData\Local\Mozilla\Firefox\Profiles\8acpnzgi.default\cache2
+[16-12-2025 12:16:45] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Cookies Firefox: no existeix (C:\Users\CannonW11\AppData\Local\Mozilla\Firefox\Profiles\8acpnzgi.default\cookies.sqlite)
+[16-12-2025 12:16:45] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Cookies Firefox: no existeix (C:\Users\CannonW11\AppData\Local\Mozilla\Firefox\Profiles\8acpnzgi.default\cookies.sqlite-wal)
+[16-12-2025 12:16:45] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] Cookies Firefox: no existeix (C:\Users\CannonW11\AppData\Local\Mozilla\Firefox\Profiles\8acpnzgi.default\cookies.sqlite-shm)
+[16-12-2025 12:16:45] [DEL_test12_Full_Clean_browser] [🔍 DEBUG] [SKIP] places.sqlite no existeix: C:\Users\CannonW11\AppData\Local\Mozilla\Firefox\Profiles\8acpnzgi.default\places.sqlite
+[16-12-2025 12:16:45] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] Fi neteja Firefox
+[16-12-2025 12:16:45] [DEL_test12_Full_Clean_browser] [✅ NOTICE] [SKIP] Opera no detectat
+[16-12-2025 12:16:45] [DEL_test12_Full_Clean_browser] [ℹ️ INFO] ==== Fi neteja navegadors (DEL) ====
+[16-12-2025 12:16:46] [main] [ℹ️ INFO] ==== Inici SniperGuard (pyapp/main) ====
+[16-12-2025 12:16:46] [main] [🔍 DEBUG] PROJECT_ROOT=\\vboxsvr\DEF2_SniperGuard\
+[16-12-2025 12:16:46] [main] [🔍 DEBUG] BASE_DIR=\\VBoxSvr\DEF2_SniperGuard\
+[16-12-2025 12:16:46] [main] [🔍 DEBUG] CONFIG_PATH=\\vboxsvr\DEF2_SniperGuard\config\config.ini
+[16-12-2025 12:16:46] [main] [🔍 DEBUG] LOGS_DIR=\\vboxsvr\DEF2_SniperGuard\logs
+[16-12-2025 12:16:46] [main] [🔍 DEBUG] LOG_FILE(today)=\\vboxsvr\DEF2_SniperGuard\logs\2025-12-16_logs_py.txt
+[16-12-2025 12:16:46] [main] [🔍 DEBUG] Mostrant banner inicial

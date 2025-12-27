@@ -1,0 +1,51 @@
+[19-12-2025 13:27:12] [main] ✅📝 S'ha creat un nou fitxer de log anomenat: \\VBoxSvr\DEF2_SniperGuard\logs\ID2.1.1_2025-12-19_13-27-12_logs_py.txt .
+[19-12-2025 13:27:12] [main] [ℹ️ INFO] ==== Starting SniperGuard  ====
+[19-12-2025 13:27:13] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[19-12-2025 13:27:13] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[19-12-2025 13:27:13] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[19-12-2025 13:27:13] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[19-12-2025 13:27:13] [main] [🔍 DEBUG] LOG_FILE(2025-12-19) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-19_logs_py.txt
+[19-12-2025 13:27:13] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[19-12-2025 13:27:13] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
+[19-12-2025 13:27:16] [main] [✅ NOTICE] Cleaning seleccionat
+[19-12-2025 13:27:17] [main] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[19-12-2025 13:27:17] [main] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de neteja.
+[19-12-2025 13:27:17] [main] [ℹ️ INFO] Mode BAR actiu: mostrant opcions de comprovació
+[19-12-2025 13:27:18] [main] [ℹ️ INFO] L'usuari ha triat opció cleaning_menu: '1' (mode=1)
+[19-12-2025 13:27:19] [main] [ℹ️ INFO] Executant acció: Estat arxius temporals
+[19-12-2025 13:27:19] [main] [ℹ️ INFO] Preparant execució de script: \\VBoxSvr\DEF2_SniperGuard\pyapp\BAR_test1_TEMP.py
+[19-12-2025 13:27:22] [main] [✅ NOTICE] Script BAR_test1_TEMP.py finalitzat OK (returncode=0)
+[19-12-2025 13:27:22] [main] [🔍 DEBUG] STDOUT BAR_test1_TEMP.py: ===== DIAGNÒSTIC WINDOWS (MODE SEGUR - NO ESBORRA RES) =====
+
+========== ANÀLISI CARPETES DEL SISTEMA ==========
+
+===== WINDOWS TEMP =====
+Ruta: C:\Windows\Temp
+Mida total : 0.19 MB
+Fitxers    : 7
+Baròmetre  : 🟢 NO CAL, però es pot netejar
+
+===== WINDOWS UPDATE DOWNLOAD =====
+Ruta: C:\Windows\SoftwareDistribution\Download
+Mida total : 24.71 MB
+Fitxers    : 6
+Baròmetre  : 🟢 NO CAL, però es pot netejar
+
+===== TEMP USUARI =====
+Ruta: C:\Users\CannonW11\AppData\Local\Temp
+Mida total : 132.96 MB
+Fitxers    : 410
+Baròmetre  : 🟢 NO CAL, però es pot netejar
+
+===== ANÀLISI FINALITZADA =====
+[19-12-2025 13:27:55] [main] [ℹ️ INFO] Preparant execució de script: \\VBoxSvr\DEF2_SniperGuard\pyapp\DEL_test1_TEMP.py
+[19-12-2025 13:27:58] [main] [✅ NOTICE] Script DEL_test1_TEMP.py finalitzat OK (returncode=0)
+[19-12-2025 13:27:58] [main] [🔍 DEBUG] STDOUT DEL_test1_TEMP.py: ===== NETEJA TEMP + SOFTWAREDISTRIBUTION\DOWNLOAD =====
+[%TEMP%] Esborrats: 28, Errors: 4
+[C:\Windows\Temp] Esborrats: 7, Errors: 0
+[WARN] No estàs com Administrador: NO es netejarà SoftwareDistribution\Download.
+
+--- RESUM ---
+Total esborrats (TEMP): 35
+Total errors (fitxers en ús/permisos): 4
+===== PROCÉS FINALITZAT =====

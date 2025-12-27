@@ -1,0 +1,2 @@
+[21-12-2025 15:21:19] [main] ✅📝 S'ha creat un nou fitxer de log anomenat: C:\Users\hola\Desktop\projecte\projecte\logs\ID27_logs_py.txt .
+[21-12-2025 15:21:19] [main] [❌ ERROR] No existeix el fitxer: C:\Users\hola\Desktop\projecte\pyapp\BAR_test12_Full_Clean_browser.py

@@ -1,6 +1,6 @@
 import subprocess
 import json
-
+from modules.LogRegister import log
 """
 Funció is_windows_defender_active():
     Comprova si Windows Defender està actiu utilitzant PowerShell.
@@ -30,7 +30,7 @@ def is_windows_defender_active():
         return status.get("RealTimeProtectionEnabled")
     
     except Exception as e:
-        print(f"Error executant PowerShell per comprovar Windows Defender: {e}")
+        log(f"Error executant PowerShell per comprovar Windows Defender: {e}")
     return None
        
 
@@ -38,12 +38,12 @@ def is_windows_defender_active():
 # Evitar que s'executi directament en ser importat, només quan s'executa directament o sigui cridat dins d'un altre script
 if __name__ == "__main__":
     windowsdefender = is_windows_defender_active()
-    print({"RealTimeProtectionEnabled": windowsdefender})
+    log({"RealTimeProtectionEnabled": windowsdefender})
 
     # Comparació explícita amb True/False per evitar problemes amb valors None
     if windowsdefender is True:
-        print("Windows Defender està activat.")
+        log("Windows Defender està activat.")
     elif windowsdefender is False:
-        print("Windows Defender no està activat.")
+        log("Windows Defender no està activat.")
     else:
-        print("No es pot determinar l'estat de Windows Defender.")
+        log("No es pot determinar l'estat de Windows Defender.")

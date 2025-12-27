@@ -1,0 +1,9 @@
+[21-12-2025 15:11:34] [main] ✅📝 S'ha creat un nou fitxer de log anomenat: C:\Users\hola\Desktop\projecte\projecte\logs\ID20_logs_py.txt .
+[21-12-2025 15:11:34] [main] [ℹ️ INFO] ==== Starting SniperGuard  ====
+[21-12-2025 15:11:34] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\hola\Desktop\projecte
+[21-12-2025 15:11:34] [main] [🔍 DEBUG] BASE_DIR = C:\Users\hola\Desktop\projecte\projecte
+[21-12-2025 15:11:34] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\hola\Desktop\projecte\config\config.ini
+[21-12-2025 15:11:34] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\hola\Desktop\projecte\logs
+[21-12-2025 15:11:34] [main] [🔍 DEBUG] LOG_FILE(2025-12-21) = C:\Users\hola\Desktop\projecte\logs\2025-12-21_logs_py.txt
+[21-12-2025 15:11:34] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[21-12-2025 15:11:34] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides

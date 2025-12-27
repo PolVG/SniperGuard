@@ -46,69 +46,62 @@
 ####################################################################################################
 ```
 
-# ¿Que es SniperGuard?
+# Què és SniperGuard?
 
-SniperGuard es un programa open-source (de código libre) que permite realizar una limpieza 
-y bastionado del equipo mediante el uso de código Python.
-De este modo, el usuario podrá conocer que programas desfasados, y procesos inservibles 
-está consumiendo su PC con el objetivo de erradicarlos del equipo. 
-
-
-# ¿Que es el hardening?
-
-El hardening se basa en la aplicación de técnicas y proceso orientados a reducir la superficie de ataque, 
-corrección de vulnerabilidades conocidas (CVE), mitigación de debilidades de diseño o configuración (CWE), 
-eliminación de configuraciones inseguras, y finalmente: cierre de servicios y puertos innecesarios.
-
-En muchos entornos, especialmente corporativos: este bastionado se sigue realizando de forma parcialmente manual,
-o con herramientas genéricas del sistema operativo (Ej: cleanmgr.exe). Debido a esto, 
-nos obliga a invertir muchas horas en revisar programas instalados, servicios activos
-y bloatware preinstalado por fabricantes del equipo adquirido, o por defecto en Windows. 
-
-Esta abundancia de procesos en segundo plano incrementa tanto el riesgo de explotación 
-(más servicios potencialmente vulnerables) como el ruido de logs y eventos que debe gestionar
-el SOC mediante SIEM, SOAR o XDR: dificultando de este modo la detección rápida de ciberincidentes. 
+SniperGuard és un programa open-source (de codi lliure) que permet fer una neteja 
+i hardening de lequip mitjançant lús de codi Python.
+D'aquesta manera, l'usuari podrà conèixer quins programes desfasats i processos inservibles 
+està consumint el PC amb l'objectiu d'eradicar-los de l'equip.
 
 
-# ¿Por que debo usar SniperGuard frente a otras herramientas del mercado?
+# Requeriments
 
-SniperGuard es la fusión de una herramienta de limpieza del equipo + una herramienta de bastionado,
-incorporando estas dos utilidades en un solo software.
+- Python 3.8 o superior
+- Llibreria Python (instal·lar amb `pip`):
+  - `Pillow` (per a la gestió d'imatges de la GUI)
+- Ejecutar com administrador Visual Studio per funcionament complet
+- Python ha de estar vinculat al PATH del usuari (enviorment variables)
 
-Con SnipeGuard obtenemos equipos más rápidos y seguros al erradicar todos aquellos 
-programas y archivos que el usuario considera 'no esencial', aplicar
-automataticamente nuevas actualizaciones de Windows Update y Windows Defender en el equipo, y finalmente:
-encontrar vulnerabilidades en el PC debido a software desactualizado, o procesos maliciosos ejecutandose en su PC.
+Com instal·lar depèndencies en un entorn virtual (Windows PowerShell):
 
-Además, SniperGuard ofrece una GUI y un modo Terminal visualmente agradable y fácil de usar para todo tipo de usuario,
-incluyendo una gran cantidad de 'feedback' que se ofrece al usuario para que siempre note que hay un 'sniper' ayudandole a proteger su equipo.
+```powershell
+python -m venv .\venv
+.\venv\Scripts\Activate.ps1
+pip install --upgrade pip
+pip install Pillow
+```
 
-# Como usar SniperGuard versión Alpha
 
-La versión Alpha de SniperGuard contiene las siguientes 
-funcionalidades mediante el uso de la Terminal.
-De este modo, el usuario debe introducir los números y pulsar Enter
-cuando se solicite en el menú.
+# Com utilitzar SniperGuard versió Alpha
 
--- Opciones del menú principal: --
+La versió Alpha de SniperGuard conté les següents 
+funcionalitats mitjançant l'ús de la Terminal o interficie gràfica.
+D'aquesta manera, l'usuari ha d'introduir els números i prémer Enter
+quan se sol·liciti al menú o per interficie gràfica.
 
-    Cleaning (1):
-        Identificar (1): -> Modo Inspección.
-         (1)  --> Borrar archivos temporales.
-         (2)  --> Borrar cookies, historial y caché de los navegadores web.
-         (3)  --> Borrar la papelera de reciclage de Windows.
+# Comentaris Alpha
+
+- Hardening només esta disponible per terminal
+- Resum dels logs només esta per consola
+- Terminal els logs no estan processats "maquillats".
+-  
+
+-- Opcions del menú principal: --
+
+    Hardening (1): 
+        (1) --> Identificar si faltan actualizacions de Windows Update en el equip.
+        (2) --> Instalar actualizacions restants de Windows Update en el equip.
+
+    Cleaning (2):
+        Identificar (1): -> Mode Inspecció.
+         (1) --> Esborrar fitxers temporals.
+         (2) --> Esborrar cookies, historial i memòria dels navegadors web.
+         (3) --> Esborrar la paperera de reciclatge de Windows.
         
-        Identificar + Borrar (2): -> Se inspeccionaran los archivos y se borraran.ds
-         (1)  --> Borrar archivos temporales.
-         (2)  --> Borrar cookies, historial y caché de los navegadores web.
-         (3)  --> Borrar la papelera de reciclage de Windows.
-        
-    
-    Hardening (2): 
-        (1) --> Identificar si faltan actualizaciones de Windows Update en el equipo.
-        (2) --> Instalar actualizaciones restantes de Windows Update en el equipo.
+        Identificar + Esborrar (2): -> S'inspeccionaran els fitxers i s'esborraran.ds
+         (1) --> Esborrar fitxers temporals.
+         (2) --> Esborrar cookies, historial i memòria dels navegadors web.
+         (3) --> Esborrar la paperera de reciclatge de Windows.
 
 
 
-
-=======

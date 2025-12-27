@@ -1,3 +1,7 @@
+"""
+TOT EL CONTINGUT D'AQUEST SCRIPT ESTA FET AMB IA. EN LA SEGUENT ENTREGA ES SUBSTITUIRA PER CODI HUMÀ.
+"""
+
 import subprocess
 import ctypes
 import time
@@ -167,7 +171,7 @@ def main():
 
     log(f"Resum TEMP: esborrats={total_deleted} errors={total_errors}", 250)
 
-    print("\n--- RESUM ---")
+    print("\n=====  RESUM ===== ")
     print(f"Total esborrats (TEMP): {total_deleted}")
     print(f"Total errors (fitxers en ús/permisos): {total_errors}")
     print("===== PROCÉS FINALITZAT =====")

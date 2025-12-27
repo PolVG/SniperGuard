@@ -1,0 +1,16 @@
+[20-12-2025 11:27:07] [main] ✅📝 S'ha creat un nou fitxer de log anomenat: C:\Users\hola\Desktop\projecte\projecte\logs\ID6_logs_py.txt .
+[20-12-2025 11:27:07] [main] [ℹ️ INFO] ==== Starting SniperGuard  ====
+[20-12-2025 11:27:07] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\hola\Desktop\projecte
+[20-12-2025 11:27:07] [main] [🔍 DEBUG] BASE_DIR = C:\Users\hola\Desktop\projecte\projecte
+[20-12-2025 11:27:07] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\hola\Desktop\projecte\config\config.ini
+[20-12-2025 11:27:07] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\hola\Desktop\projecte\logs
+[20-12-2025 11:27:07] [main] [🔍 DEBUG] LOG_FILE(2025-12-20) = C:\Users\hola\Desktop\projecte\logs\2025-12-20_logs_py.txt
+[20-12-2025 11:27:07] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[20-12-2025 11:27:07] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
+[20-12-2025 11:27:15] [main] [✅ NOTICE] Cleaning seleccionat
+[20-12-2025 11:27:15] [main] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[20-12-2025 11:27:15] [main] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de neteja.
+[20-12-2025 11:27:15] [main] [ℹ️ INFO] Mode BAR actiu: mostrant opcions de comprovació
+[20-12-2025 11:27:17] [main] [ℹ️ INFO] L'usuari ha triat opció cleaning_menu: '1' (mode=1)
+[20-12-2025 11:27:17] [main] [ℹ️ INFO] Executant acció: Estat arxius temporals
+[20-12-2025 11:27:17] [main] [❌ ERROR] No existeix el fitxer: C:\Users\hola\Desktop\projecte\pyapp\BAR_test1_TEMP.py

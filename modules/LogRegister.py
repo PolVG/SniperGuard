@@ -3,14 +3,21 @@ import inspect
 import re
 import configparser
 from datetime import datetime
+from pathlib import Path
 
 # Rutes globals del fitxer de logs
 # Pujem dos nivells de l'arrel del projecte per oferir la ruta: /var/www/html/projecteimatges/config/config.ini
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..','..'))
-LOGS_DIR = os.path.join(PROJECT_ROOT, "logs")
-LOG_FILE = os.path.join(LOGS_DIR, datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
-CONFIG_PATH = os.path.join(PROJECT_ROOT, "config", "config.ini")
+# PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..','..'))
+# LOGS_DIR = os.path.join(PROJECT_ROOT, "logs")
+# LOG_FILE = os.path.join(LOGS_DIR, datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
+# CONFIG_PATH = os.path.join(PROJECT_ROOT, "config", "config.ini")
+BASE_DIR = Path(__file__).resolve().parent       
+PROJECT_ROOT = BASE_DIR.parent     
+LOGS_DIR = PROJECT_ROOT / "logs"
+LOG_FILE = LOGS_DIR / (datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
+CONFIG_PATH = PROJECT_ROOT / "config" / "config.ini"
 
+CURRENT_LOG_FILE = None
 #
 # obtenirTextNivell() -> Funció que serveix per classificar 
 #                        el log segons el seu valor númeric
@@ -84,6 +91,36 @@ def obtenir_nivell_log_des_de_ini(config_path=CONFIG_PATH) -> int:
     except ValueError:
         raise Exception("❌📄 ERROR! El paràmetre 'log_level_py' no és un enter vàlid")
 
+def init_log_file():
+    """
+    Inicialitza el fitxer de log per a una execució concreta.
+    El nom inclou data, hora i un ID d'acció (p. ex. ID2.1.1).
+    Retorna la ruta completa del fitxer.
+    """
+    global CURRENT_LOG_FILE
+
+    os.makedirs(LOGS_DIR, exist_ok=True)
+
+    counter_file = LOGS_DIR / "last_log_id.txt"
+
+    # Llegir l'últim ID
+    if counter_file.exists():
+        with open(counter_file, "r") as f:
+            last_id = int(f.read().strip() or "0")
+    else:
+        last_id = 0
+
+    # Incrementar ID
+    new_id = last_id + 1
+
+    # Guardar el nou ID
+    with open(counter_file, "w") as f:
+        f.write(str(new_id))
+
+    filename = f"ID{new_id}_logs_py.txt"
+    CURRENT_LOG_FILE = LOGS_DIR / filename
+
+    return CURRENT_LOG_FILE
 
 # log(msg, nivell) -> Escriu una entrada de log si el nivell és prou alt
 def log(msg: str, nivell: int = 200):
@@ -104,20 +141,30 @@ def log(msg: str, nivell: int = 200):
     raw_name = os.path.splitext(os.path.basename(frame.filename))[0]
     caller_name = re.sub(r'^\d+_', '', raw_name)  # Elimina prefixos com 9_ o 12_
 
+    global CURRENT_LOG_FILE
+    
+    if CURRENT_LOG_FILE is None:
+        # MODE COMPATIBILITAT: si ningú ha cridat init_log_file(),
+        # fem servir el fitxer diari com abans.
+        daily_name = datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt"
+        CURRENT_LOG_FILE = LOGS_DIR / daily_name
+
+    log_file = CURRENT_LOG_FILE
+    
     # Si el fitxer no existeix, crea'l i afegeix la capçalera avisant que el fitxer es nou
-    if not os.path.exists(LOG_FILE):
+    if not os.path.exists(log_file):
         # Crea la carpeta si no existeix. Tot i així, aquesta línea de codi no es necessaria
         # ja que PHP ja s'encarrega abans de comprobar si la carpeta 'logs' existeix.
         os.makedirs(LOGS_DIR, exist_ok=True)  
-        with open(LOG_FILE, "w", encoding="utf-8") as f:
-            f.write(f"[{timestamp}] [{caller_name}] ✅📝 S'ha creat un nou fitxer de log anomenat: {LOG_FILE} .\n")
+        with open(log_file, "w", encoding="utf-8") as f:
+            f.write(f"[{timestamp}] [{caller_name}] ✅📝 S'ha creat un nou fitxer de log anomenat: {log_file} .\n")
     
     # Format complet del missatge de log
     etiqueta = obtenir_text_nivell(nivell)
     full_msg = f"[{timestamp}] [{caller_name}] {etiqueta} {msg}"
-    #
+    
     # Afegim el log
-    with open(LOG_FILE, "a", encoding="utf-8") as f:
+    with open(log_file, "a", encoding="utf-8") as f:
         f.write(full_msg + "\n")
 
 """

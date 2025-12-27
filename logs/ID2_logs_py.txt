@@ -1,0 +1,2 @@
+[19-12-2025 14:51:37] [main] ✅📝 S'ha creat un nou fitxer de log anomenat: D:\_TOTES_Les_MVs\KRAKEN\DEF2_SniperGuard\logs\ID2_logs_py.txt .
+[19-12-2025 14:51:37] [main] [❌ ERROR] No existeix el fitxer: D:\_TOTES_Les_MVs\KRAKEN\pyapp\DEL_test1_TEMP.py

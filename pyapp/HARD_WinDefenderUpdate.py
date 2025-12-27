@@ -1,5 +1,5 @@
 import subprocess
-
+from modules.LogRegister import log
 
 """
     Funció defender_update():
@@ -31,6 +31,6 @@ def defender_update():
 if __name__ == "__main__":
     result = defender_update()
     if result:
-        print("Windows Defender s'han actualitzat correctament.")
+        log("Windows Defender s'han actualitzat correctament.")
     else:
-        print("No s'ha pogut actualitzar Windows Defender.")
+        log("No s'ha pogut actualitzar Windows Defender.")

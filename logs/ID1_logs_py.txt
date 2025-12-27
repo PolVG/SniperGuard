@@ -1,0 +1,16 @@
+[19-12-2025 14:51:00] [main] ✅📝 S'ha creat un nou fitxer de log anomenat: D:\_TOTES_Les_MVs\KRAKEN\DEF2_SniperGuard\logs\ID1_logs_py.txt .
+[19-12-2025 14:51:00] [main] [ℹ️ INFO] ==== Starting SniperGuard  ====
+[19-12-2025 14:51:00] [main] [🔍 DEBUG] PROJECT_ROOT = D:\_TOTES_Les_MVs\KRAKEN
+[19-12-2025 14:51:00] [main] [🔍 DEBUG] BASE_DIR = D:\_TOTES_Les_MVs\KRAKEN\DEF2_SniperGuard
+[19-12-2025 14:51:00] [main] [🔍 DEBUG] CONFIG_PATH = D:\_TOTES_Les_MVs\KRAKEN\config\config.ini
+[19-12-2025 14:51:00] [main] [🔍 DEBUG] LOGS_DIR = D:\_TOTES_Les_MVs\KRAKEN\logs
+[19-12-2025 14:51:00] [main] [🔍 DEBUG] LOG_FILE(2025-12-19) = D:\_TOTES_Les_MVs\KRAKEN\logs\2025-12-19_logs_py.txt
+[19-12-2025 14:51:00] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[19-12-2025 14:51:00] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
+[19-12-2025 14:51:02] [main] [✅ NOTICE] Cleaning seleccionat
+[19-12-2025 14:51:05] [main] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[19-12-2025 14:51:05] [main] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de neteja.
+[19-12-2025 14:51:05] [main] [ℹ️ INFO] Mode BAR actiu: mostrant opcions de comprovació
+[19-12-2025 14:51:06] [main] [ℹ️ INFO] L'usuari ha triat opció cleaning_menu: '1' (mode=1)
+[19-12-2025 14:51:06] [main] [ℹ️ INFO] Executant acció: Estat arxius temporals
+[19-12-2025 14:51:06] [main] [❌ ERROR] No existeix el fitxer: D:\_TOTES_Les_MVs\KRAKEN\pyapp\BAR_test1_TEMP.py
