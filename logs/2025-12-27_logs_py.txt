@@ -378,3 +378,46 @@ Quan hagis tancat la finestra (OK), torna aquí al terminal.
 [27-12-2025 22:37:35] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
 [27-12-2025 22:37:35] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
 [27-12-2025 22:37:35] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:05:50] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:05:50] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:05:50] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:05:50] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:05:50] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:05:50] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:05:50] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:05:50] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:05:52] [main] [✅ NOTICE] Cleaning seleccionat
+[27-12-2025 23:05:55] [main] [✅ NOTICE] Usuari ha seleccionat mode DEL
+[27-12-2025 23:05:55] [main] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de neteja.
+[27-12-2025 23:05:55] [main] [ℹ️ INFO] Mode DEL actiu: mostrant opcions de neteja
+[27-12-2025 23:06:03] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:06:03] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:06:03] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:06:03] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:06:03] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:06:03] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:06:03] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:06:03] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:06:05] [main] [✅ NOTICE] Cleaning seleccionat
+[27-12-2025 23:06:06] [main] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[27-12-2025 23:06:06] [main] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de neteja.
+[27-12-2025 23:06:06] [main] [ℹ️ INFO] Mode BAR actiu: mostrant opcions de comprovació
+[27-12-2025 23:06:08] [main] [ℹ️ INFO] L'usuari ha triat opció cleaning_menu: '4' (mode=1)
+[27-12-2025 23:06:08] [main] [ℹ️ INFO] Executant acció: Estat carpeta 'C:\Windows\WinSxS'
+[27-12-2025 23:06:08] [main] [ℹ️ INFO] Preparant execució de script: \\VBoxSvr\DEF2_SniperGuard\pyapp\BAR_DISM_Analyze.py
+[27-12-2025 23:06:09] [BAR_DISM_Analyze] [ℹ️ INFO] Iniciant anàlisi WinSxS (DISM /AnalyzeComponentStore)...
+[27-12-2025 23:06:09] [BAR_DISM_Analyze] [ℹ️ INFO] Comprovació permisos admin: SI
+[27-12-2025 23:06:09] [BAR_DISM_Analyze] [🔍 DEBUG] Executant cmd: DISM /Online /Cleanup-Image /AnalyzeComponentStore
+[27-12-2025 23:06:34] [BAR_DISM_Analyze] [ℹ️ INFO] Cmd OK (returncode=0).
+[27-12-2025 23:06:34] [BAR_DISM_Analyze] [✅ NOTICE] Sortida DISM (stdout) capturada correctament.
+[27-12-2025 23:06:34] [BAR_DISM_Analyze] [✅ NOTICE] Resum anàlisi WinSxS: Windows Explorer Reported Size of Component Store : 6.29 GB || Actual Size of Component Store : 6.23 GB || Shared with Windows : 3.96 GB || Backups and Disabled Features : 2.27 GB || Cache and Temporary Data :  0 bytes || Date of Last Cleanup : 2025-12-27 22:50:04 || Number of Reclaimable Packages : 2 || Component Store Cleanup Recommended : Yes
+[27-12-2025 23:06:34] [BAR_DISM_Analyze] [✅ NOTICE] Anàlisi WinSxS finalitzada correctament.
+[27-12-2025 23:06:35] [main] [✅ NOTICE] Script BAR_DISM_Analyze.py finalitzat OK (returncode=0)
+[27-12-2025 23:06:35] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:06:35] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:06:35] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:06:35] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:06:35] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:06:35] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:06:35] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:06:35] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.

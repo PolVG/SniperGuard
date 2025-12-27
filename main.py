@@ -152,7 +152,8 @@ def cleaning_menu(mode):
         "1": ("Estat arxius temporals", "BAR_test1_TEMP.py"),
         "2": ("Estat navegadors (historial/cookies/caché)", "BAR_test12_Full_Clean_browser.py"),
         "3": ("Estat paperera de reciclatge", "BAR_test4_Empty_Recycle_Bin.py"),
-        "4": ("Tornar al menú", None),
+        "4": ("Estat carpeta 'C:\Windows\WinSxS'", "BAR_DISM_Analyze.py"),
+        "5": ("Tornar al menú", None),
     }
 
     DEL_OPTIONS = {
@@ -161,7 +162,8 @@ def cleaning_menu(mode):
         "3": ("Buidar paperera de reciclatge", "DEL_test4_Empty_Recycle_Bin.py"),
         "4": ("Realitzar una neteja ràpida amb 'cleanmgr.exe'", "DEL_cleanmgr_fast.py"),
         "5": ("Realitzar una neteja lenta amb 'cleanmgr.exe'", "DEL_cleanmgr_slow.py"),
-        "6": ("Tornar al menú", None),
+        "6": ("Esborrar arxius residuals a 'C:\Windows\WinSxS'", "BAR_DISM_StartClean.py"),
+        "7": ("Tornar al menú", None),
     }
 
     if mode == MODE_BAR:
