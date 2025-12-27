@@ -4,7 +4,9 @@ from modules.LogRegister import log
 
 
 # DISM /Online /Cleanup-Image /AnalyzeComponentStore
-
+"""
+TOT EL CONTINGUT D'AQUEST SCRIPT ESTA FET AMB IA. EN LA SEGUENT ENTREGA ES SUBSTITUIRA PER CODI HUMÀ.
+"""
 
 def is_admin() -> bool:
     """Retorna True si el procés s'està executant amb privilegis d'administrador."""

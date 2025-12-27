@@ -162,7 +162,7 @@ def cleaning_menu(mode):
         "3": ("Buidar paperera de reciclatge", "DEL_test4_Empty_Recycle_Bin.py"),
         "4": ("Realitzar una neteja ràpida amb 'cleanmgr.exe'", "DEL_cleanmgr_fast.py"),
         "5": ("Realitzar una neteja lenta amb 'cleanmgr.exe'", "DEL_cleanmgr_slow.py"),
-        "6": ("Esborrar arxius residuals a 'C:\Windows\WinSxS'", "BAR_DISM_StartClean.py"),
+        "6": ("Esborrar arxius residuals a 'C:\Windows\WinSxS'", "DEL_DISM_StartClean.py"),
         "7": ("Tornar al menú", None),
     }
 
