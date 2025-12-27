@@ -159,7 +159,9 @@ def cleaning_menu(mode):
         "1": ("Netejar arxius temporals", "DEL_test1_TEMP.py"),
         "2": ("Netejar navegadors (historial/cookies/caché)", "DEL_test12_Full_Clean_browser.py"),
         "3": ("Buidar paperera de reciclatge", "DEL_test4_Empty_Recycle_Bin.py"),
-        "4": ("Tornar al menú", None),
+        "4": ("Realitzar una neteja ràpida amb 'cleanmgr.exe'", "DEL_cleanmgr_fast.py"),
+        # "5": ("Realitzar una neteja lenta amb 'cleanmgr.exe'", "DEL_cleanmgr_slow.py"),
+        "5": ("Tornar al menú", None),
     }
 
     if mode == MODE_BAR:
