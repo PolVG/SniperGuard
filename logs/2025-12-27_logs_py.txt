@@ -473,3 +473,139 @@ Quan hagis tancat la finestra (OK), torna aquí al terminal.
 [27-12-2025 23:17:51] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
 [27-12-2025 23:17:51] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
 [27-12-2025 23:17:51] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:40:57] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:40:58] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:40:58] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:40:58] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:40:58] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:40:58] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:40:58] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:40:58] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:41:38] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:41:38] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:41:38] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:41:38] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:41:38] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:41:38] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:41:38] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:41:39] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:42:08] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:42:08] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:42:08] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:42:08] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:42:08] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:42:08] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:42:09] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:42:09] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:44:12] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:44:13] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:44:13] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:44:13] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:44:13] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:44:13] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:44:13] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:44:13] [main] [☠️ EMERGENCY] Error en la execució main: name 'console' is not defined
+[27-12-2025 23:47:24] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:47:25] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:47:25] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:47:25] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:47:25] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:47:25] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:47:25] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:47:25] [main] [☠️ EMERGENCY] Error en la execució main: name 'console' is not defined
+[27-12-2025 23:47:50] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:47:50] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:47:50] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:47:50] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:47:50] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:47:50] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:47:50] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:47:50] [main] [☠️ EMERGENCY] Error en la execució main: name 'console' is not defined
+[27-12-2025 23:49:59] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:49:59] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:49:59] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:49:59] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:49:59] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:49:59] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:49:59] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:49:59] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:50:43] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:50:43] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:50:43] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:50:43] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:50:43] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:50:43] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:50:43] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:50:44] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:51:00] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:51:00] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:51:00] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:51:00] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:51:00] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:51:00] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:51:00] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:51:00] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:51:15] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:51:15] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:51:15] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:51:15] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:51:15] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:51:15] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:51:15] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:51:15] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:51:28] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:51:29] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:51:29] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:51:29] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:51:29] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:51:29] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:51:29] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:51:29] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:54:21] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:54:21] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:54:21] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:54:21] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:54:21] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:54:21] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:54:21] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:54:21] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:55:11] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:55:11] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:55:11] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:55:11] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:55:11] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:55:11] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:55:11] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:55:11] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:55:35] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:55:35] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:55:35] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:55:35] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:55:35] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:55:35] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:55:35] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:55:35] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:56:16] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:56:16] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:56:16] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:56:16] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:56:16] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:56:16] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:56:16] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:56:16] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:57:15] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:57:15] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:57:15] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:57:15] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:57:15] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:57:15] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:57:15] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:57:15] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.
+[27-12-2025 23:58:59] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[27-12-2025 23:58:59] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:58:59] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[27-12-2025 23:58:59] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
+[27-12-2025 23:58:59] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[27-12-2025 23:58:59] [main] [🔍 DEBUG] LOG_FILE(2025-12-27) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-27_logs_py.txt
+[27-12-2025 23:58:59] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[27-12-2025 23:58:59] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.

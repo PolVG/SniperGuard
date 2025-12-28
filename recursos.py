@@ -6,6 +6,7 @@ Aquest programa s'ha fet a partir de l'us de IA es fara manualment a la seguent 
 
 from modules.LogRegister import log
 import os,sys, ctypes
+from rich.console import *
 # Llegeix una opció per input i valida que:
 #  no sigui buida, sigui un dígit, i el número sigui una opció del menú.
 # ID 400 logs = ERROR
@@ -23,6 +24,7 @@ Retorna:    L'opció vàlida seleccionada per l'usuari, o None si l'entrada és 
 '''
 def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 400):
     
+  
     choice = input(prompt).strip()
 
     # Si l'entrada està buida torna al menú principal
