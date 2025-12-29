@@ -2,6 +2,8 @@ from modules.LogRegister import log
 import os,sys, ctypes
 from rich.console import *
 from pathlib import Path
+import zipfile
+
 
 # Llegeix una opció per input i valida que:
 #  no sigui buida, sigui un dígit, i el número sigui una opció del menú.
@@ -108,7 +110,7 @@ Aquesta funció comprimeix tots els fitxers de log en un arxiu ZIP amb el nom 'l
 Retorna: True si la compressió ha estat exitosa, False en cas contrari.
 '''
 def compress_logs():
-    import zipfile
+
     
     PROJECT_ROOT = Path(__file__).resolve().parent
     LOGS_DIR = PROJECT_ROOT / "logs"
@@ -120,8 +122,8 @@ def compress_logs():
             return False
         
         # Crear el fitxer ZIP
-        with zipfile.ZipFile(ZIP_FILE, 'w', zipfile.ZIP_DEFLATED) as zipf:
-            log_files = list(LOGS_DIR.glob("*.txt"))
+        with zipfile.ZipFile(ZIP_FILE, 'w', zipfile.ZIP_DEFLATED) as zipf: # ZIP_DEFLATED és per la compressió
+            log_files = list(LOGS_DIR.glob("*.txt")) # glob() retorna tots els fitxers amb l'extensió .txt
             
             if not log_files:
                 log("No hi ha fitxers de log per comprimir.", 300)
@@ -131,7 +133,7 @@ def compress_logs():
                 if log_file.name == "last_log_id.txt":
                     continue
                 # Afegir fitxer al ZIP (només el nom del fitxer, no la ruta completa)
-                zipf.write(log_file, arcname=log_file.name)
+                zipf.write(log_file, arcname=log_file.name) # arcname evita incloure la ruta completa dins del ZIP
                 log(f"Fitxer afegit al ZIP: {log_file.name}", 100)
         
         log(f"Arxiu ZIP creat correctament: {ZIP_FILE}", 250)
@@ -141,4 +143,42 @@ def compress_logs():
     except Exception as e:
         log(f"Error en compress_logs(): {e}", 500)
         print(f"\n❌ Error comprimint fitxers: {e}\n")
+        return False
+
+'''
+def decompress_logs():
+Aquesta funció busca el primer arxiu ZIP de logs i el descomprimeix a la carpeta de logs.
+Retorna: True si la descompressió ha estat exitosa, False en cas contrari.
+'''
+def decompress_logs():
+    
+
+    PROJECT_ROOT = Path(__file__).resolve().parent
+    LOGS_DIR = PROJECT_ROOT / "logs"
+
+    try:
+        if not LOGS_DIR.exists():
+            log(f"La carpeta de logs no existeix: {LOGS_DIR}", 300)
+            return False
+
+        zip_files = sorted(LOGS_DIR.glob("*.zip"))
+        if not zip_files:
+            log("No s'ha trobat cap fitxer ZIP de logs.", 300)
+            return False
+
+        target_zip = zip_files[0] # Selecciona el primer fitxer ZIP trobat
+        if not zipfile.is_zipfile(target_zip):
+            log(f"El fitxer no és un ZIP vàlid: {target_zip}", 400)
+            return False
+
+        with zipfile.ZipFile(target_zip, 'r') as zipf:
+            zipf.extractall(LOGS_DIR)
+
+        log(f"Arxiu ZIP descomprimit correctament: {target_zip}", 250)
+        print(f"\n✅ Fitxers descomprimits des de: {target_zip}\n")
+        return True
+
+    except Exception as e:
+        log(f"Error en decompress_logs(): {e}", 500)
+        print(f"\n❌ Error descomprimint fitxers: {e}\n")
         return False

@@ -13,7 +13,7 @@ from rich import box
 
 # llibreries internes
 from modules.LogRegister import log
-from recursos import check_input_user, check_admin_privileges, eliminate_logs, compress_logs
+from recursos import check_input_user, check_admin_privileges, eliminate_logs, compress_logs, decompress_logs
 console = Console()
 
 table = Table(show_lines=True,border_style="yellow")
@@ -325,8 +325,8 @@ def choose_logs():
             return None
         elif choice == "2":
             log("Usuari ha seleccionat DESCOMPRIMIR", 250)
-            
-            return MODE_DEL
+            decompress_logs()
+            return None
         elif choice == "3":
             log("Usuari ha seleccionat ESBORRAR LOGS", 250)
             eliminate_logs()
@@ -530,7 +530,6 @@ def main():
                     mode = choose_logs()
                     if mode is None:
                         break
-                    cleaning_menu(mode)
                 except Exception as e:
                     log(f"Error executant Gestió de logs: {e}", 600)
                     print("Error executant Gestió de logs. Revisa els logs.")
