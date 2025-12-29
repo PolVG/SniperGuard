@@ -4,11 +4,20 @@ import subprocess
 import configparser
 from pathlib import Path
 from datetime import datetime
+from rich import *
+from rich.console import *
+from rich.markdown import Markdown
+from rich.table import Table
+from rich.panel import Panel
+from rich import box
 
 # llibreries internes
 from modules.LogRegister import log
-from recursos import check_input_user, check_admin_privileges
+from recursos import check_input_user, check_admin_privileges, eliminate_logs, compress_logs, decompress_logs
 
+# Configuració global
+console = Console()
+table = Table(show_lines=True,border_style="yellow")
 
 # Definició de rutes globals
 BASE_DIR = Path(__file__).resolve().parent
@@ -152,14 +161,18 @@ def cleaning_menu(mode):
         "1": ("Estat arxius temporals", "BAR_test1_TEMP.py"),
         "2": ("Estat navegadors (historial/cookies/caché)", "BAR_test12_Full_Clean_browser.py"),
         "3": ("Estat paperera de reciclatge", "BAR_test4_Empty_Recycle_Bin.py"),
-        "4": ("Tornar al menú", None),
+        "4": ("Estat carpeta 'C:\\Windows\\WinSxS'", "BAR_DISM_Analyze.py"),
+        "5": ("Tornar al menú", None),
     }
 
     DEL_OPTIONS = {
         "1": ("Netejar arxius temporals", "DEL_test1_TEMP.py"),
         "2": ("Netejar navegadors (historial/cookies/caché)", "DEL_test12_Full_Clean_browser.py"),
         "3": ("Buidar paperera de reciclatge", "DEL_test4_Empty_Recycle_Bin.py"),
-        "4": ("Tornar al menú", None),
+        "4": ("Realitzar una neteja ràpida amb 'cleanmgr.exe'", "DEL_cleanmgr_fast.py"),
+        "5": ("Realitzar una neteja lenta amb 'cleanmgr.exe'", "DEL_cleanmgr_slow.py"),
+        "6": ("Esborrar arxius residuals a 'C:\\Windows\\WinSxS'", "DEL_DISM_StartClean.py"),
+        "7": ("Tornar al menú", None),
     }
 
     if mode == MODE_BAR:
@@ -169,12 +182,32 @@ def cleaning_menu(mode):
         log("Mode DEL actiu: mostrant opcions de neteja", 200)
         options = DEL_OPTIONS
 
-    print("\n***Opcions Cleaning:***\n")
-    for key, (label, _) in options.items():
-        print(f"{key}. {label}")
+    print("\n")
+    panel = Panel(
+        Align.center("[bold green] Opcions de Cleaning [/bold green]", vertical="middle"),
+        border_style="green",
+        style="on grey15",
+        padding=(1, 6),
+    )
+    console.print(panel)
     print("\n")
 
-    choice = check_input_user("Introdueix una opció : ", set(options.keys()))
+    table = Table(
+        show_lines=True,           
+        header_style="bold light_green",
+        padding=(0, 1),
+    )
+
+    table.add_column("ID", justify="center", style="bold green", no_wrap=True, width=4)
+    table.add_column("Opció", justify="center", style="bold green")
+    
+    for key, (label, _) in options.items(): # _ per ignorar el segon valor 
+        table.add_row(key, label)
+    console.print(table)
+    print("\n")
+    
+
+    choice = check_input_user("Introdueix una opció: ", set(options.keys())) # set() per convertir les claus en conjunt set
     if choice is None:
         log("Sortint de la funció cleaning_menu()", 100)
         return
@@ -217,13 +250,30 @@ def hardening_menu(mode):
     else:
         log("Mode DEL actiu: mostrant opcions de neteja", 200)
         options = DEL_OPTIONS
-
-    print("\n***Opcions Hardening:***\n")
-    for key, (label, _) in options.items():
-        print(f"{key}. {label}")
+    
+    print("\n")
+    panel = Panel(
+        Align.center("[bold yellow] Opcions de Bastionatge [/bold yellow]", vertical="middle"),
+        border_style="yellow",
+        style="on grey15",
+        padding=(1, 6),
+    )
+    console.print(panel)
     print("\n")
 
-    choice = check_input_user("Introdueix una opció : ", set(options.keys()))
+    table = Table(
+        show_lines=True,           
+        header_style="bold yellow",
+        padding=(0, 1),
+    )
+    table.add_column("ID", justify="center", style="bold bright_white", no_wrap=True, width=4)
+    table.add_column("Opció", justify="center", style="bold yellow")
+    for key, (label, _) in options.items():
+        table.add_row(key, label)
+    console.print(table)
+    print("\n")
+
+    choice = check_input_user("Introdueix una opció: ", set(options.keys()))
     if choice is None:
         log("Sortint de la funció hardening_menu()", 100)
         return
@@ -240,37 +290,94 @@ def hardening_menu(mode):
     run_script(script)
 
 
+def choose_logs():
+    attempts = 0
+    while True:
+        print("\n")
+        panel = Panel(
+            Align.center("[bold sky_blue1 underline] Gestió de logs [/bold sky_blue1 underline]", vertical="middle"),
+            border_style="sky_blue1",
+            style="on grey15",
+            padding=(1, 6),
+        )
+        console.print(panel)
+        print("\n")
+        console.print("Què vols fer?", style="bold white underline")
+        table = Table(show_lines=True,border_style="sky_blue1")
+        table.add_column("ID", justify="center", header_style="bold white", style="bold cyan", no_wrap=True)
+        table.add_column("Títol", justify="center", header_style="bold white", style="bold white")
+        table.add_column("Descripció", justify="center",header_style="bold white", style="bold white")
+
+        table.add_row("1.", "Comprimir (ZIP)", "Comprimeix els logs en un .ZIP")
+        table.add_row("2.", "Descomprimir (UNZIP)", "Descomprimeix els logs d'un .ZIP")
+        table.add_row("3.", "Esborrar logs", "Esborra tots els logs de SpineGuard")
+        table.add_row("4.", "Sortir", "Tornar al menú principal")
+        console.print(table)
+
+        try:
+            choice = check_input_user("Introdueix una opció: ", {"1", "2", "3","4","5","6","7"})
+        except Exception as e:
+            log(f"Error en check_input_user() dins choose_mode(): {e}", 600)
+            choice = None
+
+        if choice == "1":
+            log("Usuari ha seleccionat COMPRIMIR", 250)
+            compress_logs()
+            return None
+        elif choice == "2":
+            log("Usuari ha seleccionat DESCOMPRIMIR", 250)
+            decompress_logs()
+            return None
+        elif choice == "3":
+            log("Usuari ha seleccionat ESBORRAR LOGS", 250)
+            eliminate_logs()
+            return None
+        else:
+            log("Usuari ha seleccionat tornar al menú principal", 250)
+            return None
+        
 '''
 def choose_mode():
 Aquesta funció demana a l'usuari que triï entre dos modes: BAR (només comprovar) o DEL (comprovar + esborrar).
 '''
 def choose_mode():
-    attempts = 0
+    attempts = 0 # comptador d'intents
     while True:
-        print("Què vols fer?")
-        print("1. Identificar estat (BAR)  -> només comprovar")
-        print("2. Identificar i esborrar (DEL) -> comprovar + netejar")
+        print("\n")
+        panel = Panel(
+            Align.center("[bold green underline] CLEANING (Neteja) [/bold green underline]", vertical="middle"),
+            border_style="green",
+            style="on grey15",
+            padding=(1, 6),
+        )
+        console.print(panel)
+        print("\n")
+        console.print("Què vols fer?", style="bold white underline")
+        table = Table(show_lines=True,border_style="green")
+        table.add_column("ID", justify="center", header_style="bold white", style="bold cyan", no_wrap=True)
+        table.add_column("Títol", justify="center", header_style="bold white", style="bold white")
+        table.add_column("Descripció", justify="center",header_style="bold white", style="bold white")
+
+        table.add_row("1.", "Identificar estat (BAR)", "Només comprovar")
+        table.add_row("2.", "Identificar hardening (DEL)", "comprovar + netejar")
+        table.add_row("3.", "Sortir", "Tornar al menú principal")
+        console.print(table)
 
         try:
-            choice = check_input_user("Introdueix una opció : ", {"1", "2"})
+            choice = check_input_user("Introdueix una opció: ", {"1", "2", "3","4","5","6","7"})
         except Exception as e:
             log(f"Error en check_input_user() dins choose_mode(): {e}", 600)
             choice = None
 
-        if choice is None:
-            attempts += 1
-            if attempts >= 3:
-                log("Massa intents fallits a choose_mode(). Tornant al menú principal.", 400)
-                return None
-            print("Entrada no vàlida. Reintenta-ho.")
-            continue
-
         if choice == "1":
             log("Usuari ha seleccionat mode BAR", 250)
             return MODE_BAR
-
-        log("Usuari ha seleccionat mode DEL", 250)
-        return MODE_DEL
+        elif choice == "2":
+            log("Usuari ha seleccionat mode DEL", 250)
+            return MODE_DEL
+        else:
+            log("Usuari ha seleccionat tornar al menú principal", 250)
+            return None
 
 
 '''
@@ -280,30 +387,40 @@ Aquesta funció demana a l'usuari que triï entre dos modes de hardening: BAR (n
 def choose_hardening_mode():
     attempts = 0
     while True:
-        print("Què vols fer?")
-        print("1. Identificar estat (BAR)  -> només comprovar")
-        print("2. Implementar hardening (HARD) -> comprovar + hardening")
+        print("\n")
+        panel = Panel(
+            Align.center("[bold yellow underline] HARDENING (Bastionatge) [/bold yellow underline]", vertical="middle"),
+            border_style="yellow",
+            style="on grey15",
+            padding=(1, 6),
+        )
+        console.print(panel)
+        print("\n")
+        console.print("Què vols fer?", style="bold white underline")
+        table = Table(show_lines=True,border_style="yellow")
+        table.add_column("ID", justify="center", header_style="bold white", style="bold cyan", no_wrap=True)
+        table.add_column("Títol", justify="center", header_style="bold white", style="bold yellow")
+        table.add_column("Descripció", justify="center",header_style="bold white", style="bold yellow")
 
+        table.add_row("1.", "Identificar estat (BAR)", "Només comprovar")
+        table.add_row("2.", "Identificar hardening (HARD)", "comprovar + hardening")
+        table.add_row("3.", "Sortir", "Tornar al menú principal")
+        console.print(table)
         try:
-            choice = check_input_user("Introdueix una opció : ", {"1", "2"})
+            choice = check_input_user("Introdueix una opció: ", {"1", "2", "3"})
         except Exception as e:
             log(f"Error en check_input_user() dins choose_hardening_mode(): {e}", 600)
             choice = None
 
-        if choice is None:
-            attempts += 1
-            if attempts >= 3:
-                log("Massa intents fallits a choose_hardening_mode(). Tornant al menú principal.", 400)
-                return None
-            print("Entrada no vàlida. Reintenta-ho.")
-            continue
-
         if choice == "1":
             log("Usuari ha seleccionat mode BAR", 250)
             return MODE_BAR
-
-        log("Usuari ha seleccionat mode HARD", 250)
-        return MODE_DEL
+        elif choice == "2":
+            log("Usuari ha seleccionat mode DEL", 250)
+            return MODE_DEL
+        else:
+            log("Usuari ha seleccionat tornar al menú principal", 250)
+            return None
 
 
 '''
@@ -311,16 +428,18 @@ def print_banner():
 Aquesta funció imprimeix un banner inicial de SniperGuard a la consola.
 '''
 def print_banner():
+    print("\n")
+    console.rule("")
     log("Executant la funció 'print_banner()' per mostrar el banner inicial.", 100)
     print("\n")
-    print("███████╗███╗   ██╗██╗██████╗ ███████╗██████╗  ██████╗ ██╗   ██╗ █████╗ ██████╗ ██████╗")
-    print("██╔════╝████╗  ██║██║██╔══██╗██╔════╝██╔══██╗██╔════╝ ██║   ██║██╔══██╗██╔══██╗██╔══██╗")
-    print("███████╗██╔██╗ ██║██║██████╔╝█████╗  ██████╔╝██║  ███╗██║   ██║███████║██████╔╝██║  ██║")
-    print("╚════██║██║╚██╗██║██║██╔═══╝ ██╔══╝  ██╔══██╗██║   ██║██║   ██║██╔══██║██╔══██╗██║  ██║")
-    print("███████║██║ ╚████║██║██║     ███████╗██║  ██║╚██████╔╝╚██████╔╝██║  ██║██║  ██║██████╔╝")
-    print("╚══════╝╚═╝  ╚═══╝╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝")
+    console.print("                  ███████╗███╗   ██╗██╗██████╗ ███████╗██████╗  ██████╗ ██╗   ██╗ █████╗ ██████╗ ██████╗", justify="center", style="bold deep_sky_blue4")
+    console.print("                  ██╔════╝████╗  ██║██║██╔══██╗██╔════╝██╔══██╗██╔════╝ ██║   ██║██╔══██╗██╔══██╗██╔══██╗", justify="center", style="bold spring_green4")
+    console.print("                  ███████╗██╔██╗ ██║██║██████╔╝█████╗  ██████╔╝██║  ███╗██║   ██║███████║██████╔╝██║  ██║", justify="center", style="bold spring_green4")
+    console.print("                  ╚════██║██║╚██╗██║██║██╔═══╝ ██╔══╝  ██╔══██╗██║   ██║██║   ██║██╔══██║██╔══██╗██║  ██║", justify="center", style="bold spring_green4")
+    console.print("                  ███████║██║ ╚████║██║██║     ███████╗██║  ██║╚██████╔╝╚██████╔╝██║  ██║██║  ██║██████╔╝", justify="center", style="bold deep_sky_blue4")
+    console.print("                  ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝", justify="center", style="bold spring_green4")
     print("\n")
-
+    console.rule("[bold underline red] Fet per Grup 1 [/bold underline red]")
 
 '''
 def main():
@@ -337,10 +456,16 @@ def main():
         log(f"LOG_FILE({datetime.now().strftime('%Y-%m-%d')}) = {LOG_FILE}", 100)
 
         print_banner()
-        print("-------------------------------")
-        print("             Menú              ")
-        print("-------------------------------")
+        print("\n")
+        panel = Panel(
+            Align.center("[bold green] Benvingut a SniperGuard, eina de Hardening i Cleaning  [/bold green]", vertical="middle"),
+            style="on grey11",
+            border_style="cyan",
+            padding=(1, 6),
+        )
 
+        console.print(panel)
+      
         try:
             check_admin_privileges()
         except Exception as e:
@@ -350,25 +475,30 @@ def main():
 
         attempts = 0
         while True:
-            print("Escolleix una opció:")
-            print("1. Hardening")
-            print("2. Cleaning")
-            print("3. Sortir")
+            print("\n")
+            table = Table(
+                show_lines=True,           
+                header_style="bold white",
+                padding=(0, 1),
+            )
+            console.print("Escolleix una opció:", style="underline bold")
+            table.add_column("ID", justify="center", header_style="bold white", no_wrap=True)
+            table.add_column("Títol", justify="center", header_style="bold white")
+            table.add_column("Descripció", justify="center",header_style="bold white")
+
+            table.add_row("1.", "Hardening (Bastionatge)","Permet actualitzar el seu PC", style="bold yellow")
+            table.add_row("2.", "Neteja i manteniment","Permet netejar arxius residuals del seu PC.",style="bold green")
+            table.add_row("3.", "Gestió de logs","Permet comprimir, descomprimir i esborrar logs de SniperGuard",style="bold sky_blue1")
+            table.add_row("4.", "Sortir","Atura l'execució de SniperGuard", style="bold red")
+
+            console.print(table)
             print("\n")
 
             try:
-                decisio = check_input_user("Introdueix una opció : ", {"1", "2", "3"})
+                decisio = check_input_user("Introdueix una opció : ", {"1", "2", "3", "4"})
             except Exception as e:
                 log(f"Error en check_input_user(): {e}", 600)
                 decisio = None
-
-            if decisio is None:
-                attempts += 1
-                if attempts >= 3:
-                    log("Massa intents fallits al menú principal. Sortint.", 400)
-                    return
-                print("Entrada no vàlida. Torna-ho a provar.")
-                continue
 
             if decisio == "1":
                 log("Hardening seleccionat", 250)
@@ -382,7 +512,7 @@ def main():
                     print("Error executant Hardening. Revisa els logs.")
                 break
 
-            if decisio == "2":
+            elif decisio == "2":
                 log("Cleaning seleccionat", 250)
                 print("\n")
                 try:
@@ -394,9 +524,20 @@ def main():
                     log(f"Error executant Cleaning: {e}", 600)
                     print("Error executant Cleaning. Revisa els logs.")
                 break
-
-            log("Usuari ha sortit del programa (Exit).", 200)
-            return
+            elif decisio == "3":
+                log("Gestió de logs seleccionada", 250)
+                print("\n")
+                try:
+                    mode = choose_logs()
+                    if mode is None:
+                        break
+                except Exception as e:
+                    log(f"Error executant Gestió de logs: {e}", 600)
+                    print("Error executant Gestió de logs. Revisa els logs.")
+                break
+            else:
+                log("Usuari ha sortit del programa (Exit).", 200)
+                return
 
 
 if __name__ == "__main__":

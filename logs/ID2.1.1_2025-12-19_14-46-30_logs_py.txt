@@ -1,9 +1,0 @@
-[19-12-2025 14:46:30] [main] ✅📝 S'ha creat un nou fitxer de log anomenat: \\VBoxSvr\DEF2_SniperGuard\logs\ID2.1.1_2025-12-19_14-46-30_logs_py.txt .
-[19-12-2025 14:46:30] [main] [ℹ️ INFO] ==== Starting SniperGuard  ====
-[19-12-2025 14:46:30] [main] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
-[19-12-2025 14:46:30] [main] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
-[19-12-2025 14:46:30] [main] [🔍 DEBUG] CONFIG_PATH = \\VBoxSvr\DEF2_SniperGuard\config\config.ini
-[19-12-2025 14:46:30] [main] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
-[19-12-2025 14:46:30] [main] [🔍 DEBUG] LOG_FILE(2025-12-19) = \\VBoxSvr\DEF2_SniperGuard\logs\2025-12-19_logs_py.txt
-[19-12-2025 14:46:30] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
-[19-12-2025 14:46:30] [recursos] [✅ NOTICE] El programa s'està executant amb privilegis elevats.

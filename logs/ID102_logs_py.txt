@@ -1,5 +1,0 @@
-[21-12-2025 18:28:37] [main] ✅📝 S'ha creat un nou fitxer de log anomenat: C:\Users\hola\Desktop\projecte\projecte\logs\ID102_logs_py.txt .
-[21-12-2025 18:28:37] [main] [ℹ️ INFO] Executant run_cleaning_from_gui() des de GUI
-[21-12-2025 18:28:37] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
-[21-12-2025 18:28:37] [main] [ℹ️ INFO] Executant acció (GUI): Netejar arxius temporals
-[21-12-2025 18:28:37] [main] [❌ ERROR] No existeix el fitxer: C:\Users\hola\Desktop\projecte\pyapp\DEL_test1_TEMP.py

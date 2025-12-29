@@ -57,8 +57,8 @@ def stop_wuauserv():
     if res.stderr and res.stderr.strip():
         print("[WARN] sc stop stderr:", res.stderr.strip())
 
-    # temps perquè Windows alliberi locks
-    log("Esperant 3 segons per alliberar locks de Windows Update...", 100)
+    # temps perquè Windows alliberi logs
+    log("Esperant 3 segons per alliberar logs de Windows Update...", 100)
     time.sleep(3)
 
 
