@@ -10,13 +10,13 @@ from rich.markdown import Markdown
 from rich.table import Table
 from rich.panel import Panel
 from rich import box
+
+# llibreries internes
+from modules.LogRegister import log
+from recursos import check_input_user, check_admin_privileges, eliminate_logs, compress_logs
 console = Console()
 
 table = Table(show_lines=True,border_style="yellow")
-# llibreries internes
-from modules.LogRegister import log
-from recursos import check_input_user, check_admin_privileges, eliminate_logs
-
 
 # Definició de rutes globals
 BASE_DIR = Path(__file__).resolve().parent
@@ -321,7 +321,8 @@ def choose_logs():
 
         if choice == "1":
             log("Usuari ha seleccionat COMPRIMIR", 250)
-            return MODE_BAR
+            compress_logs()
+            return None
         elif choice == "2":
             log("Usuari ha seleccionat DESCOMPRIMIR", 250)
             

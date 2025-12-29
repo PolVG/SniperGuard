@@ -100,3 +100,45 @@ def eliminate_logs():
     except Exception as e:
         log(f"Error en eliminate_logs(): {e}", 500)
         return False
+
+
+'''
+def compress_logs():
+Aquesta funció comprimeix tots els fitxers de log en un arxiu ZIP amb el nom 'logsfiles.zip'.
+Retorna: True si la compressió ha estat exitosa, False en cas contrari.
+'''
+def compress_logs():
+    import zipfile
+    
+    PROJECT_ROOT = Path(__file__).resolve().parent
+    LOGS_DIR = PROJECT_ROOT / "logs"
+    ZIP_FILE = LOGS_DIR / "logsfiles.zip"
+    
+    try:
+        if not LOGS_DIR.exists():
+            log(f"La carpeta de logs no existeix: {LOGS_DIR}", 300)
+            return False
+        
+        # Crear el fitxer ZIP
+        with zipfile.ZipFile(ZIP_FILE, 'w', zipfile.ZIP_DEFLATED) as zipf:
+            log_files = list(LOGS_DIR.glob("*.txt"))
+            
+            if not log_files:
+                log("No hi ha fitxers de log per comprimir.", 300)
+                return False
+            
+            for log_file in log_files:
+                if log_file.name == "last_log_id.txt":
+                    continue
+                # Afegir fitxer al ZIP (només el nom del fitxer, no la ruta completa)
+                zipf.write(log_file, arcname=log_file.name)
+                log(f"Fitxer afegit al ZIP: {log_file.name}", 100)
+        
+        log(f"Arxiu ZIP creat correctament: {ZIP_FILE}", 250)
+        print(f"\n✅ Fitxers comprimits a: {ZIP_FILE}\n")
+        return True
+    
+    except Exception as e:
+        log(f"Error en compress_logs(): {e}", 500)
+        print(f"\n❌ Error comprimint fitxers: {e}\n")
+        return False
