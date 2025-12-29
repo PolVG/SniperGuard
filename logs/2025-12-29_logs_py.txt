@@ -1,0 +1,11 @@
+[29-12-2025 17:19:29] [recursos] ✅📝 S'ha creat un nou fitxer de log anomenat: C:\Users\vboxuser\Desktop\SniperGuard\logs\2025-12-29_logs_py.txt .
+[29-12-2025 17:19:29] [recursos] [🔍 DEBUG] Fitxer de log eliminat: 2025-12-29_logs_py.txt
+[29-12-2025 17:19:29] [recursos] [✅ NOTICE] Total de fitxers de log eliminats: 1
+[29-12-2025 17:19:29] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[29-12-2025 17:19:29] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\vboxuser\Desktop
+[29-12-2025 17:19:29] [main] [🔍 DEBUG] BASE_DIR = C:\Users\vboxuser\Desktop\SniperGuard
+[29-12-2025 17:19:29] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\vboxuser\Desktop\config\config.ini
+[29-12-2025 17:19:29] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\vboxuser\Desktop\logs
+[29-12-2025 17:19:29] [main] [🔍 DEBUG] LOG_FILE(2025-12-29) = C:\Users\vboxuser\Desktop\logs\2025-12-29_logs_py.txt
+[29-12-2025 17:19:29] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[29-12-2025 17:19:29] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides

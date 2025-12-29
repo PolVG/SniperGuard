@@ -15,7 +15,7 @@ console = Console()
 table = Table(show_lines=True,border_style="yellow")
 # llibreries internes
 from modules.LogRegister import log
-from recursos import check_input_user, check_admin_privileges
+from recursos import check_input_user, check_admin_privileges, eliminate_logs
 
 
 # Definició de rutes globals
@@ -324,9 +324,11 @@ def choose_logs():
             return MODE_BAR
         elif choice == "2":
             log("Usuari ha seleccionat DESCOMPRIMIR", 250)
+            
             return MODE_DEL
         elif choice == "3":
             log("Usuari ha seleccionat ESBORRAR LOGS", 250)
+            eliminate_logs()
             return None
         else:
             log("Usuari ha seleccionat tornar al menú principal", 250)
@@ -435,7 +437,7 @@ def print_banner():
     console.print("                  ███████║██║ ╚████║██║██║     ███████╗██║  ██║╚██████╔╝╚██████╔╝██║  ██║██║  ██║██████╔╝", justify="center", style="bold deep_sky_blue4")
     console.print("                  ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝", justify="center", style="bold spring_green4")
     print("\n")
-    console.rule("[bold underline red] Healing is our duty ")
+    console.rule("[bold underline red] Fet per Grup 1 [/bold underline red]")
 
 '''
 def main():
@@ -452,13 +454,9 @@ def main():
         log(f"LOG_FILE({datetime.now().strftime('%Y-%m-%d')}) = {LOG_FILE}", 100)
 
         print_banner()
-        # md = Markdown("""
-        #                     Welcome to your new unique cleaning, manteinance and hardening tool.
-       
-        # """)
         print("\n")
         panel = Panel(
-            Align.center("[bold green] Welcome to your new unique cleaning and hardening tool. [/bold green]", vertical="middle"),
+            Align.center("[bold green] Benvingut a SniperGuard  [/bold green]", vertical="middle"),
             style="on grey11",
             border_style="cyan",
             padding=(1, 6),
@@ -485,12 +483,12 @@ def main():
             table.add_column("ID", justify="center", header_style="bold white", no_wrap=True)
             table.add_column("Títol", justify="center", header_style="bold white")
             table.add_column("Descripció", justify="center",header_style="bold white")
-            #
+
             table.add_row("1.", "Hardening (Bastionatge)","Permet actualitzar el seu PC", style="bold yellow")
             table.add_row("2.", "Neteja i manteniment","Permet netejar arxius residuals del seu PC.",style="bold green")
             table.add_row("3.", "Gestió de logs","Permet comprimir, descomprimir i esborrar logs de SniperGuard",style="bold sky_blue1")
             table.add_row("4.", "Sortir","Atura l'execució de SniperGuard", style="bold red")
-            #
+
             console.print(table)
             print("\n")
 
