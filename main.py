@@ -14,8 +14,9 @@ from rich import box
 # llibreries internes
 from modules.LogRegister import log
 from recursos import check_input_user, check_admin_privileges, eliminate_logs, compress_logs, decompress_logs
-console = Console()
 
+# Configuració global
+console = Console()
 table = Table(show_lines=True,border_style="yellow")
 
 # Definició de rutes globals
@@ -199,14 +200,14 @@ def cleaning_menu(mode):
 
     table.add_column("ID", justify="center", style="bold green", no_wrap=True, width=4)
     table.add_column("Opció", justify="center", style="bold green")
-    #
-    for key, (label, _) in options.items():
+    
+    for key, (label, _) in options.items(): # _ per ignorar el segon valor 
         table.add_row(key, label)
     console.print(table)
     print("\n")
-    #
+    
 
-    choice = check_input_user("Introdueix una opció: ", set(options.keys()))
+    choice = check_input_user("Introdueix una opció: ", set(options.keys())) # set() per convertir les claus en conjunt set
     if choice is None:
         log("Sortint de la funció cleaning_menu()", 100)
         return
@@ -340,7 +341,7 @@ def choose_mode():
 Aquesta funció demana a l'usuari que triï entre dos modes: BAR (només comprovar) o DEL (comprovar + esborrar).
 '''
 def choose_mode():
-    attempts = 0
+    attempts = 0 # comptador d'intents
     while True:
         print("\n")
         panel = Panel(
@@ -457,14 +458,14 @@ def main():
         print_banner()
         print("\n")
         panel = Panel(
-            Align.center("[bold green] Benvingut a SniperGuard  [/bold green]", vertical="middle"),
+            Align.center("[bold green] Benvingut a SniperGuard, eina de Hardening i Cleaning  [/bold green]", vertical="middle"),
             style="on grey11",
             border_style="cyan",
             padding=(1, 6),
         )
 
         console.print(panel)
-        # console.print(md)
+      
         try:
             check_admin_privileges()
         except Exception as e:

@@ -11,7 +11,10 @@ import zipfile
 
 
 '''
-def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 400):
+def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 400): 
+
+
+
 Aquesta funció demana a l'usuari una entrada i valida que sigui vàlida segons les opcions proporcionades.
 Rep com a paràmetres:
 - prompt: El missatge que es mostrarà a l'usuari per demanar l'entrada.
@@ -43,7 +46,7 @@ def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 
     return choice
 
 """
-    def check_admin_privileges():
+    def check_admin_privileges(): [AQUESTA FUNCIÓ  ESTA FET AMB IA]
 Aquesta funció comprova si l'usuari té privilegis elevats (administrador) en un sistema Windows.
 Retorna:    True si l'usuari té privilegis elevats, False en cas contrari.
 """
