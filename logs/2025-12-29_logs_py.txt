@@ -1,0 +1,55 @@
+[29-12-2025 17:19:29] [recursos] ✅📝 S'ha creat un nou fitxer de log anomenat: C:\Users\vboxuser\Desktop\SniperGuard\logs\2025-12-29_logs_py.txt .
+[29-12-2025 17:19:29] [recursos] [🔍 DEBUG] Fitxer de log eliminat: 2025-12-29_logs_py.txt
+[29-12-2025 17:19:29] [recursos] [✅ NOTICE] Total de fitxers de log eliminats: 1
+[29-12-2025 17:19:29] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[29-12-2025 17:19:29] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\vboxuser\Desktop
+[29-12-2025 17:19:29] [main] [🔍 DEBUG] BASE_DIR = C:\Users\vboxuser\Desktop\SniperGuard
+[29-12-2025 17:19:29] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\vboxuser\Desktop\config\config.ini
+[29-12-2025 17:19:29] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\vboxuser\Desktop\logs
+[29-12-2025 17:19:29] [main] [🔍 DEBUG] LOG_FILE(2025-12-29) = C:\Users\vboxuser\Desktop\logs\2025-12-29_logs_py.txt
+[29-12-2025 17:19:29] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[29-12-2025 17:19:29] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
+[29-12-2025 18:27:45] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[29-12-2025 18:27:45] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\vboxuser\Desktop
+[29-12-2025 18:27:45] [main] [🔍 DEBUG] BASE_DIR = C:\Users\vboxuser\Desktop\SniperGuard
+[29-12-2025 18:27:45] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\vboxuser\Desktop\config\config.ini
+[29-12-2025 18:27:45] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\vboxuser\Desktop\logs
+[29-12-2025 18:27:45] [main] [🔍 DEBUG] LOG_FILE(2025-12-29) = C:\Users\vboxuser\Desktop\logs\2025-12-29_logs_py.txt
+[29-12-2025 18:27:45] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[29-12-2025 18:27:46] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
+[29-12-2025 18:27:50] [main] [✅ NOTICE] Gestió de logs seleccionada
+[29-12-2025 18:27:54] [main] [✅ NOTICE] Usuari ha seleccionat COMPRIMIR
+[29-12-2025 18:28:10] [recursos] [✅ NOTICE] Arxiu ZIP descomprimit correctament: C:\Users\vboxuser\Desktop\SniperGuard\logs\logsfiles.zip
+[29-12-2025 18:28:10] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[29-12-2025 18:28:10] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\vboxuser\Desktop
+[29-12-2025 18:28:10] [main] [🔍 DEBUG] BASE_DIR = C:\Users\vboxuser\Desktop\SniperGuard
+[29-12-2025 18:28:10] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\vboxuser\Desktop\config\config.ini
+[29-12-2025 18:28:10] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\vboxuser\Desktop\logs
+[29-12-2025 18:28:10] [main] [🔍 DEBUG] LOG_FILE(2025-12-29) = C:\Users\vboxuser\Desktop\logs\2025-12-29_logs_py.txt
+[29-12-2025 18:28:10] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[29-12-2025 18:28:10] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
+[29-12-2025 18:34:28] [main] [ℹ️ INFO] Usuari ha sortit del programa (Exit).
+[29-12-2025 18:34:28] [main] [ℹ️ INFO] ==== Fi SniperGuard (pyapp/main) ====
+[29-12-2025 18:34:31] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[29-12-2025 18:34:31] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\vboxuser\Desktop
+[29-12-2025 18:34:31] [main] [🔍 DEBUG] BASE_DIR = C:\Users\vboxuser\Desktop\SniperGuard
+[29-12-2025 18:34:31] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\vboxuser\Desktop\config\config.ini
+[29-12-2025 18:34:31] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\vboxuser\Desktop\logs
+[29-12-2025 18:34:31] [main] [🔍 DEBUG] LOG_FILE(2025-12-29) = C:\Users\vboxuser\Desktop\logs\2025-12-29_logs_py.txt
+[29-12-2025 18:34:31] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[29-12-2025 18:34:31] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
+[29-12-2025 18:34:32] [main] [✅ NOTICE] Hardening seleccionat
+[29-12-2025 18:34:34] [main] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[29-12-2025 18:34:34] [main] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de hardening.
+[29-12-2025 18:34:34] [main] [ℹ️ INFO] Mode BAR actiu: mostrant opcions de comprovació
+[29-12-2025 18:34:36] [main] [ℹ️ INFO] L'usuari ha triat opció hardening_menu: '1' (mode=1)
+[29-12-2025 18:34:36] [main] [ℹ️ INFO] Executant acció: Comprovar si Windows Defender està actiu
+[29-12-2025 18:34:36] [main] [❌ ERROR] No existeix el fitxer: C:\Users\vboxuser\Desktop\pyapp\HARD_WinDefender.py
+[29-12-2025 18:34:36] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[29-12-2025 18:34:36] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\vboxuser\Desktop
+[29-12-2025 18:34:36] [main] [🔍 DEBUG] BASE_DIR = C:\Users\vboxuser\Desktop\SniperGuard
+[29-12-2025 18:34:36] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\vboxuser\Desktop\config\config.ini
+[29-12-2025 18:34:36] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\vboxuser\Desktop\logs
+[29-12-2025 18:34:36] [main] [🔍 DEBUG] LOG_FILE(2025-12-29) = C:\Users\vboxuser\Desktop\logs\2025-12-29_logs_py.txt
+[29-12-2025 18:34:36] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[29-12-2025 18:34:36] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
