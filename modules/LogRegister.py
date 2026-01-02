@@ -13,20 +13,34 @@ LOGS_DIR = PROJECT_ROOT / "logs"
 
 CURRENT_LOG_FILE = None
 LOG_LEVEL = 100  # Nivell mínim de logs a registrar
+'''
+get_current_log_file():
+Retorna la ruta del fitxer de log actual.
+'''
+def get_current_log_file():    
+    return CURRENT_LOG_FILE
 
-
-def get_timestamp():
-    """Retorna timestamp en format DD-MM-YYYY HH: MM:SS (per dins dels logs)"""
+'''
+def get_time():
+Retorna temps en format DD-MM-YYYY HH: MM:SS (per dins dels logs
+'''
+def get_time():
     return datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+'''
+def get_filename_time():
+Retorna temps vàlid per a noms de fitxer (sense :  ni espais) ja que aquests caràcters poden causar problemes en alguns sistemes operatius com es Windows.
+'''
+
+def get_filename_time():
+    return datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
 
 
-def get_filename_timestamp():
-    """Retorna timestamp vàlid per a noms de fitxer (sense :  ni espais)"""
-    return datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-
-
+'''
 def obtain_text_level(nivell: int):
-    """Retorna l'etiqueta del nivell de log"""
+Retorna l'etiqueta del nivell de log
+'''
+def obtain_text_level(nivell: int):
+    
     nivells = {
         100: '[🔍 DEBUG]',
         200: '[ℹ️ INFO]',
@@ -39,27 +53,41 @@ def obtain_text_level(nivell: int):
     }
     return nivells. get(nivell, '[UNKNOWN]')
 
+'''
+def init_log_file():
+Inicialitza el fitxer de log creant-lo i escrivint la capçalera inicial.
+Retorna: La ruta del fitxer de log creat.
+'''
 
 def init_log_file():
-    """Crea un fitxer de log únic per a cada execució"""
+
     global CURRENT_LOG_FILE
     
-    os.makedirs(LOGS_DIR, exist_ok=True)
+    os.makedirs(LOGS_DIR, exist_ok=True)# Crear la carpeta de logs si no existeix, es gestiona amb exist_ok=True per evitar errors si ja existeix
     
-    # ✅ Utilitzar timestamp vàlid per a noms de fitxer
-    filename = f"{get_filename_timestamp()}_logs_py.txt"
+
+    filename = f"{get_filename_time()}_logs_py.txt" # Nom del fitxer amb el temps de creacio
     CURRENT_LOG_FILE = LOGS_DIR / filename
     
     with open(CURRENT_LOG_FILE, "w", encoding="utf-8") as f:
-        f.write(f"[{get_timestamp()}] ✅📝 Nou fitxer de log creat: {filename}\n")
-        f.write(f"[{get_timestamp()}] 🚀 Inici d'execució de SniperGuard\n")
+        f.write(f"[{get_time()}] ✅📝 Nou fitxer de log creat: {filename}\n")
+        f.write(f"[{get_time()}] 🚀 Inici d'execució de SniperGuard\n")
         f.write("="*80 + "\n\n")
     
     return CURRENT_LOG_FILE
 
 
+
+'''
 def log(msg: str, nivell:  int = 200):
-    """Registra un missatge de log amb un nivell específicat"""
+Registra un missatge al fitxer de log amb el nivell especificat.
+Parametres:
+msg: Missatge a registrar.   
+nivell: Nivell de severitat del missatge (per defecte és 200 - INFO).
+'''
+
+def log(msg: str, nivell:  int = 200):
+ 
     
     if nivell < LOG_LEVEL:
         return
@@ -68,7 +96,7 @@ def log(msg: str, nivell:  int = 200):
         init_log_file()
     
     text_nivell = obtain_text_level(nivell)
-    full_msg = f"[{get_timestamp()}] {text_nivell} {msg}"
+    full_msg = f"[{get_time()}] {text_nivell} {msg}"
     
     with open(CURRENT_LOG_FILE, "a", encoding="utf-8") as f:
         f.write(full_msg + "\n")

@@ -91,8 +91,6 @@ def eliminate_logs():
         deleted_count = 0
         for log_file in LOGS_DIR.glob("*.txt"): # .glob() retorna tots els fitxers amb l'extensió .txt
             try:
-                if log_file.name == "last_log_id.txt":
-                    continue # No elimina el fitxer last_log.txt
                 log_file.unlink() # .unlink() elimina el fitxer
                 deleted_count += 1
                 log(f"Fitxer de log eliminat: {log_file.name}", 100)# .name retorna només el nom del fitxer
@@ -133,8 +131,6 @@ def compress_logs():
                 return False
             
             for log_file in log_files:
-                if log_file.name == "last_log_id.txt":
-                    continue
                 # Afegir fitxer al ZIP (només el nom del fitxer, no la ruta completa)
                 zipf.write(log_file, arcname=log_file.name) # arcname evita incloure la ruta completa dins del ZIP
                 log(f"Fitxer afegit al ZIP: {log_file.name}", 100)
