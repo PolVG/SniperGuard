@@ -1,0 +1,16 @@
+[02-01-2026 18:19:10] [SYSTEM] ✅📝 Nou fitxer de log creat:  2026-01-02_18-19-10_logs_py.txt
+[02-01-2026 18:19:10] [SYSTEM] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[02-01-2026 18:19:10] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[02-01-2026 18:19:10] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\vboxuser\Desktop
+[02-01-2026 18:19:10] [main] [🔍 DEBUG] BASE_DIR = C:\Users\vboxuser\Desktop\SniperGuard
+[02-01-2026 18:19:10] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\vboxuser\Desktop\config\config.ini
+[02-01-2026 18:19:10] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\vboxuser\Desktop\logs
+[02-01-2026 18:19:10] [main] [🔍 DEBUG] LOG_FILE(2026-01-02) = C:\Users\vboxuser\Desktop\logs\2026-01-02_logs_py.txt
+[02-01-2026 18:19:10] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[02-01-2026 18:19:10] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
+[02-01-2026 18:19:12] [main] [✅ NOTICE] Cleaning seleccionat
+[02-01-2026 18:19:13] [main] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[02-01-2026 18:19:13] [main] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de neteja.
+[02-01-2026 18:19:13] [main] [ℹ️ INFO] Mode BAR actiu: mostrant opcions de comprovació

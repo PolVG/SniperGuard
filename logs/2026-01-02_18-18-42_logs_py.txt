@@ -1,0 +1,31 @@
+[02-01-2026 18:18:42] [SYSTEM] ✅📝 Nou fitxer de log creat:  2026-01-02_18-18-42_logs_py.txt
+[02-01-2026 18:18:42] [SYSTEM] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[02-01-2026 18:18:42] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[02-01-2026 18:18:42] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\vboxuser\Desktop
+[02-01-2026 18:18:42] [main] [🔍 DEBUG] BASE_DIR = C:\Users\vboxuser\Desktop\SniperGuard
+[02-01-2026 18:18:42] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\vboxuser\Desktop\config\config.ini
+[02-01-2026 18:18:42] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\vboxuser\Desktop\logs
+[02-01-2026 18:18:42] [main] [🔍 DEBUG] LOG_FILE(2026-01-02) = C:\Users\vboxuser\Desktop\logs\2026-01-02_logs_py.txt
+[02-01-2026 18:18:42] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[02-01-2026 18:18:42] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
+[02-01-2026 18:18:48] [main] [✅ NOTICE] Cleaning seleccionat
+[02-01-2026 18:18:49] [main] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[02-01-2026 18:18:49] [main] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de neteja.
+[02-01-2026 18:18:49] [main] [ℹ️ INFO] Mode BAR actiu: mostrant opcions de comprovació
+[02-01-2026 18:18:52] [main] [ℹ️ INFO] L'usuari ha triat opció cleaning_menu: '1' (mode=1)
+[02-01-2026 18:18:52] [main] [ℹ️ INFO] Executant acció: Estat arxius temporals
+[02-01-2026 18:18:52] [main] [❌ ERROR] No existeix el fitxer: C:\Users\vboxuser\Desktop\pyapp\BAR_test1_TEMP.py
+[02-01-2026 18:18:52] [main] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[02-01-2026 18:18:52] [main] [🔍 DEBUG] PROJECT_ROOT = C:\Users\vboxuser\Desktop
+[02-01-2026 18:18:52] [main] [🔍 DEBUG] BASE_DIR = C:\Users\vboxuser\Desktop\SniperGuard
+[02-01-2026 18:18:52] [main] [🔍 DEBUG] CONFIG_PATH = C:\Users\vboxuser\Desktop\config\config.ini
+[02-01-2026 18:18:52] [main] [🔍 DEBUG] LOGS_DIR = C:\Users\vboxuser\Desktop\logs
+[02-01-2026 18:18:52] [main] [🔍 DEBUG] LOG_FILE(2026-01-02) = C:\Users\vboxuser\Desktop\logs\2026-01-02_logs_py.txt
+[02-01-2026 18:18:52] [main] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[02-01-2026 18:18:52] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
+[02-01-2026 18:19:00] [main] [✅ NOTICE] Cleaning seleccionat
+[02-01-2026 18:19:01] [main] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[02-01-2026 18:19:01] [main] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de neteja.
+[02-01-2026 18:19:01] [main] [ℹ️ INFO] Mode BAR actiu: mostrant opcions de comprovació

@@ -1,7 +1,6 @@
 # llibreries externes
 import sys, os
 import subprocess
-import configparser
 from pathlib import Path
 from datetime import datetime
 from rich import *
@@ -12,8 +11,9 @@ from rich.panel import Panel
 from rich import box
 
 # llibreries internes
-from modules.LogRegister import log
+from modules.LogRegister import log, init_log_file
 from recursos import check_input_user, check_admin_privileges, eliminate_logs, compress_logs, decompress_logs
+
 
 # Configuració global
 console = Console()
@@ -24,7 +24,6 @@ BASE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = BASE_DIR.parent
 
 PYAPP_DIR = PROJECT_ROOT / "pyapp"
-CONFIG_PATH = PROJECT_ROOT / "config" / "config.ini"
 LOGS_DIR = PROJECT_ROOT / "logs"
 MODULES_DIR = PROJECT_ROOT / "modules"
 
@@ -33,24 +32,6 @@ LOG_FILE = LOGS_DIR / (datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
 
 MODE_BAR = 1  # identificar
 MODE_DEL = 2  # identificar + esborrar
-
-
-'''
-def get_config_ini():
-Aquesta funció llegeix i retorna la configuració des d'un fitxer INI.
-'''
-def get_config_ini():
-    log(f"Inici get_config_ini(). CONFIG_PATH={CONFIG_PATH}", 100)
-
-    config = configparser.ConfigParser()
-
-
-    if not config.read(CONFIG_PATH, encoding="utf-8"):
-        raise RuntimeError(f"No s'ha pogut llegir el fitxer INI: {CONFIG_PATH}")
-
-    log(f"L'arxiu {CONFIG_PATH} s'ha trobat correctament.", 100)
-    return config
-
 
 '''
 def run_script(script_name: str):
@@ -441,17 +422,22 @@ def print_banner():
     print("\n")
     console.rule("[bold underline red] Fet per Grup 1 [/bold underline red]")
 
+
+
+
 '''
 def main():
 Aquesta funció gestiona el flux principal del programa SniperGuard.
 Mostra un menú a l'usuari per triar entre les opcions de Hardening, Cleaning o sortir del programa.
 '''
 def main():
+
+    init_log_file()# Inicialitza el fitxer de log abans de qualsevol altra operació de registre
+
     while True:
         log("==== SNIPERGUARD iniciant  ====", 200)
         log(f"PROJECT_ROOT = {PROJECT_ROOT}", 100)
         log(f"BASE_DIR = {BASE_DIR}", 100)
-        log(f"CONFIG_PATH = {CONFIG_PATH}", 100)
         log(f"LOGS_DIR = {LOGS_DIR}", 100)
         log(f"LOG_FILE({datetime.now().strftime('%Y-%m-%d')}) = {LOG_FILE}", 100)
 
