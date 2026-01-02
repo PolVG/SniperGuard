@@ -9,6 +9,9 @@ from rich.markdown import Markdown
 from rich.table import Table
 from rich.panel import Panel
 from rich import box
+from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
+import time
+
 
 # llibreries internes
 from modules.LogRegister import log, init_log_file, get_current_log_file
@@ -21,7 +24,7 @@ table = Table(show_lines=True,border_style="yellow")
 
 # Definició de rutes globals
 BASE_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = BASE_DIR.parent
+PROJECT_ROOT = BASE_DIR
 
 PYAPP_DIR = PROJECT_ROOT / "pyapp"
 LOGS_DIR = PROJECT_ROOT / "logs"
@@ -68,55 +71,82 @@ def run_script(script_name: str):
 Aquesta funció s'utilitza per executar un script Python específic des de la ubicació PYAPP_DIR.
 Rep com a paràmetre el nom de l'script i gestiona la seva execució, capturant la sortida i els errors.
 '''
-def run_script(script_name: str):
+def run_script(script_name:  str):
+    """Executa un script amb progrés real basat en la sortida del script"""
+
+    
     script_path = PYAPP_DIR / script_name
 
     if not script_path.exists():
         log(f"No existeix el fitxer: {script_path}", 400)
+        console.print(f"[bold red]❌ No s'ha trobat:  {script_name}[/bold red]")
         return
 
-    if not sys.executable:
-        log("sys.executable no està disponible. No es pot executar subprocess.", 500)
+    if not sys.executable: #ruta de l'intèrpret de Python
+        log("sys.executable no està disponible.", 500)
         return
 
     log(f"Preparant execució de script: {script_path}", 200)
 
     try:
-        '''
-        La creació de la estructura try-catch está fet amb IA, el que fa és executar un script Python
-        des de un altre script Python, capturant la seva sortida (stdout i stderr)
-        '''
+        #!!! Les variables env, system_encoding i process s'han fet amb ajuda de la IA !!!!
         env = os.environ.copy()
         env["PYTHONPATH"] = str(PROJECT_ROOT)
+        
+        system_encoding = sys.stdout.encoding or 'utf-8' # Obtenir l'encoding del sistema, per defecte 'utf-8' si no està definit
 
-        result = subprocess.run(
+        process = subprocess.Popen(
             [sys.executable, str(script_path)],
-            check=False,
             env=env,
             cwd=str(PROJECT_ROOT),
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess. PIPE,
             text=True,
-            encoding="utf-8",
-            timeout=300, 
+            encoding=system_encoding,
+            errors='replace'  # Per evitar errors d'encoding
         )
+        
 
-        if result.returncode == 0:
-            log(f"Script {script_name} finalitzat OK (returncode=0)", 250)
+        # Mostra el progrés mentre s'executa l'script, si voleu millorar deixo aquest enllaç: https://rich.readthedocs.io/en/stable/reference/progress.html#
+
+        with Progress(
+            SpinnerColumn(), #Spinner animat, simplement estetic
+            TextColumn("[bold cyan]{task.description}"), #TextColumn per mostrar el text de la tasca
+            TimeElapsedColumn(), #Mostra el temps transcorregut
+            console=console, # Pàrametre obligatori per especificar la consola on es mostrarà el progrés
+            transient=True  # Desapareix quan acaba
+        ) as progress:
+            
+            task = progress.add_task(f"Executant {script_name}.. .", total=None)
+            
+            # Mentre el procés està actiu, actualitzar el spinner
+            while process.poll() is None:  # poll() retorna None mentre s'executa
+                time.sleep(0.1)  # Comprovar cada 0.1 segons
+        
+      
+        stdout, stderr = process.communicate(timeout=200) # Espera que el procés acabi, amb timeout de 200 segons
+        
+       
+        if process.returncode == 0:
+            log(f"Script {script_name} finalitzat OK", 250)
+            console.print(f"[bold green]✓ {script_name} completat amb èxit[/bold green]")
         else:
-            log(f"Script {script_name} ha acabat amb returncode={result.returncode}", 300)
+            log(f"Script {script_name} returncode={process.returncode}", 300)
+            #console.print(f"[bold yellow]⚠ {script_name} acabat amb errors (code {process.returncode})[/bold yellow]")
 
-        if result.stdout and result.stdout.strip():
-            log(f"STDOUT {script_name}: {result.stdout.strip()}", 100)
+        if stdout and stdout.strip():
+            log(f"STDOUT {script_name}: {stdout. strip()}", 100)
 
-        if result.stderr and result.stderr.strip():
-            log(f"STDERR {script_name}: {result.stderr.strip()}", 400)
+        if stderr and stderr.strip():
+            log(f"STDERR {script_name}:  {stderr.strip()}", 400)
 
     except subprocess.TimeoutExpired:
-        log(f"Timeout executant {script_name}. El procés ha trigat massa.", 500)
-        print("Error: el procés ha trigat massa i s'ha aturat.")
+        log(f"Timeout executant {script_name}", 500)
+        console.print("[bold red]❌ Timeout: procés massa lent[/bold red]")
+        process.kill()
     except Exception as e:
-        log(f"No s'ha pogut executar {script_name}: {(e)}", 500)
-
+        log(f"Error executant {script_name}: {e}", 500)
+        console.print(f"[bold red]❌ Error: {e}[/bold red]")
 
 '''
 def run_cleaning_from_gui(mode_choice: str, cleaning_choice: str):
