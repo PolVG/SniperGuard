@@ -1,7 +1,6 @@
 # llibreries externes
 import sys, os
 import subprocess
-import configparser
 from pathlib import Path
 from datetime import datetime
 from rich import *
@@ -12,8 +11,9 @@ from rich.panel import Panel
 from rich import box
 
 # llibreries internes
-from modules.LogRegister import log
+from modules.LogRegister import log, init_log_file, get_current_log_file
 from recursos import check_input_user, check_admin_privileges, eliminate_logs, compress_logs, decompress_logs
+
 
 # Configuració global
 console = Console()
@@ -24,7 +24,6 @@ BASE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = BASE_DIR.parent
 
 PYAPP_DIR = PROJECT_ROOT / "pyapp"
-CONFIG_PATH = PROJECT_ROOT / "config" / "config.ini"
 LOGS_DIR = PROJECT_ROOT / "logs"
 MODULES_DIR = PROJECT_ROOT / "modules"
 
@@ -34,24 +33,36 @@ LOG_FILE = LOGS_DIR / (datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
 MODE_BAR = 1  # identificar
 MODE_DEL = 2  # identificar + esborrar
 
+'''
+def show_log_link():
+Aquesta funció mostra a la consola un enllaç clicable al fitxer de log actual.
+Aquesta funció utilitza URI per permetre als usuaris obrir el fitxer directament des de la consola.
+Més inforamació sobre URI: https://en.wikipedia.org/wiki/Uniform_Resource_Identifier i per el ús de file:///  https://en.wikipedia.org/wiki/File_URI_scheme
 
 '''
-def get_config_ini():
-Aquesta funció llegeix i retorna la configuració des d'un fitxer INI.
-'''
-def get_config_ini():
-    log(f"Inici get_config_ini(). CONFIG_PATH={CONFIG_PATH}", 100)
+def show_log_link():
+    
+    log_file = get_current_log_file() # Obtenir la ruta del fitxer de log actual
+    
+    if log_file and log_file.exists():
+        log_path_str = str(log_file.resolve()) # str = convertir a string per poder manipular la ruta i .resolve() per obtenir la ruta absoluta
+        log_uri = f"file:///{log_path_str.replace(chr(92), '/')}"# Convertir a URI i substituir '\' per '/' , chr(92) és '\'
+        
+        print("\n")
+        panel = Panel(
+            f"[bold cyan]📁 Ruta del log:[/bold cyan]\n\n"
+            f"[link={log_uri}]{log_path_str}[/link]\n\n"
+            f"[white]Clica l'enllaç per obrir el fitxer[/white]", 
+            title="[bold green]✅ Execució finalitzada[/bold green]",
+            border_style="green",
+            padding=(1, 2)
+        )
+        console.print(panel)
+        print("\n")
+    else:
+        console.print("[yellow]⚠️ No s'ha pogut trobar el fitxer de log.[/yellow]")
 
-    config = configparser.ConfigParser()
-
-
-    if not config.read(CONFIG_PATH, encoding="utf-8"):
-        raise RuntimeError(f"No s'ha pogut llegir el fitxer INI: {CONFIG_PATH}")
-
-    log(f"L'arxiu {CONFIG_PATH} s'ha trobat correctament.", 100)
-    return config
-
-
+    
 '''
 def run_script(script_name: str):
 Aquesta funció s'utilitza per executar un script Python específic des de la ubicació PYAPP_DIR.
@@ -441,17 +452,22 @@ def print_banner():
     print("\n")
     console.rule("[bold underline red] Fet per Grup 1 [/bold underline red]")
 
+
+
+
 '''
 def main():
 Aquesta funció gestiona el flux principal del programa SniperGuard.
 Mostra un menú a l'usuari per triar entre les opcions de Hardening, Cleaning o sortir del programa.
 '''
 def main():
+
+    init_log_file()# Inicialitza el fitxer de log abans de qualsevol altra operació de registre
+
     while True:
         log("==== SNIPERGUARD iniciant  ====", 200)
         log(f"PROJECT_ROOT = {PROJECT_ROOT}", 100)
         log(f"BASE_DIR = {BASE_DIR}", 100)
-        log(f"CONFIG_PATH = {CONFIG_PATH}", 100)
         log(f"LOGS_DIR = {LOGS_DIR}", 100)
         log(f"LOG_FILE({datetime.now().strftime('%Y-%m-%d')}) = {LOG_FILE}", 100)
 
@@ -537,12 +553,19 @@ def main():
                 break
             else:
                 log("Usuari ha sortit del programa (Exit).", 200)
+                log("==== Fi SniperGuard ====", 200)
+                show_log_link() # Mostra l'enllaç al fitxer de log abans de sortir
                 return
-
 
 if __name__ == "__main__":
     try:
         main()
-        log("==== Fi SniperGuard (pyapp/main) ====", 200)
-    except Exception as e:
-        log(f"Error en la execució main: {(e)}", 600)
+    
+    except KeyboardInterrupt: # Ctrl+C
+        log("Programa interromput per l'usuari (Ctrl+C)", 300)
+        show_log_link() 
+        print("\n[bold yellow]Programa aturat.[/bold yellow]")
+    except Exception as e: # Altres excepcions no previstes
+        log(f"Error en la execució main: {e}", 600)
+        show_log_link()  
+        console.print(f"[bold red]Error crític: {e}[/bold red]")
