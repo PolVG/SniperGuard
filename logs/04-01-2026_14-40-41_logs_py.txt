@@ -1,0 +1,39 @@
+[04-01-2026 14:40:41] ✅📝 Nou fitxer de log creat: 04-01-2026_14-40-41_logs_py.txt
+[04-01-2026 14:40:41] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[04-01-2026 14:40:41] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[04-01-2026 14:40:41] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[04-01-2026 14:40:41] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[04-01-2026 14:40:41] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[04-01-2026 14:40:41] [🔍 DEBUG] LOG_FILE(2026-01-04) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-04_logs_py.txt
+[04-01-2026 14:40:41] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[04-01-2026 14:40:42] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[04-01-2026 14:40:49] [✅ NOTICE] Cleaning seleccionat
+[04-01-2026 14:40:51] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[04-01-2026 14:40:51] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de neteja.
+[04-01-2026 14:40:51] [ℹ️ INFO] Mode BAR actiu: mostrant opcions de comprovació
+[04-01-2026 14:40:52] [ℹ️ INFO] L'usuari ha triat opció cleaning_menu: '5' (mode=1)
+[04-01-2026 14:40:52] [✅ NOTICE] Usuari torna al menú anterior
+[04-01-2026 14:40:52] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[04-01-2026 14:40:52] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[04-01-2026 14:40:53] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[04-01-2026 14:40:53] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[04-01-2026 14:40:53] [🔍 DEBUG] LOG_FILE(2026-01-04) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-04_logs_py.txt
+[04-01-2026 14:40:53] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[04-01-2026 14:40:53] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[04-01-2026 14:40:54] [✅ NOTICE] Cleaning seleccionat
+[04-01-2026 14:40:56] [✅ NOTICE] Usuari ha seleccionat mode DEL
+[04-01-2026 14:40:56] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de neteja.
+[04-01-2026 14:40:56] [ℹ️ INFO] Mode DEL actiu: mostrant opcions de neteja
+[04-01-2026 14:40:58] [ℹ️ INFO] L'usuari ha triat opció cleaning_menu: '5' (mode=2)
+[04-01-2026 14:40:58] [ℹ️ INFO] Executant acció: Realitzar una neteja lenta amb 'cleanmgr.exe'
+[04-01-2026 14:40:59] [ℹ️ INFO] Preparant execució de script: \\VBoxSvr\DEF2_SniperGuard\pyapp\DEL_cleanmgr_slow.py
+[04-01-2026 14:42:23] [✅ NOTICE] Script DEL_cleanmgr_slow.py finalitzat OK
+[04-01-2026 14:42:23] [ℹ️ INFO] ==== SNIPERGUARD iniciant  ====
+[04-01-2026 14:42:23] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[04-01-2026 14:42:23] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[04-01-2026 14:42:23] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[04-01-2026 14:42:23] [🔍 DEBUG] LOG_FILE(2026-01-04) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-04_logs_py.txt
+[04-01-2026 14:42:23] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[04-01-2026 14:42:24] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.

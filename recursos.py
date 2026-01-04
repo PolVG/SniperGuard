@@ -45,29 +45,20 @@ def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 
 
     return choice
 
-"""
-    def check_admin_privileges(): [AQUESTA FUNCIÓ  ESTA FET AMB IA]
-Aquesta funció comprova si l'usuari té privilegis elevats (administrador) en un sistema Windows.
-Retorna:    True si l'usuari té privilegis elevats, False en cas contrari.
-"""
 def check_admin_privileges():
 
-    privilegis_elevats = False
+    """
+    [AQUESTA FUNCIÓ ESTA FET AMB IA]
+    Aquesta funció comprova si l'usuari té privilegis elevats (administrador) en un sistema Windows.
+    Retorna: Retorna False en el cas que l'usuari no sigui administrador.
+    """
+    # Detecta si l'usuari té privilegis elevats en un entorn windows
+    try:
+        privilegis_elevats = ctypes.windll.shell32.IsUserAnAdmin()
+    except Exception:
+        privilegis_elevats = False
 
-    # Detecta si l'usuari té privilegis elevats
-    # detectant si el procés de Python s'executa amb Windows\NT
-    if os.name == "nt":
-        try:
-            privilegis_elevats = ctypes.windll.shell32.IsUserAnAdmin() != 0
-        except Exception:
-            privilegis_elevats = False
-
-    # Missatge a l'usuari
-    if privilegis_elevats:
-        log("El programa s'està executant amb privilegis elevats.",250)
-    else:
-        log("Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides",300)
-
+    # Retorna l'estat actual dels permisos.
     return privilegis_elevats
 
 

@@ -156,12 +156,18 @@ Rep com a paràmetres les opcions seleccionades per l'usuari a la GUI i executa 
 def run_cleaning_from_gui(mode_choice: str, cleaning_choice: str):
     log("Executant run_cleaning_from_gui() des de GUI", 200)
 
-    try:
-        check_admin_privileges()
-    except Exception as e:
-        log(f"Error en check_admin_privileges() (GUI): {e}", 600)
-        return
+    if not check_admin_privileges():
+        print("ERROR! Aturant el programa.")
+        print("SniperGuard requereix ser executat com administrador per funcionar.")
+        print("Si ets administrador, clica amb el botó dret sobre la icona de SniperGuard")
+        print("i selecciona: 'Executa com a administrador'")
+        log("SniperGuard s'ha aturat al no arrencar-se com administrador.",250)
+        sys.exit()
 
+    # Si el programa s'ha arrencat correctament, 
+    # executem SniperGuard com a administrador.    
+    log("SniperGuard s'ha executat correctament amb privilegis administratius.",250)
+       
     if mode_choice not in {"1", "2"}:
         log(f"Mode invàlid rebut des de GUI: {mode_choice}", 400)
         return
@@ -223,6 +229,7 @@ def cleaning_menu(mode):
         log("Mode DEL actiu: mostrant opcions de neteja", 200)
         options = DEL_OPTIONS
 
+
     print("\n")
     panel = Panel(
         Align.center("[bold green] Opcions de Cleaning [/bold green]", vertical="middle"),
@@ -249,6 +256,12 @@ def cleaning_menu(mode):
     
 
     choice = check_input_user("Introdueix una opció: ", set(options.keys())) # set() per convertir les claus en conjunt set
+
+    # Només volem que es mostri aquest missatge si l'usuari
+    # realitza una neteja exhaustiva.
+    if mode != MODE_BAR and choice == "5":
+        console.print("[bold yellow]Per fer una neteja exhaustiva, seleciona primer de cleanmgr.exe quins elements vol eliminiar. Després, prem 'OK' [bold yellow]")
+        console.print("[yellow underline]Obrint 'cleanmgr.exe'. Si us plau esperi... [yellow underline]")
     if choice is None:
         log("Sortint de la funció cleaning_menu()", 100)
         return
@@ -480,7 +493,7 @@ def print_banner():
     console.print("                  ███████║██║ ╚████║██║██║     ███████╗██║  ██║╚██████╔╝╚██████╔╝██║  ██║██║  ██║██████╔╝", justify="center", style="bold deep_sky_blue4")
     console.print("                  ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝", justify="center", style="bold spring_green4")
     print("\n")
-    console.rule("[bold underline red] Fet per Grup 1 [/bold underline red]")
+    console.rule("[bold underline red] Fet pel Grup 1 [/bold underline red]")
 
 
 
@@ -512,12 +525,27 @@ def main():
 
         console.print(panel)
       
-        try:
-            check_admin_privileges()
-        except Exception as e:
-            log(f"Error en check_admin_privileges(): {e}", 600)
-            print("Error: no es van poder comprovar els privilegis d'administrador.")
-            break
+        if not check_admin_privileges():
+            print()
+            panel2 = Panel(
+                Align.center("[bold red] ERROR! Aturant el programa. [/bold red]", vertical="middle"),
+                style="on grey11",
+                border_style="red",
+                padding=(1, 6),
+            )
+            console.print(panel2)
+            print("SniperGuard requereix ser executat com administrador per funcionar.")
+            print("Si ets administrador, clica amb el botó dret sobre la icona de SniperGuard")
+            print("i selecciona: 'Executa com a administrador'")
+            print()
+            log("SniperGuard s'ha aturat al no arrencar-se com administrador.",400)
+            sys.exit()
+
+        # Si el programa s'ha arrencat correctament, 
+        # executem SniperGuard com a administrador.    
+        log("SniperGuard s'ha executat correctament amb privilegis administratius.",250)
+       
+
 
         attempts = 0
         while True:
@@ -527,6 +555,9 @@ def main():
                 header_style="bold white",
                 padding=(0, 1),
             )
+            console.print("[bold underline green]Executant programa amb permisos d'administrador [bold underline green]")
+            print()
+
             console.print("Escolleix una opció:", style="underline bold")
             table.add_column("ID", justify="center", header_style="bold white", no_wrap=True)
             table.add_column("Títol", justify="center", header_style="bold white")
