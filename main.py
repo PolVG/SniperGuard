@@ -3,6 +3,7 @@ import sys, os
 import subprocess
 from pathlib import Path
 from datetime import datetime
+
 from rich import *
 from rich.console import *
 from rich.markdown import Markdown
@@ -14,8 +15,8 @@ import time
 
 
 # llibreries internes
-from modules.LogRegister import log, init_log_file, get_current_log_file
-from recursos import check_input_user, check_admin_privileges, eliminate_logs, compress_logs, decompress_logs
+from modules.LogRegister import log, init_log_file, get_current_log_file, manage_logs, print_log_levels_table, check_current_log_level
+from recursos import check_input_user, check_admin_privileges, erase_logs, compress_logs, decompress_logs
 
 
 # Configuració global
@@ -83,7 +84,7 @@ def run_script(script_name:  str):
         return
 
     if not sys.executable: #ruta de l'intèrpret de Python
-        log("sys.executable no està disponible.", 500)
+        log("sys.executable no està disponible.", 400)
         return
 
     log(f"Preparant execució de script: {script_path}", 200)
@@ -141,11 +142,11 @@ def run_script(script_name:  str):
             log(f"STDERR {script_name}:  {stderr.strip()}", 400)
 
     except subprocess.TimeoutExpired:
-        log(f"Timeout executant {script_name}", 500)
+        log(f"Timeout executant {script_name}", 400)
         console.print("[bold red]❌ Timeout: procés massa lent[/bold red]")
         process.kill()
     except Exception as e:
-        log(f"Error executant {script_name}: {e}", 500)
+        log(f"Error executant {script_name}: {e}", 400)
         console.print(f"[bold red]❌ Error: {e}[/bold red]")
 
 '''
@@ -208,7 +209,7 @@ def cleaning_menu(mode):
         "1": ("Estat arxius temporals", "BAR_test1_TEMP.py"),
         "2": ("Estat navegadors (historial/cookies/caché)", "BAR_test12_Full_Clean_browser.py"),
         "3": ("Estat paperera de reciclatge", "BAR_test4_Empty_Recycle_Bin.py"),
-        "4": ("Estat carpeta 'C:\\Windows\\WinSxS'", "BAR_DISM_Analyze.py"),
+        "4": ("Estat carpeta 'C:\\Windows\\WinSxS' (+3 min)", "BAR_DISM_Analyze.py"),
         "5": ("Tornar al menú", None),
     }
 
@@ -364,14 +365,15 @@ def choose_logs():
 
         table.add_row("1.", "Comprimir (ZIP)", "Comprimeix els logs en un .ZIP")
         table.add_row("2.", "Descomprimir (UNZIP)", "Descomprimeix els logs d'un .ZIP")
-        table.add_row("3.", "Esborrar logs", "Esborra tots els logs de SpineGuard")
-        table.add_row("4.", "Sortir", "Tornar al menú principal")
+        table.add_row("3.", "Esborrar logs", "Esborra tots els logs de SpineGuard.")
+        table.add_row("4.", "Baròmetre logs", "Defineix quina categoria de logs a mostrar.")
+        table.add_row("5.", "Sortir", "Tornar al menú principal")
         console.print(table)
 
         try:
             choice = check_input_user("Introdueix una opció: ", {"1", "2", "3","4","5","6","7"})
         except Exception as e:
-            log(f"Error en check_input_user() dins choose_mode(): {e}", 600)
+            log(f"Error en check_input_user() dins choose_mode(): {e}", 400)
             choice = None
 
         if choice == "1":
@@ -383,8 +385,26 @@ def choose_logs():
             decompress_logs()
             return None
         elif choice == "3":
-            log("Usuari ha seleccionat ESBORRAR LOGS", 250)
-            eliminate_logs()
+            log("Usuari ha seleccionat ESBORRAR LOGS", 250)           
+            #
+            erase_logs()
+            #
+            console.print("[bold green] Els logs s'han esborrat correctament. [bold green]")
+            console.print("[bold green] Es veu un nou fitxer de logs degut a que SniperGuard torna a arrencar. [bold green]")
+            return None
+        
+        elif choice == "4":
+            log("Usuari ha seleccionat BARÒMETRE LOGS", 250)
+            #
+         
+            print_log_levels_table()
+            current_log = check_current_log_level()
+            print()
+            console.print(f"Nivell de log actual: {current_log}")
+            print()
+            new_log = check_input_user("Introdueix el nivell de log a guardar: ", {"100", "200", "250","300","400"})
+            #
+            manage_logs(current_log, new_log)
             return None
         else:
             log("Usuari ha seleccionat tornar al menú principal", 250)
@@ -420,7 +440,7 @@ def choose_mode():
         try:
             choice = check_input_user("Introdueix una opció: ", {"1", "2", "3","4","5","6","7"})
         except Exception as e:
-            log(f"Error en check_input_user() dins choose_mode(): {e}", 600)
+            log(f"Error en check_input_user() dins choose_mode(): {e}", 400)
             choice = None
 
         if choice == "1":
@@ -463,7 +483,7 @@ def choose_hardening_mode():
         try:
             choice = check_input_user("Introdueix una opció: ", {"1", "2", "3"})
         except Exception as e:
-            log(f"Error en check_input_user() dins choose_hardening_mode(): {e}", 600)
+            log(f"Error en check_input_user() dins choose_hardening_mode(): {e}", 400)
             choice = None
 
         if choice == "1":
@@ -505,7 +525,8 @@ Mostra un menú a l'usuari per triar entre les opcions de Hardening, Cleaning o 
 '''
 def main():
 
-    init_log_file()# Inicialitza el fitxer de log abans de qualsevol altra operació de registre
+    # Inicialitza el fitxer de log abans de qualsevol altra operació de registre
+    init_log_file() 
 
     while True:
         log("==== SNIPERGUARD iniciant  ====", 200)
@@ -574,7 +595,7 @@ def main():
             try:
                 decisio = check_input_user("Introdueix una opció : ", {"1", "2", "3", "4"})
             except Exception as e:
-                log(f"Error en check_input_user(): {e}", 600)
+                log(f"Error en check_input_user(): {e}", 400)
                 decisio = None
 
             if decisio == "1":
@@ -585,7 +606,7 @@ def main():
                         break
                     hardening_menu(mode)
                 except Exception as e:
-                    log(f"Error executant Hardening: {e}", 600)
+                    log(f"Error executant Hardening: {e}", 400)
                     print("Error executant Hardening. Revisa els logs.")
                 break
 
@@ -598,7 +619,7 @@ def main():
                         break
                     cleaning_menu(mode)
                 except Exception as e:
-                    log(f"Error executant Cleaning: {e}", 600)
+                    log(f"Error executant Cleaning: {e}", 400)
                     print("Error executant Cleaning. Revisa els logs.")
                 break
             elif decisio == "3":
@@ -609,7 +630,7 @@ def main():
                     if mode is None:
                         break
                 except Exception as e:
-                    log(f"Error executant Gestió de logs: {e}", 600)
+                    log(f"Error executant Gestió de logs: {e}", 400)
                     print("Error executant Gestió de logs. Revisa els logs.")
                 break
             else:
@@ -627,6 +648,6 @@ if __name__ == "__main__":
         show_log_link() 
         print("\n[bold yellow]Programa aturat.[/bold yellow]")
     except Exception as e: # Altres excepcions no previstes
-        log(f"Error en la execució main: {e}", 600)
+        log(f"Error en la execució main: {e}", 400)
         show_log_link()  
         console.print(f"[bold red]Error crític: {e}[/bold red]")

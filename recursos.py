@@ -1,6 +1,6 @@
 from modules.LogRegister import log
 import os,sys, ctypes
-from rich.console import *
+
 from pathlib import Path
 import zipfile
 
@@ -13,8 +13,6 @@ import zipfile
 '''
 def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 400): 
 
-
-
 Aquesta funció demana a l'usuari una entrada i valida que sigui vàlida segons les opcions proporcionades.
 Rep com a paràmetres:
 - prompt: El missatge que es mostrarà a l'usuari per demanar l'entrada.
@@ -25,7 +23,6 @@ Retorna:    L'opció vàlida seleccionada per l'usuari, o None si l'entrada és 
 '''
 def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 400):
     
-  
     choice = input(prompt).strip()
 
     # Si l'entrada està buida torna al menú principal
@@ -64,11 +61,11 @@ def check_admin_privileges():
 
 
 '''
-def eliminate_logs():
+def erase_logs():
 Aquesta funció elimina tots els fitxers de log que es troben a la carpeta LOGS_DIR.
 Retorna: True si els logs s'han eliminat correctament, False en cas contrari.
 '''
-def eliminate_logs():
+def erase_logs():
    
     
     PROJECT_ROOT = Path(__file__).resolve().parent
@@ -172,3 +169,4 @@ def decompress_logs():
         log(f"Error en decompress_logs(): {e}", 500)
         print(f"\n❌ Error descomprimint fitxers: {e}\n")
         return False
+

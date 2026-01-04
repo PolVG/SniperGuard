@@ -57,18 +57,25 @@ està consumint el PC amb l'objectiu d'eradicar-los de l'equip.
 # Requeriments
 
 - Python 3.8 o superior
-- Llibreria Python (instal·lar amb `pip`):
-  - `Pillow` (per a la gestió d'imatges de la GUI)
+- Llibreries Python (instal·lar amb `pip`):
+  - `rich` (necessària per a la interfície de terminal)
+  - `Pillow` (opcional, per a la gestió d'imatges de la GUI)
 - Ejecutar com administrador Visual Studio per funcionament complet
 - Python ha de estar vinculat al PATH del usuari (enviorment variables)
 
-Com instal·lar depèndencies en un entorn virtual (Windows PowerShell):
+Instal·latió recomanada (entorn virtual, Windows PowerShell):
 
 ```powershell
 python -m venv .\venv
 .\venv\Scripts\Activate.ps1
-pip install --upgrade pip
-pip install Pillow
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+També es pot instal·lar manualment amb:
+
+```powershell
+python -m pip install rich Pillow
 ```
 
 
