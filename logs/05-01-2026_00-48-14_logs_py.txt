@@ -1,0 +1,11 @@
+[05-01-2026 00:48:14] ✅📝 Nou fitxer de log creat: 05-01-2026_00-48-14_logs_py.txt
+[05-01-2026 00:48:14] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[05-01-2026 00:48:14] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[05-01-2026 00:48:14] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 00:48:14] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 00:48:14] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[05-01-2026 00:48:14] [🔍 DEBUG] LOG_FILE(2026-01-05) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-05_logs_py.txt
+[05-01-2026 00:48:15] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[05-01-2026 00:48:15] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.

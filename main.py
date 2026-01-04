@@ -1,3 +1,9 @@
+
+"""
+IMPORTANT! El fitxer s'arrenca des de 'start.py' per verificar
+           automaticament si l'usuari te les dependencies
+           necesarries per arrencar SniperGuard
+"""
 # llibreries externes
 import sys, os
 import subprocess
