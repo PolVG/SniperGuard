@@ -1,0 +1,10 @@
+[05-01-2026 01:27:30] ✅📝 Nou fitxer de log creat: 05-01-2026_01-27-30_logs_py.txt
+[05-01-2026 01:27:30] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[05-01-2026 01:27:30] [ℹ️  INFO] ==== Inici diagnòstic paperera de reciclatge ====
+[05-01-2026 01:27:30] [🔍 DEBUG] Inici càlcul mida paperera de reciclatge (PowerShell)
+[05-01-2026 01:27:31] [ℹ️  INFO] Mida paperera calculada correctament: 0.0 MB
+[05-01-2026 01:27:31] [🔍 DEBUG] Avaluant baròmetre paperera: 0.0 MB
+[05-01-2026 01:27:31] [✅ NOTICE] Paperera buida detectada
+[05-01-2026 01:27:31] [ℹ️  INFO] ==== Fi diagnòstic paperera de reciclatge ====

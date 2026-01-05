@@ -3,7 +3,10 @@ import os,sys, ctypes
 
 from pathlib import Path
 import zipfile
+import winsound
 
+BASE_DIR = Path(__file__).resolve().parent
+SOUNDS_DIR = BASE_DIR / "sounds"
 
 # Llegeix una opció per input i valida que:
 #  no sigui buida, sigui un dígit, i el número sigui una opció del menú.
@@ -170,3 +173,25 @@ def decompress_logs():
         print(f"\n❌ Error descomprimint fitxers: {e}\n")
         return False
 
+
+"""
+Funció feta amb IA
+"""
+BASE_DIR = Path(__file__).resolve().parent
+SOUNDS_DIR = BASE_DIR / "sounds"
+
+# Aquesta funció permet executar el so de manera asincrona.
+# Així, es pot reproduir el so mentre SniperGuard 
+# segueix en execució de manera asincrona. 
+def play_sound(filename: str, async_play: bool = True):
+    sound_path = SOUNDS_DIR / filename
+
+    if not sound_path.exists():
+        log(f"ERROR! So no trobat: {sound_path}",400)
+        return
+
+    flags = winsound.SND_FILENAME
+    if async_play:
+        flags |= winsound.SND_ASYNC
+
+    winsound.PlaySound(str(sound_path), flags)

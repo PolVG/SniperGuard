@@ -1,0 +1,14 @@
+[05-01-2026 01:27:00] ✅📝 Nou fitxer de log creat: 05-01-2026_01-27-00_logs_py.txt
+[05-01-2026 01:27:00] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[05-01-2026 01:27:00] [ℹ️  INFO] Inici buidat paperera amb PowerShell (Clear-RecycleBin)
+[05-01-2026 01:27:00] [🔍 DEBUG] Executant comanda PowerShell: powershell -NoProfile -ExecutionPolicy Bypass -Command Clear-RecycleBin -Force
+[05-01-2026 01:27:01] [✅ NOTICE] PowerShell ha retornat 'The system cannot find the path specified' (interpretat com a OK funcional: unitat/paperera inexistent)
+[05-01-2026 01:27:01] [⚠️  WARNING] PowerShell STDERR (ignorat): Clear-RecycleBin : The system cannot find the path specified
+At line:1 char:1
++ Clear-RecycleBin -Force
++ ~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (RecycleBin:String) [Clear-RecycleBin], Win32Exception
+    + FullyQualifiedErrorId : FailedToClearRecycleBin,Microsoft.PowerShell.Commands.ClearRecycleBinCommand
+[05-01-2026 01:27:01] [ℹ️  INFO] Fi buidat paperera PowerShell: OK (amb avisos controlats)

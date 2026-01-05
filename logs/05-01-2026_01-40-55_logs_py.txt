@@ -1,0 +1,27 @@
+[05-01-2026 01:40:55] ✅📝 Nou fitxer de log creat: 05-01-2026_01-40-55_logs_py.txt
+[05-01-2026 01:40:55] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[05-01-2026 01:40:56] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[05-01-2026 01:40:56] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:40:56] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:40:56] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[05-01-2026 01:40:56] [🔍 DEBUG] LOG_FILE(2026-01-05) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-05_logs_py.txt
+[05-01-2026 01:40:56] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[05-01-2026 01:40:56] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 01:40:59] [✅ NOTICE] Gestió de logs seleccionada
+[05-01-2026 01:41:00] [✅ NOTICE] Usuari ha seleccionat BARÒMETRE LOGS
+[05-01-2026 01:41:00] [🔍 DEBUG] Entrant a print_log_levels_table()
+[05-01-2026 01:41:00] [🔍 DEBUG] Panell del barómetre mostrat correctament.
+[05-01-2026 01:41:00] [🔍 DEBUG] Procedint a mostrar la taula.
+[05-01-2026 01:41:00] [✅ NOTICE] Taula mostrada correctament.
+[05-01-2026 01:41:02] [❌ ERROR] Opció invàlida: '1'. Opcions vàlides: ['100', '200', '250', '300', '400']
+[05-01-2026 01:41:02] [✅ NOTICE] Log escollit per l'usuari: None
+[05-01-2026 01:41:03] [❌ ERROR] Error executant Gestió de logs: int() argument must be a string, a bytes-like object or a real number, not 'NoneType'
+[05-01-2026 01:41:03] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[05-01-2026 01:41:03] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:41:03] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:41:03] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[05-01-2026 01:41:03] [🔍 DEBUG] LOG_FILE(2026-01-05) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-05_logs_py.txt
+[05-01-2026 01:41:03] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[05-01-2026 01:41:03] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.

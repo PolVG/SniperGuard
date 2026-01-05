@@ -1,0 +1,34 @@
+[05-01-2026 01:27:16] ✅📝 Nou fitxer de log creat: 05-01-2026_01-27-16_logs_py.txt
+[05-01-2026 01:27:16] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[05-01-2026 01:27:16] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[05-01-2026 01:27:16] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:27:16] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:27:16] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[05-01-2026 01:27:16] [🔍 DEBUG] LOG_FILE(2026-01-05) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-05_logs_py.txt
+[05-01-2026 01:27:16] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[05-01-2026 01:27:17] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 01:27:18] [✅ NOTICE] Cleaning seleccionat
+[05-01-2026 01:27:20] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[05-01-2026 01:27:20] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de neteja.
+[05-01-2026 01:27:20] [ℹ️  INFO] Mode BAR actiu: mostrant opcions de comprovació
+[05-01-2026 01:27:29] [ℹ️  INFO] L'usuari ha triat opció cleaning_menu: '3' (mode=1)
+[05-01-2026 01:27:29] [ℹ️  INFO] Executant acció: Estat paperera de reciclatge
+[05-01-2026 01:27:29] [ℹ️  INFO] Preparant execució de script: \\VBoxSvr\DEF2_SniperGuard\pyapp\BAR_test4_Empty_Recycle_Bin.py
+[05-01-2026 01:27:32] [✅ NOTICE] Script BAR_test4_Empty_Recycle_Bin.py finalitzat OK
+[05-01-2026 01:27:32] [🔍 DEBUG] STDOUT BAR_test4_Empty_Recycle_Bin.py: ===== DIAGNÒSTIC PAPERERA DE RECICLATGE =====
+Mida total paperera : 0.0 MB
+Baròmetre           : 🟢 NO CAL — Però no fa mal buidar-la
+ℹ️ La paperera ja està buida.
+[05-01-2026 01:27:32] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[05-01-2026 01:27:32] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:27:32] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:27:32] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[05-01-2026 01:27:32] [🔍 DEBUG] LOG_FILE(2026-01-05) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-05_logs_py.txt
+[05-01-2026 01:27:32] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[05-01-2026 01:27:32] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 01:28:04] [✅ NOTICE] Hardening seleccionat
+[05-01-2026 01:28:05] [✅ NOTICE] Usuari ha seleccionat mode DEL
+[05-01-2026 01:28:05] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de hardening.
+[05-01-2026 01:28:05] [ℹ️  INFO] Mode DEL actiu: mostrant opcions de neteja

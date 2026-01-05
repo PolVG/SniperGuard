@@ -17,12 +17,12 @@ from rich.table import Table
 from rich.panel import Panel
 from rich import box
 from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
-import time
+import time 
 
 
 # llibreries internes
 from modules.LogRegister import log, init_log_file, get_current_log_file, manage_logs, print_log_levels_table, check_current_log_level
-from recursos import check_input_user, check_admin_privileges, erase_logs, compress_logs, decompress_logs
+from recursos import check_input_user, check_admin_privileges, erase_logs, compress_logs, decompress_logs, play_sound
 
 
 # Configuració global
@@ -136,11 +136,10 @@ def run_script(script_name:  str):
        
         if process.returncode == 0:
             log(f"Script {script_name} finalitzat OK", 250)
-            console.print(f"[bold green]✓ {script_name} completat amb èxit[/bold green]")
+            console.print(f"[bold green] {script_name} completat amb èxit[/bold green]")
         else:
             log(f"Script {script_name} returncode={process.returncode}", 300)
-            #console.print(f"[bold yellow]⚠ {script_name} acabat amb errors (code {process.returncode})[/bold yellow]")
-
+          
         if stdout and stdout.strip():
             log(f"STDOUT {script_name}: {stdout. strip()}", 100)
 
@@ -210,7 +209,7 @@ Aquesta funció mostra un menú de neteja a l'usuari i executa l'script correspo
 '''
 def cleaning_menu(mode):
     log("Mostrant al usuari les opcions disponibles de neteja.", 100)
-
+    play_sound("reloading.wav")
     BAR_OPTIONS = {
         "1": ("Estat arxius temporals", "BAR_test1_TEMP.py"),
         "2": ("Estat navegadors (historial/cookies/caché)", "BAR_test12_Full_Clean_browser.py"),
@@ -263,13 +262,14 @@ def cleaning_menu(mode):
     
 
     choice = check_input_user("Introdueix una opció: ", set(options.keys())) # set() per convertir les claus en conjunt set
-
     # Només volem que es mostri aquest missatge si l'usuari
     # realitza una neteja exhaustiva.
     if mode != MODE_BAR and choice == "5":
         console.print("[bold yellow]Per fer una neteja exhaustiva, seleciona primer de cleanmgr.exe quins elements vol eliminiar. Després, prem 'OK' [bold yellow]")
         console.print("[yellow underline]Obrint 'cleanmgr.exe'. Si us plau esperi... [yellow underline]")
+    
     if choice is None:
+        play_sound("shell.wav")
         log("Sortint de la funció cleaning_menu()", 100)
         return
 
@@ -278,9 +278,10 @@ def cleaning_menu(mode):
     label, script = options[choice]
 
     if script is None:
+        play_sound("shell.wav")
         log("Usuari torna al menú anterior", 250)
         return
-
+    play_sound("gun.wav")
     log(f"Executant acció: {label}", 200)
     run_script(script)
 
@@ -291,7 +292,8 @@ Aquesta funció mostra un menú de hardening a l'usuari i executa l'script corre
 '''
 def hardening_menu(mode):
     log("Mostrant al usuari les opcions disponibles de hardening.", 100)
-
+    
+    play_sound("reloading.wav")
     BAR_OPTIONS = {
         "1": ("Comprovar si Windows Defender està actiu", "HARD_WinDefender.py"),
         "2": ("Comprovar si falten actualitzacions a Windows Defender", "HARD_WinDefenderUpdateAvailable.py"),
@@ -300,8 +302,8 @@ def hardening_menu(mode):
     }
 
     DEL_OPTIONS = {
-        "1": ("Actualitzar Windows Defender", "HARD_WinDefenderUpdate.py"),
-        "2": ("Actualitzar Windows amb Windows Update", "HARD_WindowsUpdate.py"),
+        "1": ("Actualitzar Windows Defender (-30 sec)", "HARD_WinDefenderUpdate.py"),
+        "2": ("Actualitzar Windows amb Windows Update (+10 min)", "HARD_WindowsUpdate.py"),
         "3": ("Tornar al menú", None),
     }
 
@@ -336,6 +338,7 @@ def hardening_menu(mode):
 
     choice = check_input_user("Introdueix una opció: ", set(options.keys()))
     if choice is None:
+
         log("Sortint de la funció hardening_menu()", 100)
         return
 
@@ -344,9 +347,10 @@ def hardening_menu(mode):
     label, script = options[choice]
 
     if script is None:
+        play_sound("shell.wav")
         log("Usuari torna al menú anterior", 250)
         return
-
+    play_sound("gun.wav")
     log(f"Executant acció: {label}", 200)
     run_script(script)
 
@@ -408,11 +412,17 @@ def choose_logs():
             print()
             console.print(f"Nivell de log actual: {current_log}")
             print()
-            new_log = check_input_user("Introdueix el nivell de log a guardar: ", {"100", "200", "250","300","400"})
-            #
-            manage_logs(current_log, new_log)
-            return None
+            console.print(f"Prem '1' per tornar al menú principal")
+            print()
+            new_log = check_input_user("Introdueix el nivell de log a guardar: ", {"1", "100", "200", "250","300","400"})
+            if new_log == '1':
+                console.print(f"[bold yellow]Retornant al menú principal.[bold yellow]")
+                return None
+            else:
+                manage_logs(current_log, new_log)
+                return None
         else:
+            play_sound("shell.wav")
             log("Usuari ha seleccionat tornar al menú principal", 250)
             return None
         
@@ -456,6 +466,7 @@ def choose_mode():
             log("Usuari ha seleccionat mode DEL", 250)
             return MODE_DEL
         else:
+            play_sound("shell.wav")
             log("Usuari ha seleccionat tornar al menú principal", 250)
             return None
 
@@ -499,6 +510,7 @@ def choose_hardening_mode():
             log("Usuari ha seleccionat mode DEL", 250)
             return MODE_DEL
         else:
+            play_sound("shell.wav")
             log("Usuari ha seleccionat tornar al menú principal", 250)
             return None
 
@@ -611,6 +623,8 @@ def main():
                     if mode is None:
                         break
                     hardening_menu(mode)
+                    
+                   
                 except Exception as e:
                     log(f"Error executant Hardening: {e}", 400)
                     print("Error executant Hardening. Revisa els logs.")
@@ -640,6 +654,7 @@ def main():
                     print("Error executant Gestió de logs. Revisa els logs.")
                 break
             else:
+                play_sound("shell.wav")
                 log("Usuari ha sortit del programa (Exit).", 200)
                 log("==== Fi SniperGuard ====", 200)
                 show_log_link() # Mostra l'enllaç al fitxer de log abans de sortir

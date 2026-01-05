@@ -1,0 +1,27 @@
+[05-01-2026 01:41:34] ✅📝 Nou fitxer de log creat: 05-01-2026_01-41-34_logs_py.txt
+[05-01-2026 01:41:34] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[05-01-2026 01:41:34] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[05-01-2026 01:41:34] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:41:34] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:41:34] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[05-01-2026 01:41:34] [🔍 DEBUG] LOG_FILE(2026-01-05) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-05_logs_py.txt
+[05-01-2026 01:41:35] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[05-01-2026 01:41:35] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 01:41:36] [✅ NOTICE] Cleaning seleccionat
+[05-01-2026 01:41:38] [✅ NOTICE] Usuari ha seleccionat tornar al menú principal
+[05-01-2026 01:41:38] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[05-01-2026 01:41:38] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:41:38] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:41:38] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[05-01-2026 01:41:38] [🔍 DEBUG] LOG_FILE(2026-01-05) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-05_logs_py.txt
+[05-01-2026 01:41:39] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[05-01-2026 01:41:39] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 01:41:43] [✅ NOTICE] Gestió de logs seleccionada
+[05-01-2026 01:41:48] [✅ NOTICE] Usuari ha seleccionat BARÒMETRE LOGS
+[05-01-2026 01:41:48] [🔍 DEBUG] Entrant a print_log_levels_table()
+[05-01-2026 01:41:48] [🔍 DEBUG] Panell del barómetre mostrat correctament.
+[05-01-2026 01:41:48] [🔍 DEBUG] Procedint a mostrar la taula.
+[05-01-2026 01:41:48] [✅ NOTICE] Taula mostrada correctament.
+[05-01-2026 01:41:49] [❌ ERROR] Opció invàlida: '1'. Opcions vàlides: ['100', '200', '250', '300', '400']

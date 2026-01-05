@@ -1,0 +1,93 @@
+[05-01-2026 01:30:52] ✅📝 Nou fitxer de log creat: 05-01-2026_01-30-52_logs_py.txt
+[05-01-2026 01:30:52] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[05-01-2026 01:30:52] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[05-01-2026 01:30:52] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:30:52] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:30:52] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[05-01-2026 01:30:52] [🔍 DEBUG] LOG_FILE(2026-01-05) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-05_logs_py.txt
+[05-01-2026 01:30:52] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[05-01-2026 01:30:52] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 01:32:16] [✅ NOTICE] Hardening seleccionat
+[05-01-2026 01:32:33] [✅ NOTICE] Usuari ha seleccionat tornar al menú principal
+[05-01-2026 01:32:33] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[05-01-2026 01:32:33] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:32:33] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:32:33] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[05-01-2026 01:32:33] [🔍 DEBUG] LOG_FILE(2026-01-05) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-05_logs_py.txt
+[05-01-2026 01:32:33] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[05-01-2026 01:32:34] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 01:32:37] [✅ NOTICE] Hardening seleccionat
+[05-01-2026 01:32:40] [✅ NOTICE] Usuari ha seleccionat mode DEL
+[05-01-2026 01:32:40] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de hardening.
+[05-01-2026 01:32:40] [ℹ️  INFO] Mode DEL actiu: mostrant opcions de neteja
+[05-01-2026 01:33:17] [ℹ️  INFO] L'usuari ha triat opció hardening_menu: '3' (mode=2)
+[05-01-2026 01:33:17] [✅ NOTICE] Usuari torna al menú anterior
+[05-01-2026 01:33:17] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[05-01-2026 01:33:17] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:33:17] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:33:17] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[05-01-2026 01:33:17] [🔍 DEBUG] LOG_FILE(2026-01-05) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-05_logs_py.txt
+[05-01-2026 01:33:17] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[05-01-2026 01:33:17] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 01:33:33] [✅ NOTICE] Hardening seleccionat
+[05-01-2026 01:33:33] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[05-01-2026 01:33:33] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de hardening.
+[05-01-2026 01:33:34] [ℹ️  INFO] Mode BAR actiu: mostrant opcions de comprovació
+[05-01-2026 01:33:35] [ℹ️  INFO] L'usuari ha triat opció hardening_menu: '1' (mode=1)
+[05-01-2026 01:33:35] [ℹ️  INFO] Executant acció: Comprovar si Windows Defender està actiu
+[05-01-2026 01:33:35] [ℹ️  INFO] Preparant execució de script: \\VBoxSvr\DEF2_SniperGuard\pyapp\HARD_WinDefender.py
+[05-01-2026 01:33:38] [✅ NOTICE] Script HARD_WinDefender.py finalitzat OK
+[05-01-2026 01:33:38] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[05-01-2026 01:33:38] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:33:38] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:33:38] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[05-01-2026 01:33:38] [🔍 DEBUG] LOG_FILE(2026-01-05) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-05_logs_py.txt
+[05-01-2026 01:33:38] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[05-01-2026 01:33:39] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 01:33:40] [✅ NOTICE] Cleaning seleccionat
+[05-01-2026 01:33:41] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[05-01-2026 01:33:41] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de neteja.
+[05-01-2026 01:33:41] [ℹ️  INFO] Mode BAR actiu: mostrant opcions de comprovació
+[05-01-2026 01:33:43] [ℹ️  INFO] L'usuari ha triat opció cleaning_menu: '1' (mode=1)
+[05-01-2026 01:33:43] [ℹ️  INFO] Executant acció: Estat arxius temporals
+[05-01-2026 01:33:43] [ℹ️  INFO] Preparant execució de script: \\VBoxSvr\DEF2_SniperGuard\pyapp\BAR_test1_TEMP.py
+[05-01-2026 01:33:46] [✅ NOTICE] Script BAR_test1_TEMP.py finalitzat OK
+[05-01-2026 01:33:46] [🔍 DEBUG] STDOUT BAR_test1_TEMP.py: ===== DIAGNÒSTIC WINDOWS (MODE SEGUR - NO ESBORRA RES) =====
+
+========== ANÀLISI CARPETES DEL SISTEMA ==========
+
+===== WINDOWS TEMP =====
+Ruta: C:\Windows\Temp
+Mida total : 0.08 MB
+Fitxers    : 9
+Baròmetre  : 🟢 NO CAL, però es pot netejar
+
+===== WINDOWS UPDATE DOWNLOAD =====
+Ruta: C:\Windows\SoftwareDistribution\Download
+Mida total : 1.49 MB
+Fitxers    : 4
+Baròmetre  : 🟢 NO CAL, però es pot netejar
+
+===== TEMP USUARI =====
+Ruta: C:\Users\CannonW11\AppData\Local\Temp
+Mida total : 130.98 MB
+Fitxers    : 2605
+Baròmetre  : 🟢 NO CAL, però es pot netejar
+
+===== ANÀLISI FINALITZADA =====
+[05-01-2026 01:33:46] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[05-01-2026 01:33:46] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:33:46] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[05-01-2026 01:33:46] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[05-01-2026 01:33:46] [🔍 DEBUG] LOG_FILE(2026-01-05) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-05_logs_py.txt
+[05-01-2026 01:33:46] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[05-01-2026 01:33:46] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 01:33:48] [✅ NOTICE] Hardening seleccionat
+[05-01-2026 01:33:49] [✅ NOTICE] Usuari ha seleccionat mode DEL
+[05-01-2026 01:33:49] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de hardening.
+[05-01-2026 01:33:49] [ℹ️  INFO] Mode DEL actiu: mostrant opcions de neteja
+[05-01-2026 01:33:51] [ℹ️  INFO] L'usuari ha triat opció hardening_menu: '2' (mode=2)
+[05-01-2026 01:33:52] [ℹ️  INFO] Executant acció: Actualitzar Windows amb Windows Update
+[05-01-2026 01:33:52] [ℹ️  INFO] Preparant execució de script: \\VBoxSvr\DEF2_SniperGuard\pyapp\HARD_WindowsUpdate.py
