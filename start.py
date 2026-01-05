@@ -26,7 +26,7 @@ def requirements_installed() -> bool:
 
     # Llista mínima de mòduls clau per arrencar SniperGuard
     required_modules = [
-        "rich","Pillow",   # llibreria essencial per la UI de SniperGuard
+        "rich",   # llibreria essencial per la UI de SniperGuard
     ]
 
     # Recorrem cada mòdul clau

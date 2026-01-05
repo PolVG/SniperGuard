@@ -12,6 +12,10 @@ SOUNDS_DIR = BASE_DIR / "sounds"
 #  no sigui buida, sigui un dígit, i el número sigui una opció del menú.
 # ID 400 logs = ERROR
 
+# ─────────────────────────────────────────────
+# Estat de so (sessió actual)
+# ─────────────────────────────────────────────
+SOUND_ENABLED = False
 
 '''
 def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 400): 
@@ -184,6 +188,11 @@ SOUNDS_DIR = BASE_DIR / "sounds"
 # Així, es pot reproduir el so mentre SniperGuard 
 # segueix en execució de manera asincrona. 
 def play_sound(filename: str, async_play: bool = True):
+
+    # Si el so està desactivat, no fem res
+    if not SOUND_ENABLED:
+        return
+    
     sound_path = SOUNDS_DIR / filename
 
     if not sound_path.exists():
@@ -193,5 +202,5 @@ def play_sound(filename: str, async_play: bool = True):
     flags = winsound.SND_FILENAME
     if async_play:
         flags |= winsound.SND_ASYNC
-
+    log("S'ha activat el so a SniperGuard",250)
     winsound.PlaySound(str(sound_path), flags)
