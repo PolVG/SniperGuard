@@ -22,7 +22,8 @@ import time
 
 # llibreries internes
 from modules.LogRegister import log, init_log_file, get_current_log_file, manage_logs, print_log_levels_table, check_current_log_level
-from recursos import check_input_user, check_admin_privileges, erase_logs, compress_logs, decompress_logs, play_sound
+import recursos
+from recursos import check_input_user, check_admin_privileges, erase_logs, compress_logs, decompress_logs
 
 
 # Configuració global
@@ -209,7 +210,7 @@ Aquesta funció mostra un menú de neteja a l'usuari i executa l'script correspo
 '''
 def cleaning_menu(mode):
     log("Mostrant al usuari les opcions disponibles de neteja.", 100)
-    play_sound("reloading.wav")
+    recursos.play_sound("reloading.wav")
     BAR_OPTIONS = {
         "1": ("Estat arxius temporals", "BAR_test1_TEMP.py"),
         "2": ("Estat navegadors (historial/cookies/caché)", "BAR_test12_Full_Clean_browser.py"),
@@ -269,7 +270,7 @@ def cleaning_menu(mode):
         console.print("[yellow underline]Obrint 'cleanmgr.exe'. Si us plau esperi... [yellow underline]")
     
     if choice is None:
-        play_sound("shell.wav")
+        recursos.play_sound("shell.wav")
         log("Sortint de la funció cleaning_menu()", 100)
         return
 
@@ -278,10 +279,10 @@ def cleaning_menu(mode):
     label, script = options[choice]
 
     if script is None:
-        play_sound("shell.wav")
+        recursos.play_sound("shell.wav")
         log("Usuari torna al menú anterior", 250)
         return
-    play_sound("gun.wav")
+    recursos.play_sound("gun.wav")
     log(f"Executant acció: {label}", 200)
     run_script(script)
 
@@ -293,7 +294,7 @@ Aquesta funció mostra un menú de hardening a l'usuari i executa l'script corre
 def hardening_menu(mode):
     log("Mostrant al usuari les opcions disponibles de hardening.", 100)
     
-    play_sound("reloading.wav")
+    recursos.play_sound("reloading.wav")
     BAR_OPTIONS = {
         "1": ("Comprovar si Windows Defender està actiu", "HARD_WinDefender.py"),
         "2": ("Comprovar si falten actualitzacions a Windows Defender", "HARD_WinDefenderUpdateAvailable.py"),
@@ -347,12 +348,55 @@ def hardening_menu(mode):
     label, script = options[choice]
 
     if script is None:
-        play_sound("shell.wav")
+        recursos.play_sound("shell.wav")
         log("Usuari torna al menú anterior", 250)
         return
-    play_sound("gun.wav")
+    recursos.play_sound("gun.wav")
     log(f"Executant acció: {label}", 200)
     run_script(script)
+
+def sons_FX():
+    global SOUND_ENABLED
+    while True:
+        print("\n")
+        panel = Panel(
+            Align.center("[bold orange3 underline] Sons FX [/bold orange3 underline]", vertical="middle"),
+            border_style="orange3",
+            style="on grey15",
+            padding=(1, 6),
+        )
+        console.print(panel)
+        print("\n")
+        console.print("Què vols fer?", style="bold white underline")
+        table = Table(show_lines=True,border_style="orange3")
+        table.add_column("ID", justify="center", header_style="bold white", style="bold cyan", no_wrap=True)
+        table.add_column("Títol", justify="center", header_style="bold white", style="bold white")
+        table.add_column("Descripció", justify="center",header_style="bold white", style="bold white")
+
+        table.add_row("1.", "Activar FX", "Es reprodueixen arxius de so mentre s'utilitza SniperGuard.")
+        table.add_row("2.", "Desactivar FX", "SniperGuard silenciós.")
+        table.add_row("3.", "Sortir", "Torna al menú principal.")
+        console.print(table)
+
+        try:
+            choice = check_input_user("Introdueix una opció: ", {"1", "2", "3"})
+        except Exception as e:
+            log(f"Error en check_input_user() dins choose_mode(): {e}", 400)
+            choice = None
+
+        if choice == "1":
+            log("Usuari ha seleccionat SONS FX", 250)
+            recursos.SOUND_ENABLED = True
+            recursos.play_sound("reloading.wav")
+            return
+        elif choice == "2":
+            log("Usuari ha seleccionat DESACTIVAR FX", 250)
+            recursos.SOUND_ENABLED = False
+            return
+        else:
+            recursos.play_sound("shell.wav")
+            log("Usuari ha seleccionat tornar al menú principal", 250)
+            return None
 
 
 def choose_logs():
@@ -415,6 +459,7 @@ def choose_logs():
             console.print(f"Prem '1' per tornar al menú principal")
             print()
             new_log = check_input_user("Introdueix el nivell de log a guardar: ", {"1", "100", "200", "250","300","400"})
+            
             if new_log == '1':
                 console.print(f"[bold yellow]Retornant al menú principal.[bold yellow]")
                 return None
@@ -422,7 +467,7 @@ def choose_logs():
                 manage_logs(current_log, new_log)
                 return None
         else:
-            play_sound("shell.wav")
+            recursos.play_sound("shell.wav")
             log("Usuari ha seleccionat tornar al menú principal", 250)
             return None
         
@@ -466,7 +511,7 @@ def choose_mode():
             log("Usuari ha seleccionat mode DEL", 250)
             return MODE_DEL
         else:
-            play_sound("shell.wav")
+            recursos.play_sound("shell.wav")
             log("Usuari ha seleccionat tornar al menú principal", 250)
             return None
 
@@ -510,7 +555,7 @@ def choose_hardening_mode():
             log("Usuari ha seleccionat mode DEL", 250)
             return MODE_DEL
         else:
-            play_sound("shell.wav")
+            recursos.play_sound("shell.wav")
             log("Usuari ha seleccionat tornar al menú principal", 250)
             return None
 
@@ -605,7 +650,8 @@ def main():
             table.add_row("1.", "Hardening (Bastionatge)","Permet actualitzar el seu PC", style="bold yellow")
             table.add_row("2.", "Neteja i manteniment","Permet netejar arxius residuals del seu PC.",style="bold green")
             table.add_row("3.", "Gestió de logs","Permet comprimir, descomprimir i esborrar logs de SniperGuard",style="bold sky_blue1")
-            table.add_row("4.", "Sortir","Atura l'execució de SniperGuard", style="bold red")
+            table.add_row("4.", "Sons FX","Permet activar el sons FX de SniperGuard ",style="bold orange3")
+            table.add_row("5.", "Sortir","Atura l'execució de SniperGuard", style="bold red")
 
             console.print(table)
             print("\n")
@@ -653,12 +699,25 @@ def main():
                     log(f"Error executant Gestió de logs: {e}", 400)
                     print("Error executant Gestió de logs. Revisa els logs.")
                 break
+            elif decisio == "4":
+                log("Secció sons FX", 250)
+                print("\n")
+                #
+                try:
+                    mode = sons_FX()
+                    if mode is None:
+                        break
+                except Exception as e:
+                    log(f"Error executant Gestió de logs: {e}", 400)
+                    print("Error executant Gestió de logs. Revisa els logs.")
+                break
             else:
-                play_sound("shell.wav")
+                recursos.play_sound("shell.wav")
                 log("Usuari ha sortit del programa (Exit).", 200)
                 log("==== Fi SniperGuard ====", 200)
                 show_log_link() # Mostra l'enllaç al fitxer de log abans de sortir
                 return
+
 
 if __name__ == "__main__":
     try:

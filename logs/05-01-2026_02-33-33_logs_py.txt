@@ -1,0 +1,5 @@
+[05-01-2026 02:33:33] ✅📝 Nou fitxer de log creat: 05-01-2026_02-33-33_logs_py.txt
+[05-01-2026 02:33:33] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[05-01-2026 02:33:33] [✅ NOTICE] Diagnòstic Windows finalitzat correctament

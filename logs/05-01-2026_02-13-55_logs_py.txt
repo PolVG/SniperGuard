@@ -1,0 +1,6 @@
+[05-01-2026 02:13:55] ✅📝 Nou fitxer de log creat: 05-01-2026_02-13-55_logs_py.txt
+[05-01-2026 02:13:55] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[05-01-2026 02:13:55] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 02:13:55] [❌ ERROR] Error en la execució main: Failed to get style 'bold orange'; unable to parse 'orange' as color; 'orange' is not a valid color
