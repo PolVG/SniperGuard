@@ -26,7 +26,7 @@ def requirements_installed() -> bool:
 
     # Llista mínima de mòduls clau per arrencar SniperGuard
     required_modules = [
-        "rich","python-vlc",   # llibreria essencial per la UI de SniperGuard
+        "rich","Pillow",   # llibreria essencial per la UI de SniperGuard
     ]
 
     # Recorrem cada mòdul clau
@@ -54,10 +54,8 @@ def install_requirements():
     print("Falten dependencies. Instal·lant-les a través de 'requirements.txt' ...")
 
     subprocess.check_call([
-        "pip",
-        "install",
-        "-r",
-        "requirements.txt", # Ruta absoluta al requirements.txt
+        sys.executable, "-m", "pip", "install", "-r", 
+        str(REQUIREMENTS) # Ruta absoluta a requirements.txt
     ])
 
     # check_call:
