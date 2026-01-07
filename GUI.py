@@ -56,15 +56,23 @@ style.configure(
 )
 
 # Configuració de la quadrícula principal
-window.columnconfigure(0, weight=0)   
-window.columnconfigure(1, weight=1)   
-window.rowconfigure(0, weight=0)      
-window.rowconfigure(1, weight=1)      
+window.columnconfigure(0, weight=0)
+window.columnconfigure(1, weight=1)
+window.rowconfigure(0, weight=0)
+window.rowconfigure(1, weight=1)
 
 
 sidebar_frame = tk.Frame(window, bg=COL_SIDEBAR, width=150)
 sidebar_frame.grid(row=0, column=0, rowspan=2, sticky="ns")
 sidebar_frame.grid_propagate(False)
+
+
+#Es creen dues pantalles, una de cleaning i una de hardening
+cleaning_screen = tk.Frame(window, bg=COL_BG)
+hardening_screen = tk.Frame(window, bg=COL_BG)
+
+cleaning_screen.grid(row=1, column=1, sticky="nsew")
+hardening_screen.grid(row=1, column=1, sticky="nsew")
 
 
 IMG_WID = 70
@@ -118,6 +126,26 @@ def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_colo
     return btn
 
 
+# Banner (top center)
+banner_label = tk.Label(
+    window,
+    text="CLEANING",
+    bg=COL_BG,
+    fg=COL_ACCENT,
+    font=("Segoe UI", 28, "bold"),
+)
+banner_label.grid(row=0, column=1, sticky="n", pady=(14, 0))
+
+
+def show_screen(name):
+    if name == "hardening":
+        hardening_screen.tkraise()
+        banner_label.config(text="HARDENING")
+    else:
+        cleaning_screen.tkraise()
+        banner_label.config(text="CLEANING")
+
+
 logo_img = Image.open("img/SniperGuardLogo.png")
 logo_resized = logo_img.resize((IMG_WID, IMG_HGT))
 logo_photo = ImageTk.PhotoImage(logo_resized)
@@ -125,15 +153,15 @@ logo_label = tk.Label(sidebar_frame, image=logo_photo, bg=COL_SIDEBAR)
 logo_label.image = logo_photo
 logo_label.pack(pady=10, padx=10)
 
+
 sidebar_buttons = [
-    ("img/cleaner_sin_fondo.png", "Estàs actualment en aquesta pantalla."),
-    ("img/registry_sin_nombre.png", "Botó en desenvolupament."),
-    ("img/herramientas_sin_fondo.png", "Botó en desenvolupament."),
-    ("img/opciones_sin_fondo.png", "Botó en desenvolupament."),
+    ("img/cleaner_sin_fondo.png", lambda: show_screen("cleaning")),
+    ("img/registry_sin_nombre.png", lambda: show_screen("hardening")),
+    ("img/herramientas_sin_fondo.png", crear_avis("Botó en desenvolupament.")),
+    ("img/opciones_sin_fondo.png", crear_avis("Botó en desenvolupament.")),
 ]
 
-for img_path, msg in sidebar_buttons:
-    cmd = crear_avis(msg)
+for img_path, cmd in sidebar_buttons:
     create_sidebar_button(
         sidebar_frame,
         img_path,
@@ -143,18 +171,13 @@ for img_path, msg in sidebar_buttons:
         hover_color=COL_BTN_HOVER,
     )
 
-banner_label = tk.Label(
-    window,
-    text="NETEJA",
-    bg=COL_BG,
-    fg=COL_ACCENT,
-    font=("Segoe UI", 28, "bold"),
-)
-banner_label.grid(row=0, column=1, sticky="n", pady=(14, 0))
+# Default screen
+show_screen("cleaning")
 
 
-main_container = tk.Frame(window, bg=COL_BG)
-main_container.grid(row=1, column=1, sticky="nsew")
+
+main_container = tk.Frame(cleaning_screen, bg=COL_BG)
+main_container.grid(row=0, column=0, sticky="nsew")
 main_container.rowconfigure(0, weight=1)
 main_container.columnconfigure(0, weight=1)
 
@@ -332,7 +355,6 @@ def run_selected_cleaning():
     action = selected_action_var.get()
     mode_choice = selected_mode_var.get()
 
-   
     if mode_choice not in {"1", "2"}:
         messagebox.showerror("Error", "Mode no vàlid.")
         return
@@ -364,7 +386,7 @@ def confirm_delete():
     if question == "yes":
         try:
             keep_button.config(state="disabled")
-            
+
             execute_action_temp("2.2.1", lambda: main.run_script("DEL_test1_TEMP.py"))
             deleted_label.grid_remove()
             kept_label.grid_remove()
@@ -585,5 +607,25 @@ logs_text.grid(row=3, column=0, padx=10, pady=(10, 0))
 add_hover(start_button, COL_ACCENT, "#7BE3FF")
 add_hover(keep_button, COL_BTN, COL_BTN_HOVER)
 add_hover(delete_button, COL_BTN, COL_BTN_HOVER)
+
+hardening_title = tk.Label(
+    hardening_screen,
+    text="Hardening (v1)",
+    bg=COL_BG,
+    fg=COL_ACCENT,
+    font=("Segoe UI", 28, "bold"),
+)
+hardening_title.pack(pady=(60, 10))
+
+hardening_desc = tk.Label(
+    hardening_screen,
+    text="A la següent versió afegirem radio buttons i funcionalitat.",
+    bg=COL_BG,
+    fg=COL_MUTED,
+    font=FONT_UI,
+)
+
+
+hardening_desc.pack()
 
 window.mainloop()
