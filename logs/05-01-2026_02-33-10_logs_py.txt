@@ -1,0 +1,29 @@
+[05-01-2026 02:33:10] ✅📝 Nou fitxer de log creat: 05-01-2026_02-33-10_logs_py.txt
+[05-01-2026 02:33:10] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[05-01-2026 02:33:11] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 02:33:13] [✅ NOTICE] Secció sons FX
+[05-01-2026 02:33:15] [✅ NOTICE] Usuari ha seleccionat SONS FX
+[05-01-2026 02:33:15] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 02:33:18] [✅ NOTICE] Secció sons FX
+[05-01-2026 02:33:19] [✅ NOTICE] Usuari ha seleccionat DESACTIVAR FX
+[05-01-2026 02:33:19] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 02:33:21] [✅ NOTICE] Secció sons FX
+[05-01-2026 02:33:23] [✅ NOTICE] Usuari ha seleccionat SONS FX
+[05-01-2026 02:33:23] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 02:33:26] [✅ NOTICE] Cleaning seleccionat
+[05-01-2026 02:33:27] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[05-01-2026 02:33:34] [✅ NOTICE] Script BAR_test1_TEMP.py finalitzat OK
+[05-01-2026 02:33:34] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 02:33:40] [✅ NOTICE] Cleaning seleccionat
+[05-01-2026 02:33:41] [✅ NOTICE] Usuari ha seleccionat mode DEL
+[05-01-2026 02:33:46] [✅ NOTICE] Usuari torna al menú anterior
+[05-01-2026 02:33:46] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 02:33:48] [✅ NOTICE] Secció sons FX
+[05-01-2026 02:33:49] [✅ NOTICE] Usuari ha seleccionat SONS FX
+[05-01-2026 02:33:49] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[05-01-2026 02:33:54] [✅ NOTICE] Cleaning seleccionat
+[05-01-2026 02:33:55] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[05-01-2026 02:33:58] [✅ NOTICE] Script BAR_test1_TEMP.py finalitzat OK
+[05-01-2026 02:33:58] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.

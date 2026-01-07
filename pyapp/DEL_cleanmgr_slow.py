@@ -9,7 +9,10 @@ TOT EL CONTINGUT D'AQUEST SCRIPT ESTA FET AMB IA. EN LA SEGUENT ENTREGA ES SUBST
 import ctypes
 import subprocess
 import time
+from rich import *
+from rich.console import *
 from modules.LogRegister import log
+
 
 PROFILE_ID = 1
 

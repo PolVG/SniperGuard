@@ -1,19 +1,24 @@
 from modules.LogRegister import log
 import os,sys, ctypes
-from rich.console import *
+
 from pathlib import Path
 import zipfile
+import winsound
 
+BASE_DIR = Path(__file__).resolve().parent
+SOUNDS_DIR = BASE_DIR / "sounds"
 
 # Llegeix una opció per input i valida que:
 #  no sigui buida, sigui un dígit, i el número sigui una opció del menú.
 # ID 400 logs = ERROR
 
+# ─────────────────────────────────────────────
+# Estat de so (sessió actual)
+# ─────────────────────────────────────────────
+SOUND_ENABLED = False
 
 '''
 def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 400): 
-
-
 
 Aquesta funció demana a l'usuari una entrada i valida que sigui vàlida segons les opcions proporcionades.
 Rep com a paràmetres:
@@ -25,7 +30,6 @@ Retorna:    L'opció vàlida seleccionada per l'usuari, o None si l'entrada és 
 '''
 def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 400):
     
-  
     choice = input(prompt).strip()
 
     # Si l'entrada està buida torna al menú principal
@@ -45,39 +49,30 @@ def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 
 
     return choice
 
-"""
-    def check_admin_privileges(): [AQUESTA FUNCIÓ  ESTA FET AMB IA]
-Aquesta funció comprova si l'usuari té privilegis elevats (administrador) en un sistema Windows.
-Retorna:    True si l'usuari té privilegis elevats, False en cas contrari.
-"""
 def check_admin_privileges():
 
-    privilegis_elevats = False
+    """
+    [AQUESTA FUNCIÓ ESTA FET AMB IA]
+    Aquesta funció comprova si l'usuari té privilegis elevats (administrador) en un sistema Windows.
+    Retorna: Retorna False en el cas que l'usuari no sigui administrador.
+    """
+    # Detecta si l'usuari té privilegis elevats en un entorn windows
+    try:
+        privilegis_elevats = ctypes.windll.shell32.IsUserAnAdmin()
+    except Exception:
+        privilegis_elevats = False
 
-    # Detecta si l'usuari té privilegis elevats
-    # detectant si el procés de Python s'executa amb Windows\NT
-    if os.name == "nt":
-        try:
-            privilegis_elevats = ctypes.windll.shell32.IsUserAnAdmin() != 0
-        except Exception:
-            privilegis_elevats = False
-
-    # Missatge a l'usuari
-    if privilegis_elevats:
-        log("El programa s'està executant amb privilegis elevats.",250)
-    else:
-        log("Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides",300)
-
+    # Retorna l'estat actual dels permisos.
     return privilegis_elevats
 
 
 
 '''
-def eliminate_logs():
+def erase_logs():
 Aquesta funció elimina tots els fitxers de log que es troben a la carpeta LOGS_DIR.
 Retorna: True si els logs s'han eliminat correctament, False en cas contrari.
 '''
-def eliminate_logs():
+def erase_logs():
    
     
     PROJECT_ROOT = Path(__file__).resolve().parent
@@ -181,3 +176,31 @@ def decompress_logs():
         log(f"Error en decompress_logs(): {e}", 500)
         print(f"\n❌ Error descomprimint fitxers: {e}\n")
         return False
+
+
+"""
+Funció feta amb IA
+"""
+BASE_DIR = Path(__file__).resolve().parent
+SOUNDS_DIR = BASE_DIR / "sounds"
+
+# Aquesta funció permet executar el so de manera asincrona.
+# Així, es pot reproduir el so mentre SniperGuard 
+# segueix en execució de manera asincrona. 
+def play_sound(filename: str, async_play: bool = True):
+
+    # Si el so està desactivat, no fem res
+    if not SOUND_ENABLED:
+        return
+    
+    sound_path = SOUNDS_DIR / filename
+
+    if not sound_path.exists():
+        log(f"ERROR! So no trobat: {sound_path}",400)
+        return
+
+    flags = winsound.SND_FILENAME
+    if async_play:
+        flags |= winsound.SND_ASYNC
+    log("S'ha activat el so a SniperGuard",250)
+    winsound.PlaySound(str(sound_path), flags)

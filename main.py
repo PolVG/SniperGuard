@@ -1,8 +1,15 @@
+
+"""
+IMPORTANT! El fitxer s'arrenca des de 'start.py' per verificar
+           automaticament si l'usuari te les dependencies
+           necesarries per arrencar SniperGuard
+"""
 # llibreries externes
 import sys, os
 import subprocess
 from pathlib import Path
 from datetime import datetime
+
 from rich import *
 from rich.console import *
 from rich.markdown import Markdown
@@ -10,12 +17,13 @@ from rich.table import Table
 from rich.panel import Panel
 from rich import box
 from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
-import time
+import time 
 
 
 # llibreries internes
-from modules.LogRegister import log, init_log_file, get_current_log_file
-from recursos import check_input_user, check_admin_privileges, eliminate_logs, compress_logs, decompress_logs
+from modules.LogRegister import log, init_log_file, get_current_log_file, manage_logs, print_log_levels_table, check_current_log_level
+import recursos
+from recursos import check_input_user, check_admin_privileges, erase_logs, compress_logs, decompress_logs
 
 
 # Configuració global
@@ -83,7 +91,7 @@ def run_script(script_name:  str):
         return
 
     if not sys.executable: #ruta de l'intèrpret de Python
-        log("sys.executable no està disponible.", 500)
+        log("sys.executable no està disponible.", 400)
         return
 
     log(f"Preparant execució de script: {script_path}", 200)
@@ -129,11 +137,10 @@ def run_script(script_name:  str):
        
         if process.returncode == 0:
             log(f"Script {script_name} finalitzat OK", 250)
-            console.print(f"[bold green]✓ {script_name} completat amb èxit[/bold green]")
+            console.print(f"[bold green] {script_name} completat amb èxit[/bold green]")
         else:
             log(f"Script {script_name} returncode={process.returncode}", 300)
-            #console.print(f"[bold yellow]⚠ {script_name} acabat amb errors (code {process.returncode})[/bold yellow]")
-
+          
         if stdout and stdout.strip():
             log(f"STDOUT {script_name}: {stdout. strip()}", 100)
 
@@ -141,11 +148,11 @@ def run_script(script_name:  str):
             log(f"STDERR {script_name}:  {stderr.strip()}", 400)
 
     except subprocess.TimeoutExpired:
-        log(f"Timeout executant {script_name}", 500)
+        log(f"Timeout executant {script_name}", 400)
         console.print("[bold red]❌ Timeout: procés massa lent[/bold red]")
         process.kill()
     except Exception as e:
-        log(f"Error executant {script_name}: {e}", 500)
+        log(f"Error executant {script_name}: {e}", 400)
         console.print(f"[bold red]❌ Error: {e}[/bold red]")
 
 '''
@@ -156,12 +163,18 @@ Rep com a paràmetres les opcions seleccionades per l'usuari a la GUI i executa 
 def run_cleaning_from_gui(mode_choice: str, cleaning_choice: str):
     log("Executant run_cleaning_from_gui() des de GUI", 200)
 
-    try:
-        check_admin_privileges()
-    except Exception as e:
-        log(f"Error en check_admin_privileges() (GUI): {e}", 600)
-        return
+    if not check_admin_privileges():
+        print("ERROR! Aturant el programa.")
+        print("SniperGuard requereix ser executat com administrador per funcionar.")
+        print("Si ets administrador, clica amb el botó dret sobre la icona de SniperGuard")
+        print("i selecciona: 'Executa com a administrador'")
+        log("SniperGuard s'ha aturat al no arrencar-se com administrador.",250)
+        sys.exit()
 
+    # Si el programa s'ha arrencat correctament, 
+    # executem SniperGuard com a administrador.    
+    log("SniperGuard s'ha executat correctament amb privilegis administratius.",250)
+       
     if mode_choice not in {"1", "2"}:
         log(f"Mode invàlid rebut des de GUI: {mode_choice}", 400)
         return
@@ -197,12 +210,12 @@ Aquesta funció mostra un menú de neteja a l'usuari i executa l'script correspo
 '''
 def cleaning_menu(mode):
     log("Mostrant al usuari les opcions disponibles de neteja.", 100)
-
+    recursos.play_sound("reloading.wav")
     BAR_OPTIONS = {
         "1": ("Estat arxius temporals", "BAR_test1_TEMP.py"),
         "2": ("Estat navegadors (historial/cookies/caché)", "BAR_test12_Full_Clean_browser.py"),
         "3": ("Estat paperera de reciclatge", "BAR_test4_Empty_Recycle_Bin.py"),
-        "4": ("Estat carpeta 'C:\\Windows\\WinSxS'", "BAR_DISM_Analyze.py"),
+        "4": ("Estat carpeta 'C:\\Windows\\WinSxS' (+3 min)", "BAR_DISM_Analyze.py"),
         "5": ("Tornar al menú", None),
     }
 
@@ -222,6 +235,7 @@ def cleaning_menu(mode):
     else:
         log("Mode DEL actiu: mostrant opcions de neteja", 200)
         options = DEL_OPTIONS
+
 
     print("\n")
     panel = Panel(
@@ -249,7 +263,14 @@ def cleaning_menu(mode):
     
 
     choice = check_input_user("Introdueix una opció: ", set(options.keys())) # set() per convertir les claus en conjunt set
+    # Només volem que es mostri aquest missatge si l'usuari
+    # realitza una neteja exhaustiva.
+    if mode != MODE_BAR and choice == "5":
+        console.print("[bold yellow]Per fer una neteja exhaustiva, seleciona primer de cleanmgr.exe quins elements vol eliminiar. Després, prem 'OK' [bold yellow]")
+        console.print("[yellow underline]Obrint 'cleanmgr.exe'. Si us plau esperi... [yellow underline]")
+    
     if choice is None:
+        recursos.play_sound("shell.wav")
         log("Sortint de la funció cleaning_menu()", 100)
         return
 
@@ -258,9 +279,10 @@ def cleaning_menu(mode):
     label, script = options[choice]
 
     if script is None:
+        recursos.play_sound("shell.wav")
         log("Usuari torna al menú anterior", 250)
         return
-
+    recursos.play_sound("gun.wav")
     log(f"Executant acció: {label}", 200)
     run_script(script)
 
@@ -271,7 +293,8 @@ Aquesta funció mostra un menú de hardening a l'usuari i executa l'script corre
 '''
 def hardening_menu(mode):
     log("Mostrant al usuari les opcions disponibles de hardening.", 100)
-
+    
+    recursos.play_sound("reloading.wav")
     BAR_OPTIONS = {
         "1": ("Comprovar si Windows Defender està actiu", "HARD_WinDefender.py"),
         "2": ("Comprovar si falten actualitzacions a Windows Defender", "HARD_WinDefenderUpdateAvailable.py"),
@@ -280,8 +303,8 @@ def hardening_menu(mode):
     }
 
     DEL_OPTIONS = {
-        "1": ("Actualitzar Windows Defender", "HARD_WinDefenderUpdate.py"),
-        "2": ("Actualitzar Windows amb Windows Update", "HARD_WindowsUpdate.py"),
+        "1": ("Actualitzar Windows Defender (-30 sec)", "HARD_WinDefenderUpdate.py"),
+        "2": ("Actualitzar Windows amb Windows Update (+10 min)", "HARD_WindowsUpdate.py"),
         "3": ("Tornar al menú", None),
     }
 
@@ -316,6 +339,7 @@ def hardening_menu(mode):
 
     choice = check_input_user("Introdueix una opció: ", set(options.keys()))
     if choice is None:
+
         log("Sortint de la funció hardening_menu()", 100)
         return
 
@@ -324,11 +348,55 @@ def hardening_menu(mode):
     label, script = options[choice]
 
     if script is None:
+        recursos.play_sound("shell.wav")
         log("Usuari torna al menú anterior", 250)
         return
-
+    recursos.play_sound("gun.wav")
     log(f"Executant acció: {label}", 200)
     run_script(script)
+
+def sons_FX():
+    global SOUND_ENABLED
+    while True:
+        print("\n")
+        panel = Panel(
+            Align.center("[bold orange3 underline] Sons FX [/bold orange3 underline]", vertical="middle"),
+            border_style="orange3",
+            style="on grey15",
+            padding=(1, 6),
+        )
+        console.print(panel)
+        print("\n")
+        console.print("Què vols fer?", style="bold white underline")
+        table = Table(show_lines=True,border_style="orange3")
+        table.add_column("ID", justify="center", header_style="bold white", style="bold cyan", no_wrap=True)
+        table.add_column("Títol", justify="center", header_style="bold white", style="bold white")
+        table.add_column("Descripció", justify="center",header_style="bold white", style="bold white")
+
+        table.add_row("1.", "Activar FX", "Es reprodueixen arxius de so mentre s'utilitza SniperGuard.")
+        table.add_row("2.", "Desactivar FX", "SniperGuard silenciós.")
+        table.add_row("3.", "Sortir", "Torna al menú principal.")
+        console.print(table)
+
+        try:
+            choice = check_input_user("Introdueix una opció: ", {"1", "2", "3"})
+        except Exception as e:
+            log(f"Error en check_input_user() dins choose_mode(): {e}", 400)
+            choice = None
+
+        if choice == "1":
+            log("Usuari ha seleccionat SONS FX", 250)
+            recursos.SOUND_ENABLED = True
+            recursos.play_sound("reloading.wav")
+            return
+        elif choice == "2":
+            log("Usuari ha seleccionat DESACTIVAR FX", 250)
+            recursos.SOUND_ENABLED = False
+            return
+        else:
+            recursos.play_sound("shell.wav")
+            log("Usuari ha seleccionat tornar al menú principal", 250)
+            return None
 
 
 def choose_logs():
@@ -351,14 +419,15 @@ def choose_logs():
 
         table.add_row("1.", "Comprimir (ZIP)", "Comprimeix els logs en un .ZIP")
         table.add_row("2.", "Descomprimir (UNZIP)", "Descomprimeix els logs d'un .ZIP")
-        table.add_row("3.", "Esborrar logs", "Esborra tots els logs de SpineGuard")
-        table.add_row("4.", "Sortir", "Tornar al menú principal")
+        table.add_row("3.", "Esborrar logs", "Esborra tots els logs de SpineGuard.")
+        table.add_row("4.", "Baròmetre logs", "Defineix quina categoria de logs a mostrar.")
+        table.add_row("5.", "Sortir", "Tornar al menú principal")
         console.print(table)
 
         try:
             choice = check_input_user("Introdueix una opció: ", {"1", "2", "3","4","5","6","7"})
         except Exception as e:
-            log(f"Error en check_input_user() dins choose_mode(): {e}", 600)
+            log(f"Error en check_input_user() dins choose_mode(): {e}", 400)
             choice = None
 
         if choice == "1":
@@ -370,10 +439,35 @@ def choose_logs():
             decompress_logs()
             return None
         elif choice == "3":
-            log("Usuari ha seleccionat ESBORRAR LOGS", 250)
-            eliminate_logs()
+            log("Usuari ha seleccionat ESBORRAR LOGS", 250)           
+            #
+            erase_logs()
+            #
+            console.print("[bold green] Els logs s'han esborrat correctament. [bold green]")
+            console.print("[bold green] Es veu un nou fitxer de logs degut a que SniperGuard torna a arrencar. [bold green]")
             return None
+        
+        elif choice == "4":
+            log("Usuari ha seleccionat BARÒMETRE LOGS", 250)
+            #
+         
+            print_log_levels_table()
+            current_log = check_current_log_level()
+            print()
+            console.print(f"Nivell de log actual: {current_log}")
+            print()
+            console.print(f"Prem '1' per tornar al menú principal")
+            print()
+            new_log = check_input_user("Introdueix el nivell de log a guardar: ", {"1", "100", "200", "250","300","400"})
+            
+            if new_log == '1':
+                console.print(f"[bold yellow]Retornant al menú principal.[bold yellow]")
+                return None
+            else:
+                manage_logs(current_log, new_log)
+                return None
         else:
+            recursos.play_sound("shell.wav")
             log("Usuari ha seleccionat tornar al menú principal", 250)
             return None
         
@@ -407,7 +501,7 @@ def choose_mode():
         try:
             choice = check_input_user("Introdueix una opció: ", {"1", "2", "3","4","5","6","7"})
         except Exception as e:
-            log(f"Error en check_input_user() dins choose_mode(): {e}", 600)
+            log(f"Error en check_input_user() dins choose_mode(): {e}", 400)
             choice = None
 
         if choice == "1":
@@ -417,6 +511,7 @@ def choose_mode():
             log("Usuari ha seleccionat mode DEL", 250)
             return MODE_DEL
         else:
+            recursos.play_sound("shell.wav")
             log("Usuari ha seleccionat tornar al menú principal", 250)
             return None
 
@@ -450,7 +545,7 @@ def choose_hardening_mode():
         try:
             choice = check_input_user("Introdueix una opció: ", {"1", "2", "3"})
         except Exception as e:
-            log(f"Error en check_input_user() dins choose_hardening_mode(): {e}", 600)
+            log(f"Error en check_input_user() dins choose_hardening_mode(): {e}", 400)
             choice = None
 
         if choice == "1":
@@ -460,6 +555,7 @@ def choose_hardening_mode():
             log("Usuari ha seleccionat mode DEL", 250)
             return MODE_DEL
         else:
+            recursos.play_sound("shell.wav")
             log("Usuari ha seleccionat tornar al menú principal", 250)
             return None
 
@@ -480,7 +576,7 @@ def print_banner():
     console.print("                  ███████║██║ ╚████║██║██║     ███████╗██║  ██║╚██████╔╝╚██████╔╝██║  ██║██║  ██║██████╔╝", justify="center", style="bold deep_sky_blue4")
     console.print("                  ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝", justify="center", style="bold spring_green4")
     print("\n")
-    console.rule("[bold underline red] Fet per Grup 1 [/bold underline red]")
+    console.rule("[bold underline red] Fet pel Grup 1 [/bold underline red]")
 
 
 
@@ -492,7 +588,8 @@ Mostra un menú a l'usuari per triar entre les opcions de Hardening, Cleaning o 
 '''
 def main():
 
-    init_log_file()# Inicialitza el fitxer de log abans de qualsevol altra operació de registre
+    # Inicialitza el fitxer de log abans de qualsevol altra operació de registre
+    init_log_file() 
 
     while True:
         log("==== SNIPERGUARD iniciant  ====", 200)
@@ -512,12 +609,27 @@ def main():
 
         console.print(panel)
       
-        try:
-            check_admin_privileges()
-        except Exception as e:
-            log(f"Error en check_admin_privileges(): {e}", 600)
-            print("Error: no es van poder comprovar els privilegis d'administrador.")
-            break
+        if not check_admin_privileges():
+            print()
+            panel2 = Panel(
+                Align.center("[bold red] ERROR! Aturant el programa. [/bold red]", vertical="middle"),
+                style="on grey11",
+                border_style="red",
+                padding=(1, 6),
+            )
+            console.print(panel2)
+            print("SniperGuard requereix ser executat com administrador per funcionar.")
+            print("Si ets administrador, clica amb el botó dret sobre la icona de SniperGuard")
+            print("i selecciona: 'Executa com a administrador'")
+            print()
+            log("SniperGuard s'ha aturat al no arrencar-se com administrador.",400)
+            sys.exit()
+
+        # Si el programa s'ha arrencat correctament, 
+        # executem SniperGuard com a administrador.    
+        log("SniperGuard s'ha executat correctament amb privilegis administratius.",250)
+       
+
 
         attempts = 0
         while True:
@@ -527,6 +639,9 @@ def main():
                 header_style="bold white",
                 padding=(0, 1),
             )
+            console.print("[bold underline green]Executant programa amb permisos d'administrador [bold underline green]")
+            print()
+
             console.print("Escolleix una opció:", style="underline bold")
             table.add_column("ID", justify="center", header_style="bold white", no_wrap=True)
             table.add_column("Títol", justify="center", header_style="bold white")
@@ -535,7 +650,8 @@ def main():
             table.add_row("1.", "Hardening (Bastionatge)","Permet actualitzar el seu PC", style="bold yellow")
             table.add_row("2.", "Neteja i manteniment","Permet netejar arxius residuals del seu PC.",style="bold green")
             table.add_row("3.", "Gestió de logs","Permet comprimir, descomprimir i esborrar logs de SniperGuard",style="bold sky_blue1")
-            table.add_row("4.", "Sortir","Atura l'execució de SniperGuard", style="bold red")
+            table.add_row("4.", "Sons FX","Permet activar el sons FX de SniperGuard ",style="bold orange3")
+            table.add_row("5.", "Sortir","Atura l'execució de SniperGuard", style="bold red")
 
             console.print(table)
             print("\n")
@@ -543,7 +659,7 @@ def main():
             try:
                 decisio = check_input_user("Introdueix una opció : ", {"1", "2", "3", "4"})
             except Exception as e:
-                log(f"Error en check_input_user(): {e}", 600)
+                log(f"Error en check_input_user(): {e}", 400)
                 decisio = None
 
             if decisio == "1":
@@ -553,8 +669,10 @@ def main():
                     if mode is None:
                         break
                     hardening_menu(mode)
+                    
+                   
                 except Exception as e:
-                    log(f"Error executant Hardening: {e}", 600)
+                    log(f"Error executant Hardening: {e}", 400)
                     print("Error executant Hardening. Revisa els logs.")
                 break
 
@@ -567,7 +685,7 @@ def main():
                         break
                     cleaning_menu(mode)
                 except Exception as e:
-                    log(f"Error executant Cleaning: {e}", 600)
+                    log(f"Error executant Cleaning: {e}", 400)
                     print("Error executant Cleaning. Revisa els logs.")
                 break
             elif decisio == "3":
@@ -578,14 +696,28 @@ def main():
                     if mode is None:
                         break
                 except Exception as e:
-                    log(f"Error executant Gestió de logs: {e}", 600)
+                    log(f"Error executant Gestió de logs: {e}", 400)
+                    print("Error executant Gestió de logs. Revisa els logs.")
+                break
+            elif decisio == "4":
+                log("Secció sons FX", 250)
+                print("\n")
+                #
+                try:
+                    mode = sons_FX()
+                    if mode is None:
+                        break
+                except Exception as e:
+                    log(f"Error executant Gestió de logs: {e}", 400)
                     print("Error executant Gestió de logs. Revisa els logs.")
                 break
             else:
+                recursos.play_sound("shell.wav")
                 log("Usuari ha sortit del programa (Exit).", 200)
                 log("==== Fi SniperGuard ====", 200)
                 show_log_link() # Mostra l'enllaç al fitxer de log abans de sortir
                 return
+
 
 if __name__ == "__main__":
     try:
@@ -596,6 +728,6 @@ if __name__ == "__main__":
         show_log_link() 
         print("\n[bold yellow]Programa aturat.[/bold yellow]")
     except Exception as e: # Altres excepcions no previstes
-        log(f"Error en la execució main: {e}", 600)
+        log(f"Error en la execució main: {e}", 400)
         show_log_link()  
         console.print(f"[bold red]Error crític: {e}[/bold red]")
