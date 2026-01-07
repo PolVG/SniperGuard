@@ -46,69 +46,169 @@
 ####################################################################################################
 ```
 
-# Què és SniperGuard?
+# SniperGuard
 
-SniperGuard és un programa open-source (de codi lliure) que permet fer una neteja 
-i hardening de lequip mitjançant lús de codi Python.
-D'aquesta manera, l'usuari podrà conèixer quins programes desfasats i processos inservibles 
-està consumint el PC amb l'objectiu d'eradicar-los de l'equip.
+## 1) Descripció del projecte i problema que resol
+
+**SniperGuard** és una eina escrita en **Python** orientada a **Windows** que permet fer **hardening (bastionatge)** i **cleaning (neteja/manteniment)** del sistema mitjançant un menú per consola.
+
+Problemes que resol:
+- **Manteniment deficient** del PC (acumulació de temporals, residus, caché/historial de navegadors, paperera plena).
+- **Desconeixement de l’estat de seguretat/actualització** (Windows Defender i Windows Update).
+- Necessitat de tenir **traçabilitat**: l’eina registra accions i errors en **fitxers de log**.
+
+L’eina funciona amb dos enfocaments:
+- **Mode BAR**: inspecció/identificació (només comprovar estat).
+- **Mode DEL/HARD**: comprovar + executar accions (neteja o actualització).
+
+---
+
+## 2) Requisits de sistema i dependències
+
+### Sistema operatiu
+- **Windows**.
+
+### Python
+- **Python 3.8 o superior**
+- Recomanat: `python` disponible al **PATH**.
+
+### Privilegis
+- Cal executar com a **Administrador** per tenir funcionalitat completa (SniperGuard comprova permisos i pot aturar-se si no són suficients).
+
+### Dependències Python
+ `requirements.txt`:
+- `rich==14.2.0` (interfície de terminal: taules, panells, progrés)
+- `Pillow==12.0.0` (relacionat amb GUI/imatges si s’utilitza)
+
+---
+
+## 3) Passos d’instal·lació (dev)
+
+### Opció A — Recomanat (arrencar amb `start.py`)
+`start.py` comprova si falten dependències i, si cal, executa automàticament:
+`python -m pip install -r requirements.txt`
 
 
-# Requeriments
 
-- Python 3.8 o superior
-- Llibreries Python (instal·lar amb `pip`):
-  - `rich` (necessària per a la interfície de terminal)
-  - `Pillow` (opcional, per a la gestió d'imatges de la GUI)
-- Ejecutar com administrador Visual Studio per funcionament complet
-- Python ha de estar vinculat al PATH del usuari (enviorment variables)
 
-Instal·latió recomanada (entorn virtual, Windows PowerShell):
+## 4) Instruccions detallades d’ús i exemples
 
-```powershell
-python -m venv .\venv
-.\venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+### 4.1 Arrencada
+Executa (millor com a administrador):
+
+```cmd 
+python start.py
 ```
 
-També es pot instal·lar manualment amb:
+Això llança `main.py` després de verificar dependències.
 
-```powershell
-python -m pip install rich Pillow
-```
+### 4.2 Menú principal (consola)
+Des de `main.py` apareix un menú amb:
+1. **Hardening (Bastionatge)**
+2. **Cleaning (Neteja i manteniment)**
+3. **Gestió de logs**
+4. **Sons FX**
+5. **Sortir**
+
+Les accions reals es duen a terme executant scripts de la carpeta `pyapp/`.
 
 
-# Com utilitzar SniperGuard versió Alpha
 
-La versió Alpha de SniperGuard conté les següents 
-funcionalitats mitjançant l'ús de la Terminal o interficie gràfica.
-D'aquesta manera, l'usuari ha d'introduir els números i prémer Enter
-quan se sol·liciti al menú o per interficie gràfica.
+### 4.3 Hardening (Bastionatge)
+Hi ha dos modes:
 
-# Comentaris Alpha
+- **BAR (Identificar / comprovar)**  
+  Exemples (segons el menú):
+  - Comprovar si Windows Defender està actiu
+  - Comprovar si falten actualitzacions de Windows Defender
+  - Comprovar si falten actualitzacions de Windows Update
 
-- Hardening només esta disponible per terminal
-- Resum dels logs només esta per consola
-- Terminal els logs no estan processats "maquillats".
--  
+- **HARD/DEL (Aplicar / executar)**  
+  Exemples (segons el menú):
+  - Actualitzar Windows Defender
+  - Actualitzar Windows amb Windows Update (pot trigar minuts)
 
--- Opcions del menú principal: --
+**Exemple**
+1) `python start.py`  
+2) Tria `1` (Hardening)  
+3) Tria mode (BAR o HARD)  
+4) Tria una opció i prem Enter
 
-    Hardening (1): 
-        (1) --> Identificar si faltan actualizacions de Windows Update en el equip.
-        (2) --> Instalar actualizacions restants de Windows Update en el equip.
+---
 
-    Cleaning (2):
-        Identificar (1): -> Mode Inspecció.
-         (1) --> Esborrar fitxers temporals.
-         (2) --> Esborrar cookies, historial i memòria dels navegadors web.
-         (3) --> Esborrar la paperera de reciclatge de Windows.
-        
-        Identificar + Esborrar (2): -> S'inspeccionaran els fitxers i s'esborraran.ds
-         (1) --> Esborrar fitxers temporals.
-         (2) --> Esborrar cookies, historial i memòria dels navegadors web.
-         (3) --> Esborrar la paperera de reciclatge de Windows.
+### 4.4 Cleaning (Neteja i manteniment)
+Dos modes principals:
+
+- **BAR**: inspecció (no elimina res).
+- **DEL**: inspecció + eliminació.
+
+Opcions habituals (segons menú):
+- Arxius temporals
+- Navegadors (historial/cookies/caché)
+- Paperera de reciclatge
+- DISM (WinSxS) i `cleanmgr.exe` (neteja ràpida/lenta)
+
+**Exemple recomanat (segur)**
+1) Executa primer en mode **BAR** per veure què hi ha.
+2) Després repeteix en mode **DEL** per fer la neteja.
+
+---
+
+### 4.5 Gestió de logs
+Permet:
+- **Comprimir** logs (ZIP)
+- **Descomprimir** logs (UNZIP)
+- **Esborrar** logs
+- Canviar el **nivell mínim de logs** (“baròmetre”), guardat a `config/config.ini`
+
+Els logs es guarden a `logs/`.
+
+---
+
+### 4.6 Sons FX
+Permet activar/desactivar sons mentre s’utilitza SniperGuard.
+Els `.wav` estan a `sounds/` i s’executen amb `winsound`.
+
+---
+
+## 5) Breu descripció de l’estructura del codi
+
+- `start.py`  
+  Punt d’entrada recomanat. Verifica dependències i, si cal, instal·la `requirements.txt`. Després llança `main.py`.
+
+- `main.py`  
+  Lògica principal de l’aplicació per consola:
+  - menús (Hardening/Cleaning/Logs/Sons)
+  - comprovació de permisos d’administrador
+  - executor de scripts (`run_script`) que llança scripts de `pyapp/`
+  - interfície per consola amb Rich
+  - integració amb logs
+
+- `pyapp/`  
+  Scripts de tasques (hardening i cleaning) executats des del menú.
+
+- `modules/LogRegister.py`  
+  Sistema de logs:
+  - crea fitxer de log per execució
+  - nivells (DEBUG/INFO/NOTICE/WARNING/ERROR)
+  - lectura/escriptura del nivell mínim via `config/config.ini`
+
+- `recursos.py`  
+  Utilitats:
+  - validació d’entrada (`check_input_user`)
+  - comprovació d’admin
+  - compressió/descompressió/esborrat de logs
+  - reproducció de sons
+
+- `config/`  
+  Configuració (p. ex. `config.ini` per al nivell de logs).
+
+- `logs/`  
+  Emmagatzematge de logs.
+
+- `sounds/`, `img/`, `GUI.py`  
+  Recursos multimèdia i possible GUI.
+
 
 
 
