@@ -55,7 +55,7 @@ style.configure(
     darkcolor=COL_ACCENT,
 )
 
-# Configuració de la quadrícula principal
+
 window.columnconfigure(0, weight=0)
 window.columnconfigure(1, weight=1)
 window.rowconfigure(0, weight=0)
@@ -67,7 +67,7 @@ sidebar_frame.grid(row=0, column=0, rowspan=2, sticky="ns")
 sidebar_frame.grid_propagate(False)
 
 
-#Es creen dues pantalles, una de cleaning i una de hardening
+
 cleaning_screen = tk.Frame(window, bg=COL_BG)
 hardening_screen = tk.Frame(window, bg=COL_BG)
 
@@ -79,7 +79,7 @@ IMG_WID = 70
 IMG_HGT = 70
 
 
-# Funcions auxiliars
+
 def add_hover(widget, normal_bg, hover_bg):
     def on_enter(event):
         widget.config(bg=hover_bg)
@@ -126,10 +126,9 @@ def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_colo
     return btn
 
 
-# Banner (top center)
 banner_label = tk.Label(
     window,
-    text="CLEANING",
+    text="NETEJA",
     bg=COL_BG,
     fg=COL_ACCENT,
     font=("Segoe UI", 28, "bold"),
@@ -143,7 +142,7 @@ def show_screen(name):
         banner_label.config(text="HARDENING")
     else:
         cleaning_screen.tkraise()
-        banner_label.config(text="CLEANING")
+        banner_label.config(text="NETEJA")
 
 
 logo_img = Image.open("img/SniperGuardLogo.png")
@@ -171,7 +170,7 @@ for img_path, cmd in sidebar_buttons:
         hover_color=COL_BTN_HOVER,
     )
 
-# Default screen
+
 show_screen("cleaning")
 
 
@@ -212,68 +211,37 @@ panels_frame = tk.Frame(content_frame, bg=COL_BG)
 panels_frame.grid(row=0, column=1, sticky="n")
 panels_frame.columnconfigure(0, weight=1)
 
-'''
-Aquesta funció esta feta per IA
-
-def reset_gui():
-Aquesta funció reinicia la interfície gràfica d'usuari, restablint la barra de progrés, els textos de resum i logs, i l'estat dels botons.
-'''
 def reset_gui():
     progress_bar["value"] = 0
     progress_label.config(text="0%")
-
-    summary_text.delete("1.0", tk.END)
     logs_text.delete("1.0", tk.END)
 
-    delete_button.config(state="disabled")
-    keep_button.config(state="disabled")
     start_button.config(state="normal")
 
     deleted_label.grid_remove()
     kept_label.grid_remove()
 
 
-'''
-Aquesta funció esta feta per IA
-
-def execute_action_temp(action_id: str, run_callback):
-Aquesta funció executa una acció específica i actualitza la interfície gràfica d'usuari amb els resultats i els logs generats durant l'execució.
-'''
 def execute_action_temp(action_id: str, run_callback):
     deleted_label.grid_remove()
     kept_label.grid_remove()
 
     start_button.config(state="disabled")
-    delete_button.config(state="disabled")
-    keep_button.config(state="disabled")
-
-    summary_text.delete("1.0", tk.END)
     logs_text.delete("1.0", tk.END)
 
     log_path = init_log_file()
     log_file_path = log_path
 
     try:
-        try:
-            run_callback()
-        except Exception as e:
-            messagebox.showerror("Error", f"S'ha produït un error executant l'acció.\n{e}")
-            return
+        run_callback()
 
-        try:
-            with open(log_file_path, "r", encoding="utf-8") as f:
-                lines = f.readlines()
-                total = len(lines)
-        except FileNotFoundError:
-            messagebox.showerror("Error", f"No s'ha trobat el fitxer a: {log_file_path}")
-            return
+        with open(log_file_path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
 
+        total = len(lines)
         if total == 0:
-            summary_text.insert(tk.END, "Arxiu buit.")
+            logs_text.insert(tk.END, "Arxiu buit.\n")
             return
-
-        sections = []
-        current_section = None
 
         for i, line in enumerate(lines):
             current_percent = int(((i + 1) / total) * 100)
@@ -283,74 +251,19 @@ def execute_action_temp(action_id: str, run_callback):
             logs_text.insert(tk.END, line)
             logs_text.see(tk.END)
 
-            text = line.strip()
-
-            if text.startswith("="):
-                name = text.strip("=").strip()
-                if name:
-                    current_section = {"nom": name}
-                    sections.append(current_section)
-
-            elif line.startswith("Ruta:") and current_section is not None:
-                current_section["ruta"] = line.split("Ruta:", 1)[1].strip()
-
-            elif line.lstrip().startswith("Mida total") and current_section is not None:
-                current_section["mida_total"] = line.split(":", 1)[1].strip()
-
-            elif line.lstrip().startswith("Fitxers") and current_section is not None:
-                current_section["fitxers"] = line.split(":", 1)[1].strip()
-
-            elif line.lstrip().startswith("Baròmetre") and current_section is not None:
-                current_section["barometre"] = line.split(":", 1)[1].strip()
-
             window.update()
-            time.sleep(0.03)
+            time.sleep(0.01)
 
-        summary_text.insert(tk.END, "RESUM DE L'ANÀLISI\n")
-        summary_text.insert(tk.END, f"Acció: {action_id}\n")
-        summary_text.insert(tk.END, f"Fitxer log: {log_path.name}\n")
-        summary_text.insert(tk.END, "----------------------------------------\n")
-
-        useful_sections = [s for s in sections if "ruta" in s]
-
-        if not useful_sections:
-            summary_text.insert(
-                tk.END,
-                "No s'ha trobat cap carpeta analitzada. (DE MOMENT ÉS FUNCIONAL, A LA SEGUENT ENTREGA SERÀ FUNCIONAL)\n",
-            )
-        else:
-            for sec in useful_sections:
-                nom = sec.get("nom", "Secció")
-                ruta = sec.get("ruta", "Desconeguda")
-                mida = sec.get("mida_total", "Desconeguda")
-                fitxers = sec.get("fitxers", "Desconegut")
-                barometre = sec.get("barometre", "Sense dades")
-
-                summary_text.insert(tk.END, f"{nom}\n")
-                summary_text.insert(tk.END, f"  Ruta       : {ruta}\n")
-                summary_text.insert(tk.END, f"  Mida total : {mida}\n")
-                summary_text.insert(tk.END, f"  Fitxers    : {fitxers}\n")
-                summary_text.insert(tk.END, f"  Baròmetre  : {barometre}\n")
-                summary_text.insert(tk.END, "----------------------------------------\n")
-
-        summary_text.see(tk.END)
-
+    except Exception as e:
+        messagebox.showerror("Error", f"S'ha produït un error executant l'acció.\n{e}")
     finally:
         start_button.config(state="normal")
-        delete_button.config(state="normal")
-        keep_button.config(state="normal")
 
 
 selected_position_var = tk.StringVar(value="2.1")
 selected_mode_var = tk.StringVar(value="1")
 selected_action_var = tk.StringVar(value="1")
 
-'''
-Aquesta funció esta feta per IA
-
-def run_selected_cleaning():
-Aquesta funció obté les opcions seleccionades per l'usuari i executa l'acció de neteja corresponent.
-'''
 def run_selected_cleaning():
     action = selected_action_var.get()
     mode_choice = selected_mode_var.get()
@@ -363,49 +276,12 @@ def run_selected_cleaning():
         messagebox.showerror("Error", "Acció no vàlida.")
         return
 
-    # x.y.z
     action_id = f"2.{mode_choice}.{action}"
 
     def callback():
         main.run_cleaning_from_gui(mode_choice, action)
 
     execute_action_temp(action_id, callback)
-
-
-'''
-Aquesta funció esta feta per IA
-
-def confirm_delete():
-Aquesta funció mostra un diàleg de confirmació abans d'eliminar els fitxers i actualitza la interfície gràfica d'usuari segons l'acció realitzada.
-'''
-def confirm_delete():
-    question = messagebox.askquestion(
-        "Eliminació",
-        "Els següents fitxers s'eliminaran.\nEstàs segur?",
-    )
-    if question == "yes":
-        try:
-            keep_button.config(state="disabled")
-
-            execute_action_temp("2.2.1", lambda: main.run_script("DEL_test1_TEMP.py"))
-            deleted_label.grid_remove()
-            kept_label.grid_remove()
-            deleted_label.grid(row=0, column=0, sticky="w")
-        except Exception as e:
-            messagebox.showerror("Error", f"No s'han pogut eliminar els fitxers. {e}")
-
-
-'''
-Aquesta funció esta feta per IA
-
-def mark_keep():
-Aquesta funció actualitza la interfície gràfica d'usuari per indicar que els fitxers han estat conservats.
-'''
-def mark_keep():
-    deleted_label.grid_remove()
-    kept_label.grid_remove()
-    kept_label.grid(row=1, column=0, sticky="w")
-
 
 
 options_label = tk.Label(buttons_frame, text="Opcions", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
@@ -427,42 +303,6 @@ start_button = tk.Button(
 )
 start_button.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="w")
 
-keep_button = tk.Button(
-    buttons_frame,
-    text="Conservar",
-    command=mark_keep,
-    width=18,
-    state="disabled",
-    font=FONT_UI_BOLD,
-    bg=COL_BTN,
-    fg=COL_TEXT,
-    activebackground=COL_BTN_HOVER,
-    activeforeground=COL_TEXT,
-    relief="flat",
-    bd=0,
-    highlightthickness=1,
-    highlightbackground=COL_BORDER,
-)
-keep_button.grid(row=2, column=0, padx=10, pady=(0, 10), sticky="w")
-
-delete_button = tk.Button(
-    buttons_frame,
-    text="Eliminar",
-    command=confirm_delete,
-    width=18,
-    state="disabled",
-    font=FONT_UI_BOLD,
-    bg=COL_BTN,
-    fg=COL_TEXT,
-    activebackground=COL_BTN_HOVER,
-    activeforeground=COL_TEXT,
-    relief="flat",
-    bd=0,
-    highlightthickness=1,
-    highlightbackground=COL_BORDER,
-)
-delete_button.grid(row=3, column=0, padx=10, pady=(0, 10), sticky="w")
-
 advanced_label = tk.Label(
     buttons_frame,
     text="Opcions avançades",
@@ -470,10 +310,10 @@ advanced_label = tk.Label(
     fg=COL_TEXT,
     font=FONT_TITLE,
 )
-advanced_label.grid(row=4, column=0, padx=10, pady=(10, 5), sticky="w")
+advanced_label.grid(row=2, column=0, padx=10, pady=(10, 5), sticky="w")
 
 position_frame = tk.Frame(buttons_frame, bg=COL_BG)
-position_frame.grid(row=5, column=0, padx=10, pady=(0, 10), sticky="w")
+position_frame.grid(row=3, column=0, padx=10, pady=(0, 10), sticky="w")
 
 tk.Label(position_frame, text="Posició:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
@@ -490,7 +330,7 @@ tk.Radiobutton(
 ).grid(row=1, column=0, sticky="w")
 
 mode_frame = tk.Frame(buttons_frame, bg=COL_BG)
-mode_frame.grid(row=6, column=0, padx=10, pady=(0, 10), sticky="w")
+mode_frame.grid(row=4, column=0, padx=10, pady=(0, 10), sticky="w")
 
 tk.Label(mode_frame, text="Mode:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
@@ -519,7 +359,7 @@ tk.Radiobutton(
 ).grid(row=2, column=0, sticky="w")
 
 action_frame = tk.Frame(buttons_frame, bg=COL_BG)
-action_frame.grid(row=7, column=0, padx=10, pady=(0, 10), sticky="w")
+action_frame.grid(row=5, column=0, padx=10, pady=(0, 10), sticky="w")
 
 tk.Label(action_frame, text="Acció:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
@@ -560,7 +400,7 @@ tk.Radiobutton(
 ).grid(row=3, column=0, sticky="w")
 
 status_frame = tk.Frame(buttons_frame, bg=COL_BG)
-status_frame.grid(row=8, column=0, padx=10, pady=(10, 0), sticky="w")
+status_frame.grid(row=6, column=0, padx=10, pady=(10, 0), sticky="w")
 
 deleted_label = tk.Label(status_frame, text="Fitxers eliminats", font=FONT_UI, bg=COL_BG, fg=COL_DANGER)
 kept_label = tk.Label(status_frame, text="Fitxers conservats", font=FONT_UI, bg=COL_BG, fg=COL_OK)
@@ -570,47 +410,30 @@ kept_label.grid(row=1, column=0, sticky="w")
 deleted_label.grid_remove()
 kept_label.grid_remove()
 
-summary_label = tk.Label(panels_frame, text="Resum", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
-summary_label.grid(row=0, column=0, padx=10, pady=(0, 5), sticky="w")
-
-summary_text = tk.Text(
-    panels_frame,
-    bg=COL_PANEL,
-    fg=COL_TEXT,
-    insertbackground=COL_TEXT,
-    height=10,
-    width=60,
-    font=("Consolas", 10),
-    relief="flat",
-    highlightthickness=1,
-    highlightbackground=COL_BORDER,
-)
-summary_text.grid(row=1, column=0, padx=10, pady=(0, 10))
-
 logs_label = tk.Label(panels_frame, text="Tots els logs", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
-logs_label.grid(row=2, column=0, padx=10, pady=(15, 0), sticky="w")
+logs_label.grid(row=0, column=0, padx=10, pady=(0, 0), sticky="w")
 
 logs_text = tk.Text(
     panels_frame,
     bg=COL_PANEL,
     fg=COL_TEXT,
     insertbackground=COL_TEXT,
-    height=10,
+    height=23,
     width=60,
     font=("Consolas", 10),
     relief="flat",
     highlightthickness=1,
     highlightbackground=COL_BORDER,
 )
-logs_text.grid(row=3, column=0, padx=10, pady=(10, 0))
+logs_text.grid(row=1, column=0, padx=10, pady=(10, 0))
 
 add_hover(start_button, COL_ACCENT, "#7BE3FF")
-add_hover(keep_button, COL_BTN, COL_BTN_HOVER)
-add_hover(delete_button, COL_BTN, COL_BTN_HOVER)
+
+
 
 hardening_title = tk.Label(
     hardening_screen,
-    text="Hardening (v1)",
+    text="Hardening (v2)",
     bg=COL_BG,
     fg=COL_ACCENT,
     font=("Segoe UI", 28, "bold"),
@@ -619,13 +442,11 @@ hardening_title.pack(pady=(60, 10))
 
 hardening_desc = tk.Label(
     hardening_screen,
-    text="A la següent versió afegirem radio buttons i funcionalitat.",
+    text="Següent versió: radio buttons + funcionalitat.",
     bg=COL_BG,
     fg=COL_MUTED,
     font=FONT_UI,
 )
-
-
 hardening_desc.pack()
 
 window.mainloop()
