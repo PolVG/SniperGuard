@@ -1,0 +1,5 @@
+[08-01-2026 00:09:45] ✅📝 Nou fitxer de log creat: 08-01-2026_00-09-45_logs_py.txt
+[08-01-2026 00:09:45] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[08-01-2026 00:09:45] [✅ NOTICE] SniperGuard s'ha aturat al no arrencar-se com administrador.

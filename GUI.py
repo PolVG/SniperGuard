@@ -67,7 +67,7 @@ sidebar_frame.grid(row=0, column=0, rowspan=2, sticky="ns")
 sidebar_frame.grid_propagate(False)
 
 
-# --- FALTA COMENTAR ---
+
 cleaning_screen = tk.Frame(window, bg=COL_BG)
 hardening_screen = tk.Frame(window, bg=COL_BG)
 
@@ -79,6 +79,7 @@ IMG_WID = 70
 IMG_HGT = 70
 
 
+# Funcions auxiliars
 def add_hover(widget, normal_bg, hover_bg):
     def on_enter(event):
         widget.config(bg=hover_bg)
@@ -117,9 +118,10 @@ def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_colo
     return btn
 
 
+# Banner (top center)
 banner_label = tk.Label(
     window,
-    text="NETEJA",
+    text="CLEANING",
     bg=COL_BG,
     fg=COL_ACCENT,
     font=("Segoe UI", 28, "bold"),
@@ -133,7 +135,7 @@ def show_screen(name):
         banner_label.config(text="HARDENING")
     else:
         cleaning_screen.tkraise()
-        banner_label.config(text="NETEJA")
+        banner_label.config(text="CLEANING")
 
 
 logo_img = Image.open("img/SniperGuardLogo.png")
@@ -145,8 +147,7 @@ logo_label.pack(pady=10, padx=10)
 
 sidebar_buttons = [
     ("img/cleaner_sin_fondo.png", lambda: show_screen("cleaning")),
-    ("img/registry_sin_nombre.png", lambda: show_screen("hardening")),
-    ("img/herramientas_sin_fondo.png", crear_avis("Botó en desenvolupament.")),
+    ("img/herramientas_sin_fondo.png", lambda: show_screen("hardening")),
     ("img/opciones_sin_fondo.png", crear_avis("Botó en desenvolupament.")),
 ]
 
@@ -160,12 +161,11 @@ for img_path, cmd in sidebar_buttons:
         hover_color=COL_BTN_HOVER,
     )
 
+# Default screen
 show_screen("cleaning")
 
 
-# ------------------------------------------------------------
-# Cleaning screen UI
-# ------------------------------------------------------------
+
 main_container = tk.Frame(cleaning_screen, bg=COL_BG)
 main_container.grid(row=0, column=0, sticky="nsew")
 main_container.rowconfigure(0, weight=1)
@@ -202,21 +202,7 @@ panels_frame = tk.Frame(content_frame, bg=COL_BG)
 panels_frame.grid(row=0, column=1, sticky="n")
 panels_frame.columnconfigure(0, weight=1)
 
-def reset_gui():
-    progress_bar["value"] = 0
-    progress_label.config(text="0%")
-    logs_text.delete("1.0", tk.END)
-
-    start_button.config(state="normal")
-
-    deleted_label.grid_remove()
-    kept_label.grid_remove()
-
-
 def execute_action_temp(action_id: str, run_callback):
-    deleted_label.grid_remove()
-    kept_label.grid_remove()
-
     start_button.config(state="disabled")
     logs_text.delete("1.0", tk.END)
 
@@ -251,7 +237,6 @@ def execute_action_temp(action_id: str, run_callback):
         start_button.config(state="normal")
 
 
-selected_position_var = tk.StringVar(value="2.1")
 selected_mode_var = tk.StringVar(value="1")
 selected_action_var = tk.StringVar(value="1")
 
@@ -267,12 +252,10 @@ def run_selected_cleaning():
         messagebox.showerror("Error", "Acció no vàlida.")
         return
 
-    action_id = f"2.{mode_choice}.{action}"
-
     def callback():
         main.run_cleaning_from_gui(mode_choice, action)
 
-    execute_action_temp(action_id, callback)
+    execute_action_temp(f"2.{mode_choice}.{action}", callback)
 
 
 options_label = tk.Label(buttons_frame, text="Opcions", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
@@ -292,36 +275,11 @@ start_button = tk.Button(
     bd=0,
     highlightthickness=0,
 )
-start_button.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="w")
-
-advanced_label = tk.Label(
-    buttons_frame,
-    text="Opcions avançades",
-    bg=COL_BG,
-    fg=COL_TEXT,
-    font=FONT_TITLE,
-)
-advanced_label.grid(row=2, column=0, padx=10, pady=(10, 5), sticky="w")
-
-position_frame = tk.Frame(buttons_frame, bg=COL_BG)
-position_frame.grid(row=3, column=0, padx=10, pady=(0, 10), sticky="w")
-
-tk.Label(position_frame, text="Posició:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
-
-tk.Radiobutton(
-    position_frame,
-    text="2.1 Neteja",
-    variable=selected_position_var,
-    value="2.1",
-    bg=COL_BG,
-    fg=COL_TEXT,
-    selectcolor=COL_PANEL,
-    activebackground=COL_BG,
-    activeforeground=COL_TEXT,
-).grid(row=1, column=0, sticky="w")
+start_button.grid(row=1, column=0, padx=10, pady=(0, 16), sticky="w")
+add_hover(start_button, COL_ACCENT, "#7BE3FF")
 
 mode_frame = tk.Frame(buttons_frame, bg=COL_BG)
-mode_frame.grid(row=4, column=0, padx=10, pady=(0, 10), sticky="w")
+mode_frame.grid(row=2, column=0, padx=10, pady=(0, 12), sticky="w")
 
 tk.Label(mode_frame, text="Mode:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
@@ -350,7 +308,7 @@ tk.Radiobutton(
 ).grid(row=2, column=0, sticky="w")
 
 action_frame = tk.Frame(buttons_frame, bg=COL_BG)
-action_frame.grid(row=5, column=0, padx=10, pady=(0, 10), sticky="w")
+action_frame.grid(row=3, column=0, padx=10, pady=(0, 10), sticky="w")
 
 tk.Label(action_frame, text="Acció:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
@@ -390,18 +348,7 @@ tk.Radiobutton(
     activeforeground=COL_TEXT,
 ).grid(row=3, column=0, sticky="w")
 
-status_frame = tk.Frame(buttons_frame, bg=COL_BG)
-status_frame.grid(row=6, column=0, padx=10, pady=(10, 0), sticky="w")
-
-deleted_label = tk.Label(status_frame, text="Fitxers eliminats", font=FONT_UI, bg=COL_BG, fg=COL_DANGER)
-kept_label = tk.Label(status_frame, text="Fitxers conservats", font=FONT_UI, bg=COL_BG, fg=COL_OK)
-
-deleted_label.grid(row=0, column=0, sticky="w")
-kept_label.grid(row=1, column=0, sticky="w")
-deleted_label.grid_remove()
-kept_label.grid_remove()
-
-logs_label = tk.Label(panels_frame, text="Tots els logs", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
+logs_label = tk.Label(panels_frame, text="Tots els logs (Cleaning)", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
 logs_label.grid(row=0, column=0, padx=10, pady=(0, 0), sticky="w")
 
 logs_text = tk.Text(
@@ -418,25 +365,89 @@ logs_text = tk.Text(
 )
 logs_text.grid(row=1, column=0, padx=10, pady=(10, 0))
 
-add_hover(start_button, COL_ACCENT, "#7BE3FF")
 
 
-#Aquesta part del codi mostra la interficie gràfica de l'apartat de hardening
-#amb els seus botonos per indicar quina opció es vol executar
-hard_buttons_frame = tk.Frame(hardening_screen, bg=COL_BG)
-hard_buttons_frame.pack(side="left", anchor="n", padx=(40, 10), pady=(40, 10))
+hard_main = tk.Frame(hardening_screen, bg=COL_BG)
+hard_main.pack(fill="both", expand=True)
 
-hard_panels_frame = tk.Frame(hardening_screen, bg=COL_BG)
-hard_panels_frame.pack(side="left", anchor="n", padx=(10, 10), pady=(40, 10))
+hard_left = tk.Frame(hard_main, bg=COL_BG)
+hard_left.pack(side="left", anchor="n", padx=(40, 10), pady=(40, 10))
 
-hard_title = tk.Label(hard_buttons_frame, text="Opcions Hardening", bg=COL_BG, fg=COL_TEXT, font=("Segoe UI", 16, "bold"))
+hard_right = tk.Frame(hard_main, bg=COL_BG)
+hard_right.pack(side="left", anchor="n", padx=(10, 10), pady=(40, 10))
+
+hard_title = tk.Label(
+    hard_left,
+    text="Opcions Hardening",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    font=("Segoe UI", 16, "bold"),
+)
 hard_title.grid(row=0, column=0, sticky="w", pady=(0, 15))
 
 hard_mode_var = tk.StringVar(value="BAR")
 hard_action_var = tk.StringVar(value="1")
 
+hard_logs_label = tk.Label(
+    hard_right,
+    text="Tots els logs (Hardening)",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    font=FONT_TITLE,
+)
+hard_logs_label.pack(anchor="w")
+
+hard_logs_text = tk.Text(
+    hard_right,
+    bg=COL_PANEL,
+    fg=COL_TEXT,
+    insertbackground=COL_TEXT,
+    height=23,
+    width=60,
+    font=("Consolas", 10),
+    relief="flat",
+    highlightthickness=1,
+    highlightbackground=COL_BORDER,
+)
+hard_logs_text.pack(pady=(10, 0))
+
+
+def execute_action_hard(action_id: str, run_callback):
+    hard_start_button.config(state="disabled")
+    hard_logs_text.delete("1.0", tk.END)
+
+    log_path = init_log_file()
+    log_file_path = log_path
+
+    try:
+        run_callback()
+
+        with open(log_file_path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+
+        total = len(lines)
+        if total == 0:
+            hard_logs_text.insert(tk.END, "Arxiu buit.\n")
+            return
+
+        for i, line in enumerate(lines):
+            current_percent = int(((i + 1) / total) * 100)
+            progress_bar["value"] = current_percent
+            progress_label.config(text=f"{current_percent}%")
+
+            hard_logs_text.insert(tk.END, line)
+            hard_logs_text.see(tk.END)
+
+            window.update()
+            time.sleep(0.01)
+
+    except Exception as e:
+        messagebox.showerror("Error", f"S'ha produït un error executant l'acció.\n{e}")
+    finally:
+        hard_start_button.config(state="normal")
+
+
 def refresh_hardening_actions():
- 
     for w in hard_action_frame.winfo_children():
         w.destroy()
 
@@ -455,10 +466,10 @@ def refresh_hardening_actions():
         tk.Radiobutton(hard_action_frame, text="Executar Windows Update", variable=hard_action_var, value="2",
                        bg=COL_BG, fg=COL_TEXT, selectcolor=COL_PANEL, activebackground=COL_BG, activeforeground=COL_TEXT).grid(row=2, column=0, sticky="w")
 
+
 def run_selected_hardening():
     mode = hard_mode_var.get()
     action = hard_action_var.get()
-
 
     if mode == "BAR":
         scripts = {
@@ -481,10 +492,11 @@ def run_selected_hardening():
     def callback():
         main.run_script(script)
 
-    execute_action_temp(f"HARD.{mode}.{action}", callback)
+    execute_action_hard(f"HARD.{mode}.{action}", callback)
+
 
 hard_start_button = tk.Button(
-    hard_buttons_frame,
+    hard_left,
     text="Iniciar",
     command=run_selected_hardening,
     font=FONT_UI_BOLD,
@@ -500,7 +512,7 @@ hard_start_button = tk.Button(
 hard_start_button.grid(row=1, column=0, sticky="w", pady=(0, 20))
 add_hover(hard_start_button, COL_ACCENT, "#7BE3FF")
 
-hard_mode_frame = tk.Frame(hard_buttons_frame, bg=COL_BG)
+hard_mode_frame = tk.Frame(hard_left, bg=COL_BG)
 hard_mode_frame.grid(row=2, column=0, sticky="w")
 
 tk.Label(hard_mode_frame, text="Mode:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
@@ -531,20 +543,9 @@ tk.Radiobutton(
     activeforeground=COL_TEXT,
 ).grid(row=2, column=0, sticky="w")
 
-hard_action_frame = tk.Frame(hard_buttons_frame, bg=COL_BG)
+hard_action_frame = tk.Frame(hard_left, bg=COL_BG)
 hard_action_frame.grid(row=3, column=0, sticky="w", pady=(12, 0))
 
 refresh_hardening_actions()
-
-hard_info = tk.Label(
-    hard_panels_frame,
-    text="Els logs i el progrés es mostren a la pantalla de Neteja (mateix visor).",
-    bg=COL_BG,
-    fg=COL_MUTED,
-    font=FONT_UI,
-    wraplength=360,
-    justify="left",
-)
-hard_info.pack(anchor="w")
 
 window.mainloop()
