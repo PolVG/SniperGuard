@@ -55,7 +55,7 @@ style.configure(
     darkcolor=COL_ACCENT,
 )
 
-
+# Configuració de la quadrícula principal
 window.columnconfigure(0, weight=0)
 window.columnconfigure(1, weight=1)
 window.rowconfigure(0, weight=0)
@@ -67,7 +67,7 @@ sidebar_frame.grid(row=0, column=0, rowspan=2, sticky="ns")
 sidebar_frame.grid_propagate(False)
 
 
-
+# --- FALTA COMENTAR ---
 cleaning_screen = tk.Frame(window, bg=COL_BG)
 hardening_screen = tk.Frame(window, bg=COL_BG)
 
@@ -77,7 +77,6 @@ hardening_screen.grid(row=1, column=1, sticky="nsew")
 
 IMG_WID = 70
 IMG_HGT = 70
-
 
 
 def add_hover(widget, normal_bg, hover_bg):
@@ -91,20 +90,12 @@ def add_hover(widget, normal_bg, hover_bg):
     widget.bind("<Leave>", on_leave)
 
 
-'''
-def crear_avis(message):
-Aquesta funció crea una comanda que mostra un missatge d'informació quan s'executa.
-'''
 def crear_avis(message):
     def cmd():
         messagebox.showinfo("Informació", message)
     return cmd
 
 
-'''
-def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_color=None, hover_color=None):
-Aquesta funció crea un botó de barra lateral amb una imatge i efectes de hover.
-'''
 def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_color=None, hover_color=None):
     img = Image.open(image_path)
     img_resized = img.resize((IMG_WID, IMG_HGT))
@@ -152,7 +143,6 @@ logo_label = tk.Label(sidebar_frame, image=logo_photo, bg=COL_SIDEBAR)
 logo_label.image = logo_photo
 logo_label.pack(pady=10, padx=10)
 
-
 sidebar_buttons = [
     ("img/cleaner_sin_fondo.png", lambda: show_screen("cleaning")),
     ("img/registry_sin_nombre.png", lambda: show_screen("hardening")),
@@ -170,11 +160,12 @@ for img_path, cmd in sidebar_buttons:
         hover_color=COL_BTN_HOVER,
     )
 
-
 show_screen("cleaning")
 
 
-
+# ------------------------------------------------------------
+# Cleaning screen UI
+# ------------------------------------------------------------
 main_container = tk.Frame(cleaning_screen, bg=COL_BG)
 main_container.grid(row=0, column=0, sticky="nsew")
 main_container.rowconfigure(0, weight=1)
@@ -430,23 +421,130 @@ logs_text.grid(row=1, column=0, padx=10, pady=(10, 0))
 add_hover(start_button, COL_ACCENT, "#7BE3FF")
 
 
+#Aquesta part del codi mostra la interficie gràfica de l'apartat de hardening
+#amb els seus botonos per indicar quina opció es vol executar
+hard_buttons_frame = tk.Frame(hardening_screen, bg=COL_BG)
+hard_buttons_frame.pack(side="left", anchor="n", padx=(40, 10), pady=(40, 10))
 
-hardening_title = tk.Label(
-    hardening_screen,
-    text="Hardening (v2)",
-    bg=COL_BG,
-    fg=COL_ACCENT,
-    font=("Segoe UI", 28, "bold"),
+hard_panels_frame = tk.Frame(hardening_screen, bg=COL_BG)
+hard_panels_frame.pack(side="left", anchor="n", padx=(10, 10), pady=(40, 10))
+
+hard_title = tk.Label(hard_buttons_frame, text="Opcions Hardening", bg=COL_BG, fg=COL_TEXT, font=("Segoe UI", 16, "bold"))
+hard_title.grid(row=0, column=0, sticky="w", pady=(0, 15))
+
+hard_mode_var = tk.StringVar(value="BAR")
+hard_action_var = tk.StringVar(value="1")
+
+def refresh_hardening_actions():
+ 
+    for w in hard_action_frame.winfo_children():
+        w.destroy()
+
+    tk.Label(hard_action_frame, text="Acció:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
+
+    if hard_mode_var.get() == "BAR":
+        tk.Radiobutton(hard_action_frame, text="Defender està actiu", variable=hard_action_var, value="1",
+                       bg=COL_BG, fg=COL_TEXT, selectcolor=COL_PANEL, activebackground=COL_BG, activeforeground=COL_TEXT).grid(row=1, column=0, sticky="w")
+        tk.Radiobutton(hard_action_frame, text="Defender: updates disponibles", variable=hard_action_var, value="2",
+                       bg=COL_BG, fg=COL_TEXT, selectcolor=COL_PANEL, activebackground=COL_BG, activeforeground=COL_TEXT).grid(row=2, column=0, sticky="w")
+        tk.Radiobutton(hard_action_frame, text="Windows Update: comprovar", variable=hard_action_var, value="3",
+                       bg=COL_BG, fg=COL_TEXT, selectcolor=COL_PANEL, activebackground=COL_BG, activeforeground=COL_TEXT).grid(row=3, column=0, sticky="w")
+    else:
+        tk.Radiobutton(hard_action_frame, text="Actualitzar Windows Defender", variable=hard_action_var, value="1",
+                       bg=COL_BG, fg=COL_TEXT, selectcolor=COL_PANEL, activebackground=COL_BG, activeforeground=COL_TEXT).grid(row=1, column=0, sticky="w")
+        tk.Radiobutton(hard_action_frame, text="Executar Windows Update", variable=hard_action_var, value="2",
+                       bg=COL_BG, fg=COL_TEXT, selectcolor=COL_PANEL, activebackground=COL_BG, activeforeground=COL_TEXT).grid(row=2, column=0, sticky="w")
+
+def run_selected_hardening():
+    mode = hard_mode_var.get()
+    action = hard_action_var.get()
+
+
+    if mode == "BAR":
+        scripts = {
+            "1": "HARD_WinDefender.py",
+            "2": "HARD_WinDefenderUpdateAvailable.py",
+            "3": "BAR_test5_UPDATE.py",
+        }
+    else:
+        scripts = {
+            "1": "HARD_WinDefenderUpdate.py",
+            "2": "HARD_WindowsUpdate.py",
+        }
+
+    if action not in scripts:
+        messagebox.showerror("Error", "Acció hardening no vàlida.")
+        return
+
+    script = scripts[action]
+
+    def callback():
+        main.run_script(script)
+
+    execute_action_temp(f"HARD.{mode}.{action}", callback)
+
+hard_start_button = tk.Button(
+    hard_buttons_frame,
+    text="Iniciar",
+    command=run_selected_hardening,
+    font=FONT_UI_BOLD,
+    width=18,
+    bg=COL_ACCENT,
+    fg=COL_ACCENT_DARKTXT,
+    activebackground="#7BE3FF",
+    activeforeground=COL_ACCENT_DARKTXT,
+    relief="flat",
+    bd=0,
+    highlightthickness=0,
 )
-hardening_title.pack(pady=(60, 10))
+hard_start_button.grid(row=1, column=0, sticky="w", pady=(0, 20))
+add_hover(hard_start_button, COL_ACCENT, "#7BE3FF")
 
-hardening_desc = tk.Label(
-    hardening_screen,
-    text="Següent versió: radio buttons + funcionalitat.",
+hard_mode_frame = tk.Frame(hard_buttons_frame, bg=COL_BG)
+hard_mode_frame.grid(row=2, column=0, sticky="w")
+
+tk.Label(hard_mode_frame, text="Mode:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
+
+tk.Radiobutton(
+    hard_mode_frame,
+    text="Identificar (BAR)",
+    variable=hard_mode_var,
+    value="BAR",
+    command=refresh_hardening_actions,
+    bg=COL_BG,
+    fg=COL_TEXT,
+    selectcolor=COL_PANEL,
+    activebackground=COL_BG,
+    activeforeground=COL_TEXT,
+).grid(row=1, column=0, sticky="w")
+
+tk.Radiobutton(
+    hard_mode_frame,
+    text="Aplicar (HARD)",
+    variable=hard_mode_var,
+    value="HARD",
+    command=refresh_hardening_actions,
+    bg=COL_BG,
+    fg=COL_TEXT,
+    selectcolor=COL_PANEL,
+    activebackground=COL_BG,
+    activeforeground=COL_TEXT,
+).grid(row=2, column=0, sticky="w")
+
+hard_action_frame = tk.Frame(hard_buttons_frame, bg=COL_BG)
+hard_action_frame.grid(row=3, column=0, sticky="w", pady=(12, 0))
+
+refresh_hardening_actions()
+
+hard_info = tk.Label(
+    hard_panels_frame,
+    text="Els logs i el progrés es mostren a la pantalla de Neteja (mateix visor).",
     bg=COL_BG,
     fg=COL_MUTED,
     font=FONT_UI,
+    wraplength=360,
+    justify="left",
 )
-hardening_desc.pack()
+hard_info.pack(anchor="w")
 
 window.mainloop()
