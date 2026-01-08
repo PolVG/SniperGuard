@@ -670,18 +670,6 @@ sound_check.pack()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 #Funciones para el texto de la resolucion y la posicion actual de la barra deslizadora
 #estas funciones las voy a llamar luego cuando programe los botones 
 def cambiar_resolucion(resolucion_seleccionada):
@@ -701,6 +689,46 @@ def obrir_logs():
     if not log_dir.exists():
         log_dir.mkdir()
     os.startfile(log_dir.resolve())
+
+#la funcion que cambia el tema de la interfaz completa
+def switch_theme():
+    #pongo en global todas las vars
+    global COL_BG, COL_TEXT, COL_PANEL, COL_SIDEBAR, COL_BTN, COL_BORDER, COL_MUTED
+    
+    if COL_BG == "#0B0F14": #Si detecta que esta oscuro pasa a claro todas las siguientes vars
+        COL_BG, COL_TEXT, COL_PANEL = "#FFFFFF", "#121926", "#F2F5F9"
+        COL_SIDEBAR, COL_BTN, COL_BORDER = "#E1E8F0", "#D1D9E6", "#B7C0CC"
+        COL_MUTED = "#556677"
+    else: #para volver al original los vuelve al oscuro
+        COL_BG, COL_TEXT, COL_PANEL = "#0B0F14", "#F2F5F9", "#161F2E"
+        COL_SIDEBAR, COL_BTN, COL_BORDER = "#121926", "#1B2638", "#2A3A52"
+        COL_MUTED = "#B7C0CC"
+    
+    # actualiza las pestañas principales y los widgests
+    window.configure(bg=COL_BG)
+    banner_label.config(bg=COL_BG, fg=COL_ACCENT if COL_BG == "#0B0F14" else "#0056b3")
+    sidebar_frame.config(bg=COL_SIDEBAR)
+    logo_label.config(bg=COL_SIDEBAR)
+    
+    # actualiza el fondo del color que deseemos
+    for screen in [cleaning_screen, hardening_screen, settings_screen, settings_container]:
+        screen.config(bg=COL_BG)
+        
+    # todos los contenedores de Cleaning se actualizan
+    main_container.config(bg=COL_BG)
+    center_frame.config(bg=COL_BG)
+    content_frame.config(bg=COL_BG)
+    buttons_frame.config(bg=COL_BG)
+    panels_frame.config(bg=COL_BG)
+    
+    # se actualizan los textos
+    for widget in settings_container.winfo_children():
+        if isinstance(widget, tk.Label):
+            widget.config(bg=COL_BG, fg=COL_TEXT)
+        if isinstance(widget, tk.Frame): # El contenedor de botones
+            widget.config(bg=COL_BG)
+
+
 
 
 #Contenido de la pantalla Ajustes
@@ -759,9 +787,8 @@ tk.Label(
     bg=COL_BG, fg=COL_MUTED, font=("Segoe UI", 9)
 ).pack(anchor="w", pady=(5, 0))
 
-
 #Botones de Carpeta Logs y el tema 
-tk.Label(settings_container, text="LOGS i Tema", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE).pack(anchor="w", pady=(10, 10))
+tk.Label(settings_container, text="Altres Ajustaments", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE).pack(anchor="w", pady=(10, 10))
 #esto son los botones horizontales
 btns_frame = tk.Frame(settings_container, bg=COL_BG)
 btns_frame.pack(anchor="w")
@@ -771,5 +798,9 @@ btn_logs = tk.Button(btns_frame, text="Obrir carpeta de Logs 📁", command=obri
 btn_logs.pack(side="left", padx=(0, 10))
 add_hover(btn_logs, COL_BTN, COL_BTN_HOVER)
 
+# Botón Cambiar Tema
+btn_tema = tk.Button(btns_frame, text="Canviar a Mode Clar Fosc 🌓", command=switch_theme, font=FONT_UI_BOLD, bg=COL_BTN, fg=COL_TEXT, relief="flat", padx=15, pady=5)
+btn_tema.pack(side="left")
+add_hover(btn_tema, COL_BTN, COL_BTN_HOVER)
 
 window.mainloop()
