@@ -745,7 +745,7 @@ slider_volumen = tk.Scale(
 slider_volumen.set(50) # Valor inicial
 slider_volumen.pack(anchor="w")
 
-#texto debajo de la barra
+#texto que aparece debajo de la barra
 tk.Label(
     settings_container, 
     text="Ajusta per activar o desactivar els efectes de so", 
