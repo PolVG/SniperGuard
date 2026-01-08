@@ -269,6 +269,7 @@ def cleaning_menu(mode):
     
 
     choice = check_input_user("Introdueix una opció: ", set(options.keys())) # set() per convertir les claus en conjunt set
+    
     # Només volem que es mostri aquest missatge si l'usuari
     # realitza una neteja exhaustiva.
     if mode != MODE_BAR and choice == "5":
@@ -406,7 +407,7 @@ def sons_FX():
 
 
 def choose_logs():
-    attempts = 0
+    
     while True:
         print("\n")
         panel = Panel(
@@ -477,12 +478,12 @@ def choose_logs():
             log("Usuari ha seleccionat tornar al menú principal", 250)
             return None
         
-'''
+
 def choose_mode():
-Aquesta funció demana a l'usuari que triï entre dos modes: BAR (només comprovar) o DEL (comprovar + esborrar).
-'''
-def choose_mode():
-    attempts = 0 # comptador d'intents
+    '''
+    def choose_mode():
+    Aquesta funció demana a l'usuari que triï entre dos modes: BAR (només comprovar) o DEL (comprovar + esborrar).
+    '''
     while True:
         print("\n")
         panel = Panel(
@@ -522,12 +523,11 @@ def choose_mode():
             return None
 
 
-'''
 def choose_hardening_mode():
-Aquesta funció demana a l'usuari que triï entre dos modes de hardening: BAR (només comprovar) o HARD (comprovar + hardening).
-'''
-def choose_hardening_mode():
-    attempts = 0
+    '''
+    def choose_hardening_mode():
+    Aquesta funció demana a l'usuari que triï entre dos modes de hardening: BAR (només comprovar) o HARD (comprovar + hardening).
+    '''
     while True:
         print("\n")
         panel = Panel(
@@ -635,9 +635,6 @@ def main():
         # executem SniperGuard com a administrador.    
         log("SniperGuard s'ha executat correctament amb privilegis administratius.",250)
        
-
-
-        attempts = 0
         while True:
             print("\n")
             table = Table(
