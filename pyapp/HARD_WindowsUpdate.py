@@ -127,7 +127,7 @@ def main():
     updates = data.get("updates", [])
 
     if n == 0:
-        print("🟢 No hi ha actualitzacions pendents.")
+        print("OK: No hi ha actualitzacions pendents.")
         return
 
     print(f"Actualitzacions pendents: {n}\n")
@@ -145,7 +145,7 @@ def main():
         print("Operació cancel·lada.")
         return
 
-    print("\n⚠️ Instal·laré UNA A UNA i imprimiré el resultat detallat.")
+    print("\nWARNING: Instal·laré UNA A UNA i imprimiré el resultat detallat.")
     install_updates_one_by_one()
 
 if __name__ == "__main__":

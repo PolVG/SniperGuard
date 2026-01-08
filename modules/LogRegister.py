@@ -21,6 +21,27 @@ LOGS_DIR = PROJECT_ROOT / "logs"
 CONFIG_PATH = PROJECT_ROOT / "config" / "config.ini"
 CURRENT_LOG_FILE = None
 
+
+def _try_set_current_log_file_from_env() -> bool:
+    global CURRENT_LOG_FILE
+
+    env_path = os.environ.get("SNIPERGUARD_LOG_FILE")
+    if not env_path:
+        return False
+
+    try:
+        candidate = Path(env_path)
+        candidate.parent.mkdir(parents=True, exist_ok=True)
+
+        if not candidate.exists():
+            with open(candidate, "a", encoding="utf-8"):
+                pass
+
+        CURRENT_LOG_FILE = candidate
+        return True
+    except Exception:
+        return False
+
 # LOG_LEVEL = 100  # Nivell mínim de logs a registrar
 '''
 get_current_log_file():
@@ -57,7 +78,7 @@ def obtain_text_level(nivell: int):
         300: '[⚠️  WARNING]',
         400: '[❌ ERROR]',
     }
-    return nivells. get(nivell, '[UNKNOWN]')
+    return nivells.get(nivell, '[UNKNOWN]')
 
 
 #
@@ -151,7 +172,8 @@ def log(msg: str, nivell:  int = 200):
         return # El nivell no arriba al mínim requerit
     
     if CURRENT_LOG_FILE is None:
-        init_log_file()
+        if not _try_set_current_log_file_from_env():
+            init_log_file()
     
     text_nivell = obtain_text_level(nivell)
     full_msg = f"[{get_time()}] {text_nivell} {msg}"

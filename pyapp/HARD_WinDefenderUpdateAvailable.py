@@ -43,6 +43,6 @@ if __name__ == "__main__":
     result = defender_update_available()
     
     if result is None:
-        log("No s'ha pogut obtenir l'estat de Windows Defender.")
+        log("No s'ha pogut obtenir l'estat de Windows Defender.",250)
     else:
-        log(result)
+        log(result,300)

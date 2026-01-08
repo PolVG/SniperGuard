@@ -1,6 +1,0 @@
-[05-01-2026 02:27:23] ✅📝 Nou fitxer de log creat: 05-01-2026_02-27-23_logs_py.txt
-[05-01-2026 02:27:23] 🚀 Inici d'execució de SniperGuard
-================================================================================
-
-[05-01-2026 02:27:24] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
-[05-01-2026 02:27:36] [✅ NOTICE] Secció sons FX

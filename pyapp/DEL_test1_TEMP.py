@@ -87,7 +87,6 @@ def delete_download_contents_cmd():
         print("[WARN] del stderr:", res.stderr.strip())
 
     # 2) Esborrar subcarpetes (NO la carpeta Download)
-    # IMPORTANT: en cmd des de Python cal %%D
     log("Esborrant subcarpetes amb rd /s /q ...", 100)
     res = run_cmd(f'for /d %%D in ("{DOWNLOAD_DIR}\\*") do rd /s /q "%%D"')
     if res.stderr and res.stderr.strip():

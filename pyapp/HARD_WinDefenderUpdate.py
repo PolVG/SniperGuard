@@ -31,6 +31,6 @@ def defender_update():
 if __name__ == "__main__":
     result = defender_update()
     if result:
-        log("Windows Defender s'han actualitzat correctament.")
+        log("Windows Defender s'han actualitzat correctament.", 250)
     else:
-        log("No s'ha pogut actualitzar Windows Defender.")
+        log("No s'ha pogut actualitzar Windows Defender.",300)

@@ -1,5 +1,0 @@
-[05-01-2026 01:22:33] ✅📝 Nou fitxer de log creat: 05-01-2026_01-22-33_logs_py.txt
-[05-01-2026 01:22:33] 🚀 Inici d'execució de SniperGuard
-================================================================================
-
-[05-01-2026 01:22:33] [ℹ️  INFO] Windows Defender s'han actualitzat correctament.

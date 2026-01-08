@@ -38,12 +38,12 @@ def is_windows_defender_active():
 # Evitar que s'executi directament en ser importat, només quan s'executa directament o sigui cridat dins d'un altre script
 if __name__ == "__main__":
     windowsdefender = is_windows_defender_active()
-    log({"RealTimeProtectionEnabled": windowsdefender})
+    log({"RealTimeProtectionEnabled": windowsdefender}, 250)
 
     # Comparació explícita amb True/False per evitar problemes amb valors None
     if windowsdefender is True:
-        log("Windows Defender està activat.")
+        log("Windows Defender està activat.", 250)
     elif windowsdefender is False:
-        log("Windows Defender no està activat.")
+        log("Windows Defender no està activat.", 250)
     else:
-        log("No es pot determinar l'estat de Windows Defender.")
+        log("No es pot determinar l'estat de Windows Defender.", 300)

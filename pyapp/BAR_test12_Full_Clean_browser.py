@@ -55,10 +55,10 @@ def dir_size_bytes(p: Path) -> int:
 
 def barometre(mb: float, urgent_mb: float, recomm_mb: float):
     if mb >= urgent_mb:
-        return "🔴", "URGENT"
+        return "[RED]", "URGENT"
     if mb >= recomm_mb:
-        return "🟡", "RECOMANABLE"
-    return "🟢", "NO CAL (però no fa mal)"
+        return "[YELLOW]", "RECOMANABLE"
+    return "[GREEN]", "NO CAL (però no fa mal)"
 
 
 # =========================================================

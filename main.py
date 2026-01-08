@@ -100,6 +100,11 @@ def run_script(script_name:  str):
         #!!! Les variables env, system_encoding i process s'han fet amb ajuda de la IA !!!!
         env = os.environ.copy()
         env["PYTHONPATH"] = str(PROJECT_ROOT)
+
+        current_log = get_current_log_file()
+        if current_log is None:
+            current_log = init_log_file()
+        env["SNIPERGUARD_LOG_FILE"] = str(current_log)
         
         system_encoding = sys.stdout.encoding or 'utf-8' # Obtenir l'encoding del sistema, per defecte 'utf-8' si no està definit
 
@@ -142,7 +147,8 @@ def run_script(script_name:  str):
             log(f"Script {script_name} returncode={process.returncode}", 300)
           
         if stdout and stdout.strip():
-            log(f"STDOUT {script_name}: {stdout. strip()}", 100)
+     
+            log(f"STDOUT {script_name}: {stdout.strip()}", 250)
 
         if stderr and stderr.strip():
             log(f"STDERR {script_name}:  {stderr.strip()}", 400)
@@ -657,7 +663,7 @@ def main():
             print("\n")
 
             try:
-                decisio = check_input_user("Introdueix una opció : ", {"1", "2", "3", "4"})
+                decisio = check_input_user("Introdueix una opció : ", {"1", "2", "3", "4", "5"})
             except Exception as e:
                 log(f"Error en check_input_user(): {e}", 400)
                 decisio = None

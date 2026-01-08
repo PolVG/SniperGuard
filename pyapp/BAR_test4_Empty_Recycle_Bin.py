@@ -62,11 +62,11 @@ def barometre(size_mb):
     log(f"Avaluant baròmetre paperera: {size_mb} MB", 100)
 
     if size_mb >= URGENT_MB:
-        return "🔴", "URGENT — La paperera ocupa molt espai"
+        return "[RED]", "URGENT — La paperera ocupa molt espai"
     elif size_mb >= RECOMMENDED_MB:
-        return "🟡", "RECOMANABLE — Pots alliberar espai fàcilment"
+        return "[YELLOW]", "RECOMANABLE — Pots alliberar espai fàcilment"
     else:
-        return "🟢", "NO CAL — Però no fa mal buidar-la"
+        return "[GREEN]", "NO CAL — Però no fa mal buidar-la"
 
 
 def diagnosticar_papelera():
@@ -82,7 +82,7 @@ def diagnosticar_papelera():
 
     if size_mb == 0:
         log("Paperera buida detectada", 250)
-        print("ℹ️ La paperera ja està buida.")
+        print("INFO: La paperera ja està buida.")
     else:
         log(
             f"Resultat diagnòstic paperera: {size_mb} MB | estat={color}",

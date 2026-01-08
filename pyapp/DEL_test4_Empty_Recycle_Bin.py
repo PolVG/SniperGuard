@@ -49,7 +49,7 @@ def vaciar_papelera_powershell():
             print("\n[WARN] PowerShell ha retornat un avís per una unitat/paperera inexistent.")
             print("       Però la paperera s'ha buidat correctament a les unitats disponibles.")
             print("       (Missatge PowerShell: 'The system cannot find the path specified')")
-            print("\n✅ Paperera buidada correctament.")
+            print("\nOK: Paperera buidada correctament.")
 
             log("Fi buidat paperera PowerShell: OK (amb avisos controlats)", 200)
             return
@@ -62,14 +62,14 @@ def vaciar_papelera_powershell():
     # Avaluació del returncode
     if p.returncode == 0:
         log("Clear-RecycleBin finalitzat correctament (returncode=0)", 200)
-        print("\n✅ Paperera buidada correctament.")
+        print("\nOK: Paperera buidada correctament.")
     else:
         log(
             f"Clear-RecycleBin ha retornat codi {p.returncode} "
             "(possible unitat no disponible / paperera ja buida)",
             300
         )
-        print(f"\n⚠️ PowerShell ha retornat codi {p.returncode}.")
+        print(f"\nWARNING: PowerShell ha retornat codi {p.returncode}.")
         print("   Si la paperera està buida igualment, probablement és per alguna unitat no disponible.")
         print("   Si vols evitar això del tot, et puc donar la versió 'per unitat'.")
 
