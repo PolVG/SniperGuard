@@ -40,9 +40,6 @@ def requirements_installed() -> bool:
     return True
 
 
-# ─────────────────────────────────────────────────────────────
-# FUNCIÓ: instal·lar dependències amb pip
-# ─────────────────────────────────────────────────────────────
 
 def install_requirements():
     """
@@ -61,10 +58,6 @@ def install_requirements():
     # check_call:
     # - Atura el programa si pip falla
 
-
-# ─────────────────────────────────────────────────────────────
-# PUNT D’ENTRADA DEL PROGRAMA
-# ─────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     """

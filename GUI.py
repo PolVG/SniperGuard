@@ -8,6 +8,8 @@ from datetime import datetime
 
 #Llibreries internes
 import main
+import recursos
+from recursos import play_sound
 from modules.LogRegister import init_log_file, CURRENT_LOG_FILE
 
 
@@ -67,19 +69,22 @@ sidebar_frame.grid(row=0, column=0, rowspan=2, sticky="ns")
 sidebar_frame.grid_propagate(False)
 
 
-
+# --- FALTA COMENTAR ---
 cleaning_screen = tk.Frame(window, bg=COL_BG)
 hardening_screen = tk.Frame(window, bg=COL_BG)
+sound_screen = tk.Frame(window, bg=COL_BG)
+#pantalla settings 
+settings_screen = tk.Frame(window, bg=COL_BG)
 
 cleaning_screen.grid(row=1, column=1, sticky="nsew")
 hardening_screen.grid(row=1, column=1, sticky="nsew")
-
+sound_screen.grid(row=1, column=1, sticky="nsew")
+settings_screen.grid(row=1, column=1, sticky="nsew") 
 
 IMG_WID = 70
 IMG_HGT = 70
 
 
-# Funcions auxiliars
 def add_hover(widget, normal_bg, hover_bg):
     def on_enter(event):
         widget.config(bg=hover_bg)
@@ -118,10 +123,9 @@ def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_colo
     return btn
 
 
-# Banner (top center)
 banner_label = tk.Label(
     window,
-    text="CLEANING",
+    text="NETEJA",
     bg=COL_BG,
     fg=COL_ACCENT,
     font=("Segoe UI", 28, "bold"),
@@ -133,9 +137,15 @@ def show_screen(name):
     if name == "hardening":
         hardening_screen.tkraise()
         banner_label.config(text="HARDENING")
+    elif name == "sound":
+        sound_screen.tkraise()
+        banner_label.config(text="SONS FX")
+    elif name == "settings":
+        settings_screen.tkraise()
+        banner_label.config(text="SETTINGS")
     else:
         cleaning_screen.tkraise()
-        banner_label.config(text="CLEANING")
+        banner_label.config(text="NETEJA")
 
 
 logo_img = Image.open("img/SniperGuardLogo.png")
@@ -147,9 +157,10 @@ logo_label.pack(pady=10, padx=10)
 
 sidebar_buttons = [
     ("img/cleaner_sin_fondo.png", lambda: show_screen("cleaning")),
-    ("img/herramientas_sin_fondo.png", lambda: show_screen("hardening")),
-    ("img/opciones_sin_fondo.png", crear_avis("Botó en desenvolupament.")),
-]
+    ("img/registry_sin_nombre.png", lambda: show_screen("hardening")),
+    ("img/herramientas_sin_fondo.png", lambda: show_screen("sound")),
+    ("img/opciones_sin_fondo.png", lambda: show_screen("settings")),
+    ]
 
 for img_path, cmd in sidebar_buttons:
     create_sidebar_button(
@@ -161,11 +172,12 @@ for img_path, cmd in sidebar_buttons:
         hover_color=COL_BTN_HOVER,
     )
 
-# Default screen
 show_screen("cleaning")
 
 
-
+# ------------------------------------------------------------
+# Cleaning screen UI
+# ------------------------------------------------------------
 main_container = tk.Frame(cleaning_screen, bg=COL_BG)
 main_container.grid(row=0, column=0, sticky="nsew")
 main_container.rowconfigure(0, weight=1)
@@ -202,7 +214,21 @@ panels_frame = tk.Frame(content_frame, bg=COL_BG)
 panels_frame.grid(row=0, column=1, sticky="n")
 panels_frame.columnconfigure(0, weight=1)
 
+def reset_gui():
+    progress_bar["value"] = 0
+    progress_label.config(text="0%")
+    logs_text.delete("1.0", tk.END)
+
+    start_button.config(state="normal")
+
+    deleted_label.grid_remove()
+    kept_label.grid_remove()
+
+
 def execute_action_temp(action_id: str, run_callback):
+    deleted_label.grid_remove()
+    kept_label.grid_remove()
+
     start_button.config(state="disabled")
     logs_text.delete("1.0", tk.END)
 
@@ -237,6 +263,7 @@ def execute_action_temp(action_id: str, run_callback):
         start_button.config(state="normal")
 
 
+selected_position_var = tk.StringVar(value="2.1")
 selected_mode_var = tk.StringVar(value="1")
 selected_action_var = tk.StringVar(value="1")
 
@@ -252,10 +279,12 @@ def run_selected_cleaning():
         messagebox.showerror("Error", "Acció no vàlida.")
         return
 
+    action_id = f"2.{mode_choice}.{action}"
+
     def callback():
         main.run_cleaning_from_gui(mode_choice, action)
 
-    execute_action_temp(f"2.{mode_choice}.{action}", callback)
+    execute_action_temp(action_id, callback)
 
 
 options_label = tk.Label(buttons_frame, text="Opcions", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
@@ -275,11 +304,37 @@ start_button = tk.Button(
     bd=0,
     highlightthickness=0,
 )
-start_button.grid(row=1, column=0, padx=10, pady=(0, 16), sticky="w")
+start_button.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="w")
 add_hover(start_button, COL_ACCENT, "#7BE3FF")
 
+advanced_label = tk.Label(
+    buttons_frame,
+    text="Opcions avançades",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    font=FONT_TITLE,
+)
+advanced_label.grid(row=2, column=0, padx=10, pady=(10, 5), sticky="w")
+
+position_frame = tk.Frame(buttons_frame, bg=COL_BG)
+position_frame.grid(row=3, column=0, padx=10, pady=(0, 10), sticky="w")
+
+tk.Label(position_frame, text="Posició:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
+
+tk.Radiobutton(
+    position_frame,
+    text="2.1 Neteja",
+    variable=selected_position_var,
+    value="2.1",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    selectcolor=COL_PANEL,
+    activebackground=COL_BG,
+    activeforeground=COL_TEXT,
+).grid(row=1, column=0, sticky="w")
+
 mode_frame = tk.Frame(buttons_frame, bg=COL_BG)
-mode_frame.grid(row=2, column=0, padx=10, pady=(0, 12), sticky="w")
+mode_frame.grid(row=4, column=0, padx=10, pady=(0, 10), sticky="w")
 
 tk.Label(mode_frame, text="Mode:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
@@ -308,7 +363,7 @@ tk.Radiobutton(
 ).grid(row=2, column=0, sticky="w")
 
 action_frame = tk.Frame(buttons_frame, bg=COL_BG)
-action_frame.grid(row=3, column=0, padx=10, pady=(0, 10), sticky="w")
+action_frame.grid(row=5, column=0, padx=10, pady=(0, 10), sticky="w")
 
 tk.Label(action_frame, text="Acció:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
@@ -348,7 +403,18 @@ tk.Radiobutton(
     activeforeground=COL_TEXT,
 ).grid(row=3, column=0, sticky="w")
 
-logs_label = tk.Label(panels_frame, text="Tots els logs (Cleaning)", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
+status_frame = tk.Frame(buttons_frame, bg=COL_BG)
+status_frame.grid(row=6, column=0, padx=10, pady=(10, 0), sticky="w")
+
+deleted_label = tk.Label(status_frame, text="Fitxers eliminats", font=FONT_UI, bg=COL_BG, fg=COL_DANGER)
+kept_label = tk.Label(status_frame, text="Fitxers conservats", font=FONT_UI, bg=COL_BG, fg=COL_OK)
+
+deleted_label.grid(row=0, column=0, sticky="w")
+kept_label.grid(row=1, column=0, sticky="w")
+deleted_label.grid_remove()
+kept_label.grid_remove()
+
+logs_label = tk.Label(panels_frame, text="Tots els logs", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
 logs_label.grid(row=0, column=0, padx=10, pady=(0, 0), sticky="w")
 
 logs_text = tk.Text(
@@ -366,7 +432,7 @@ logs_text = tk.Text(
 logs_text.grid(row=1, column=0, padx=10, pady=(10, 0))
 
 
-
+# --- FALTA COMENTAR ---
 hard_main = tk.Frame(hardening_screen, bg=COL_BG)
 hard_main.pack(fill="both", expand=True)
 
@@ -388,6 +454,7 @@ hard_title.grid(row=0, column=0, sticky="w", pady=(0, 15))
 hard_mode_var = tk.StringVar(value="BAR")
 hard_action_var = tk.StringVar(value="1")
 
+# --- FALTA COMENTAR ---
 hard_logs_label = tk.Label(
     hard_right,
     text="Tots els logs (Hardening)",
@@ -412,6 +479,7 @@ hard_logs_text = tk.Text(
 hard_logs_text.pack(pady=(10, 0))
 
 
+# --- FALTA COMENTAR ---
 def execute_action_hard(action_id: str, run_callback):
     hard_start_button.config(state="disabled")
     hard_logs_text.delete("1.0", tk.END)
@@ -547,5 +615,57 @@ hard_action_frame = tk.Frame(hard_left, bg=COL_BG)
 hard_action_frame.grid(row=3, column=0, sticky="w", pady=(12, 0))
 
 refresh_hardening_actions()
+
+
+# --- FALTA COMENTAR ---
+sound_frame = tk.Frame(sound_screen, bg=COL_BG)
+sound_frame.pack(fill="both", expand=True)
+
+sound_title = tk.Label(
+    sound_frame,
+    text="Sons FX",
+    bg=COL_BG,
+    fg=COL_ACCENT,
+    font=("Segoe UI", 22, "bold"),
+)
+sound_title.pack(pady=(40, 10))
+
+sound_desc = tk.Label(
+    sound_frame,
+    text="Activa o desactiva els sons del programa.",
+    bg=COL_BG,
+    fg=COL_MUTED,
+    font=FONT_UI,
+)
+sound_desc.pack(pady=(0, 20))
+
+# --- FALTA COMENTAR ---
+if not hasattr(recursos, "SOUND_ENABLED"):
+    recursos.SOUND_ENABLED = False
+
+sound_enabled_var = tk.BooleanVar(value=bool(recursos.SOUND_ENABLED))
+
+# --- FALTA COMENTAR ---
+def toggle_sound():
+    recursos.SOUND_ENABLED = bool(sound_enabled_var.get())
+    if recursos.SOUND_ENABLED:
+        try:
+            play_sound("reloading.wav")
+        except Exception:
+            pass
+
+sound_check = tk.Checkbutton(
+    sound_frame,
+    text="Activar Sons FX",
+    variable=sound_enabled_var,
+    command=toggle_sound,
+    bg=COL_BG,
+    fg=COL_TEXT,
+    selectcolor=COL_PANEL,
+    activebackground=COL_BG,
+    activeforeground=COL_TEXT,
+    font=FONT_UI_BOLD,
+)
+sound_check.pack()
 
 window.mainloop()

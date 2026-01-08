@@ -12,9 +12,7 @@ SOUNDS_DIR = BASE_DIR / "sounds"
 #  no sigui buida, sigui un dígit, i el número sigui una opció del menú.
 # ID 400 logs = ERROR
 
-# ─────────────────────────────────────────────
-# Estat de so (sessió actual)
-# ─────────────────────────────────────────────
+
 SOUND_ENABLED = False
 
 '''
