@@ -694,6 +694,13 @@ def ajustar_volumen(valor):
     else:
         recursos.SOUND_ENABLED = True
     
+#esto servira para abrir la carpeta donde se guardan los logs
+def obrir_logs():
+    import os
+    log_dir = Path("logs") # esto es para comprobar si la carpeta existe
+    if not log_dir.exists():
+        log_dir.mkdir()
+    os.startfile(log_dir.resolve())
 
 
 #Contenido de la pantalla Ajustes
@@ -752,6 +759,17 @@ tk.Label(
     bg=COL_BG, fg=COL_MUTED, font=("Segoe UI", 9)
 ).pack(anchor="w", pady=(5, 0))
 
+
+#Botones de Carpeta Logs y el tema 
+tk.Label(settings_container, text="LOGS i Tema", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE).pack(anchor="w", pady=(10, 10))
+#esto son los botones horizontales
+btns_frame = tk.Frame(settings_container, bg=COL_BG)
+btns_frame.pack(anchor="w")
+
+#el boton para abrir los logs
+btn_logs = tk.Button(btns_frame, text="Obrir carpeta de Logs 📁", command=obrir_logs, font=FONT_UI_BOLD, bg=COL_BTN, fg=COL_TEXT, relief="flat", padx=15, pady=5)
+btn_logs.pack(side="left", padx=(0, 10))
+add_hover(btn_logs, COL_BTN, COL_BTN_HOVER)
 
 
 window.mainloop()
