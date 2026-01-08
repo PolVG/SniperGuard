@@ -157,8 +157,8 @@ logo_label.pack(pady=10, padx=10)
 
 sidebar_buttons = [
     ("img/cleaner_sin_fondo.png", lambda: show_screen("cleaning")),
-    ("img/registry_sin_nombre.png", lambda: show_screen("hardening")),
-    ("img/herramientas_sin_fondo.png", lambda: show_screen("sound")),
+    ("img/herramientas_sin_fondo.png", lambda: show_screen("hardening")),
+    ("img/registry_sin_nombre.png", lambda: show_screen("sound")),
     ("img/opciones_sin_fondo.png", lambda: show_screen("settings")),
     ]
 
