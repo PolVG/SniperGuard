@@ -668,4 +668,90 @@ sound_check = tk.Checkbutton(
 )
 sound_check.pack()
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Funciones para el texto de la resolucion y la posicion actual de la barra deslizadora
+#estas funciones las voy a llamar luego cuando programe los botones 
+def cambiar_resolucion(resolucion_seleccionada):
+    window.geometry(resolucion_seleccionada)
+
+def ajustar_volumen(valor):
+    volumen = int(valor)
+    if volumen == 0:
+        recursos.SOUND_ENABLED = False
+    else:
+        recursos.SOUND_ENABLED = True
+    
+
+
+#Contenido de la pantalla Ajustes
+settings_container = tk.Frame(settings_screen, bg=COL_BG)
+settings_container.pack(fill="both", expand=True, padx=50, pady=50)
+
+#seleccionar size de la interfaz 
+tk.Label(
+    settings_container, text="Resolucio de la pantalla", 
+    bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE
+).pack(anchor="w", pady=(0, 10))
+
+# Menú desplegable para el tamaño
+opciones_resolucion = ["900x700", "1024x768", "1280x720", "800x600"] #las opciones de resolucion
+var_resolucion = tk.StringVar(value="900x700")  #se pueden añadir maas
+
+menu_res = tk.OptionMenu(
+    settings_container, var_resolucion, *opciones_resolucion, 
+    command=cambiar_resolucion #llamo a la funcion anterior para poner la resolución a la que se ha cambiado
+)
+menu_res.config(
+    bg=COL_BTN, fg=COL_TEXT, highlightthickness=0, 
+    activebackground=COL_BTN_HOVER, relief="flat", 
+    font=FONT_UI, width=15
+)
+menu_res["menu"].config(bg=COL_PANEL, fg=COL_TEXT, font=FONT_UI)
+menu_res.pack(anchor="w", pady=(0, 40))
+
+# seleccionar volumen 
+tk.Label(
+    settings_container, text="Volum del programa", 
+    bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE
+).pack(anchor="w", pady=(0, 10))
+
+# Barra deslizadora para el volumen
+slider_volumen = tk.Scale(
+    settings_container,
+    from_=0, to=100,
+    orient="horizontal",
+    bg=COL_BG,
+    fg=COL_MUTED,
+    troughcolor=COL_PANEL,
+    activebackground=COL_ACCENT,
+    highlightthickness=0,
+    length=400,
+    font=FONT_UI,
+    command=ajustar_volumen #llamo a la funcion aqui
+)
+slider_volumen.set(50) # Valor inicial
+slider_volumen.pack(anchor="w")
+
+#texto debajo de la barra
+tk.Label(
+    settings_container, 
+    text="Ajusta per activar o desactivar els efectes de so", 
+    bg=COL_BG, fg=COL_MUTED, font=("Segoe UI", 9)
+).pack(anchor="w", pady=(5, 0))
+
+
+
 window.mainloop()
