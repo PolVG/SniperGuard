@@ -1,9 +1,3 @@
-
-"""
-IMPORTANT! El fitxer s'arrenca des de 'start.py' per verificar
-           automaticament si l'usuari te les dependencies
-           necesarries per arrencar SniperGuard
-"""
 # llibreries externes
 import sys, os
 import subprocess
@@ -12,10 +6,8 @@ from datetime import datetime
 
 from rich import *
 from rich.console import *
-from rich.markdown import Markdown
 from rich.table import Table
 from rich.panel import Panel
-from rich import box
 from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
 import time 
 
@@ -44,11 +36,11 @@ LOG_FILE = LOGS_DIR / (datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
 MODE_BAR = 1  # identificar
 MODE_DEL = 2  # identificar + esborrar
 
+
 '''
 def show_log_link():
 Aquesta funció mostra a la consola un enllaç clicable al fitxer de log actual.
 Aquesta funció utilitza URI per permetre als usuaris obrir el fitxer directament des de la consola.
-Més inforamació sobre URI: https://en.wikipedia.org/wiki/Uniform_Resource_Identifier i per el ús de file:///  https://en.wikipedia.org/wiki/File_URI_scheme
 
 '''
 def show_log_link():
@@ -80,8 +72,6 @@ Aquesta funció s'utilitza per executar un script Python específic des de la ub
 Rep com a paràmetre el nom de l'script i gestiona la seva execució, capturant la sortida i els errors.
 '''
 def run_script(script_name:  str):
-    """Executa un script amb progrés real basat en la sortida del script"""
-
     
     script_path = PYAPP_DIR / script_name
 
@@ -120,7 +110,7 @@ def run_script(script_name:  str):
         )
         
 
-        # Mostra el progrés mentre s'executa l'script, si voleu millorar deixo aquest enllaç: https://rich.readthedocs.io/en/stable/reference/progress.html#
+       #PROGRÉS AMB SPINNER ANIMAT
 
         with Progress(
             SpinnerColumn(), #Spinner animat, simplement estetic
@@ -137,26 +127,27 @@ def run_script(script_name:  str):
                 time.sleep(0.1)  # Comprovar cada 0.1 segons
         
       
-        stdout, stderr = process.communicate(timeout=200) # Espera que el procés acabi, amb timeout de 200 segons
+        stdout, stderr = process.communicate(timeout=200) # Espera que el procés acabi, amb timeout de 200 segons i captura stdout i stderr
         
        
-        if process.returncode == 0:
+        if process.returncode == 0: # Si el procés ha acabat correctament
             log(f"Script {script_name} finalitzat OK", 250)
             console.print(f"[bold green] {script_name} completat amb èxit[/bold green]")
         else:
             log(f"Script {script_name} returncode={process.returncode}", 300)
           
-        if stdout and stdout.strip():
+        if stdout and stdout.strip(): # Si hi ha sortida estàndard no buida
      
             log(f"STDOUT {script_name}: {stdout.strip()}", 250)
 
-        if stderr and stderr.strip():
+        if stderr and stderr.strip(): # Si hi ha sortida d'error no buida
             log(f"STDERR {script_name}:  {stderr.strip()}", 400)
 
-    except subprocess.TimeoutExpired:
+    except subprocess.TimeoutExpired: # excepte si el procés es triga massa, el timeout s'ha definit a process.communicate() = 200 segons
         log(f"Timeout executant {script_name}", 400)
         console.print("[bold red]❌ Timeout: procés massa lent[/bold red]")
         process.kill()
+
     except Exception as e:
         log(f"Error executant {script_name}: {e}", 400)
         console.print(f"[bold red]❌ Error: {e}[/bold red]")
@@ -362,8 +353,14 @@ def hardening_menu(mode):
     log(f"Executant acció: {label}", 200)
     run_script(script)
 
+
+'''
+def sons_FX(): 
+Aquesta funció permet a l'usuari activar o desactivar els efectes de so (FX) dins de SniperGuard.
+
+'''
 def sons_FX():
-    global SOUND_ENABLED
+    global SOUND_ENABLED # Per modificar la variable global
     while True:
         print("\n")
         panel = Panel(
@@ -405,7 +402,11 @@ def sons_FX():
             log("Usuari ha seleccionat tornar al menú principal", 250)
             return None
 
+'''
+def choose_logs():
+Aquesta funció permet a l'usuari gestionar els logs de SniperGuard, oferint opcions per comprimir, descomprimir, esborrar i configurar el baròmetre de logs.
 
+'''
 def choose_logs():
     
     while True:
@@ -478,12 +479,12 @@ def choose_logs():
             log("Usuari ha seleccionat tornar al menú principal", 250)
             return None
         
-
+'''
 def choose_mode():
-    '''
-    def choose_mode():
-    Aquesta funció demana a l'usuari que triï entre dos modes: BAR (només comprovar) o DEL (comprovar + esborrar).
-    '''
+Aquesta funció demana a l'usuari que triï entre dos modes: BAR (només comprovar) o DEL (comprovar + esborrar).
+'''
+def choose_mode():
+
     while True:
         print("\n")
         panel = Panel(
@@ -522,12 +523,12 @@ def choose_mode():
             log("Usuari ha seleccionat tornar al menú principal", 250)
             return None
 
-
+'''
 def choose_hardening_mode():
-    '''
-    def choose_hardening_mode():
-    Aquesta funció demana a l'usuari que triï entre dos modes de hardening: BAR (només comprovar) o HARD (comprovar + hardening).
-    '''
+Aquesta funció demana a l'usuari que triï entre dos modes de hardening: BAR (només comprovar) o HARD (comprovar + hardening).
+'''
+def choose_hardening_mode():
+
     while True:
         print("\n")
         panel = Panel(
@@ -721,7 +722,7 @@ def main():
                 show_log_link() # Mostra l'enllaç al fitxer de log abans de sortir
                 return
 
-
+# Punt d'entrada principal del programa
 if __name__ == "__main__":
     try:
         main()

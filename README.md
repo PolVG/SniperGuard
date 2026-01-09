@@ -84,20 +84,32 @@ L’eina funciona amb dos enfocaments:
 
 ## 3) Passos d’instal·lació (dev)
 
-### Opció A — Recomanat (arrencar amb `start.py`)
-`start.py` comprova si falten dependències i, si cal, executa automàticament:
+
+### 3.1.1 Instal·lar els requeriments si no ho han descarregat prèviament a partir de requirements.txt
 `python -m pip install -r requirements.txt`
+
+### 3.1.2 Instal·lar els requeriments manualment
+`pip install rich`
+`pip install Pillow`
+
 
 
 
 
 ## 4) Instruccions detallades d’ús i exemples
 
-### 4.1 Arrencada
+### 4.1 Arrencada desde GUI
 Executa (millor com a administrador):
 
 ```cmd 
-python start.py
+python GUI.py
+```
+
+### 4.2 Arrencada desde consola
+Executa (millor com a administrador):
+
+```cmd 
+python main.py
 ```
 
 Això llança `main.py` després de verificar dependències.
@@ -173,8 +185,7 @@ Els `.wav` estan a `sounds/` i s’executen amb `winsound`.
 
 ## 5) Breu descripció de l’estructura del codi
 
-- `start.py`  
-  Punt d’entrada recomanat. Verifica dependències i, si cal, instal·la `requirements.txt`. Després llança `main.py`.
+
 
 - `main.py`  
   Lògica principal de l’aplicació per consola:
@@ -208,7 +219,6 @@ Els `.wav` estan a `sounds/` i s’executen amb `winsound`.
 
 - `sounds/`, `img/`, `GUI.py`  
   Recursos multimèdia i possible GUI.
-
 
 
 
