@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/develop
 # llibreries externes
 import sys, os
 import subprocess
