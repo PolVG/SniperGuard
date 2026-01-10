@@ -46,13 +46,15 @@ def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 
 
     return choice
 
+
+"""
+[AQUESTA FUNCIÓ ESTA FET AMB IA]
+Aquesta funció comprova si l'usuari té privilegis elevats (administrador) en un sistema Windows.
+Retorna: Retorna False en el cas que l'usuari no sigui administrador.
+"""
 def check_admin_privileges():
 
-    """
-    [AQUESTA FUNCIÓ ESTA FET AMB IA]
-    Aquesta funció comprova si l'usuari té privilegis elevats (administrador) en un sistema Windows.
-    Retorna: Retorna False en el cas que l'usuari no sigui administrador.
-    """
+
     # Detecta si l'usuari té privilegis elevats en un entorn windows
     try:
         privilegis_elevats = ctypes.windll.shell32.IsUserAnAdmin()
@@ -175,15 +177,16 @@ def decompress_logs():
         return False
 
 
-"""
-Funció feta amb IA
-"""
+
 BASE_DIR = Path(__file__).resolve().parent
 SOUNDS_DIR = BASE_DIR / "sounds"
 
-# Aquesta funció permet executar el so de manera asincrona.
-# Així, es pot reproduir el so mentre SniperGuard 
-# segueix en execució de manera asincrona. 
+"""
+AQUESTA FUNCIO ESTA FETA AMB IA
+
+def play_sound(filename: str, async_play: bool = True):
+    Reprodueix un fitxer de so des de la carpeta de sons.
+"""
 def play_sound(filename: str, async_play: bool = True):
 
     # Si el so està desactivat, no fem res

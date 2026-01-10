@@ -8,13 +8,16 @@ from rich.table import Table
 from rich.panel import Panel
 import configparser
 
-console = Console()
 '''
 Aclariments generals sobre el sistema de logs: 
 l'encoding utilitzat és UTF-8 per assegurar 
 la compatibilitat amb caràcters especials i emojis.
 '''
 
+# Consola rich per a la sortida de text formatat
+console = Console()
+
+# Rutes de fitxers i directoris
 BASE_DIR = Path(__file__).resolve().parent       
 PROJECT_ROOT = BASE_DIR.parent     
 LOGS_DIR = PROJECT_ROOT / "logs"
@@ -22,7 +25,17 @@ CONFIG_PATH = PROJECT_ROOT / "config" / "config.ini"
 CURRENT_LOG_FILE = None
 
 
-def _try_set_current_log_file_from_env() -> bool:
+'''
+AQUESTA FUNCIÓ ESTA FETA AMB IA
+
+
+def _try_set_current_log_file_from_env():
+Intenta establir el fitxer de log actual des de la variable d'entorn SNIPERGUARD_LOG_FILE.
+Retorna True si s'ha establert correctament, False en cas contrari.
+
+'''
+
+def _try_set_current_log_file_from_env():
     global CURRENT_LOG_FILE
 
     env_path = os.environ.get("SNIPERGUARD_LOG_FILE")
@@ -52,7 +65,7 @@ def get_current_log_file():
 
 '''
 def get_time():
-Retorna temps en format DD-MM-YYYY HH: MM:SS (per dins dels logs
+Retorna temps en format DD-MM-YYYY HH: MM:SS (per dins dels logs)
 '''
 def get_time():
     return datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -81,15 +94,15 @@ def obtain_text_level(nivell: int):
     return nivells.get(nivell, '[UNKNOWN]')
 
 
-#
-# obtenir_nivell_log_des_de_ini() -> Funció que serveix per classificar el log segons el seu
-#                                    valor númeric especificat al invocador 'obtenirTextNivell()'
+'''
 def check_current_log_level(config_path=CONFIG_PATH) -> int:
-    
-    """
-    Llegeix el paràmetre 'log_level_py' de la secció [log] del fitxer config.ini
-    Retorna el valor com a enter, o llança excepcions detallades si hi ha errors.
-    """
+Llegeix el paràmetre 'log_level_py' de la secció [log] del fitxer config.ini
+Retorna el valor com a enter, o llança excepcions detallades si hi ha errors.
+
+
+'''
+
+def check_current_log_level(config_path=CONFIG_PATH) -> int:
 
     # Comprovem si el fitxer config.ini existeix
     if not os.path.exists(config_path):
@@ -120,8 +133,7 @@ def check_current_log_level(config_path=CONFIG_PATH) -> int:
     # "200" = 200 -> Ara sí que podem convertir-lo de String a INT sense problemes.
     valor = valor.strip('"').strip("'")
     
-    # print(valor)
-
+ 
     try:
         # Intentem convertir el valor a enter. Si no és possible, llancem un error
         return int(valor)
@@ -191,12 +203,14 @@ LEVEL_STYLE = {
     400: "bold red",  # ERROR
 }
 
+
+'''
+def print_log_levels_table():
+Mostra la taula del baròmetre. Si reps active_level, remarquem l'actiu.
+Afegeix logs de depuració per saber que s'ha invocat correctament.
+'''
 def print_log_levels_table():
     log("Entrant a print_log_levels_table()", 100)
-    """
-    Mostra la taula del baròmetre. Si reps active_level, remarquem l'actiu.
-    Afegeix logs de depuració per saber que s'ha invocat correctament.
-    """
     print()
 
     table = Table(show_lines=True)
@@ -226,6 +240,19 @@ def print_log_levels_table():
         )
     console.print(table)
     log("Taula mostrada correctament.", 250)
+
+
+'''
+AQUESTA FUNCIÓ ESTA FETA AMB IA
+
+def update_log_level_ini(new_level: int, config_path=CONFIG_PATH):
+Actualitza el paràmetre 'log_level_py' al fitxer config.ini amb el nou nivell especificat.
+Paràmetres:
+new_level: Nou nivell de log a establir.
+config_path: Ruta del fitxer config.ini (per defecte és CONFIG_PATH).
+
+'''
+
   
 def update_log_level_ini(new_level: int, config_path=CONFIG_PATH):
     
@@ -243,11 +270,19 @@ def update_log_level_ini(new_level: int, config_path=CONFIG_PATH):
         config.write(f)
     log("update_log_level_ini(): fitxer desat correctament.", 250)
 
+
+'''
 def manage_logs(current_log, new_log):
-    """
-    Actualitza el nivell mínim de logs a registrar segons la selecció de l'usuari.
-    choice: string validat (ex. "200", "300"...)
-    """
+Actualitza el nivell mínim de logs a registrar segons la selecció de l'usuari.
+choice: string validat (ex. "200", "300"...)    
+new_log: nou nivell de log a establir
+current_log: nivell de log actual abans del canvi
+
+
+'''    
+
+def manage_logs(current_log, new_log):
+
     log(f"Log escollit per l'usuari: {new_log}",250)
     update_log_level_ini(int(new_log))
     
@@ -257,7 +292,6 @@ def manage_logs(current_log, new_log):
     # Recorda que aquest log no es mostrarà si hem agafat un baròemtre superior a 250
     log(f"Nivell mínim de logs canviat per l'usuari: Antic: {current_log} Nou: {new_log}", 250)
     
-    # Mostrem taula (visual) marcant el nivell actiu
 
     
 """

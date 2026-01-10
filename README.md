@@ -82,10 +82,22 @@ SniperGuard disposa d'un sistema de logs complet amb diferents nivells de detall
 
 ## 3) Passos d’instal·lació (dev)
 
+<<<<<<< HEAD
 ### 1 — Verificar que tenim els 'PIPs' necessaris
 Malgrat que amb "pip list" coneixem els PIPs instal·lats a Python,
 simplement executant la comanda: `python -m pip install -r requirements.txt`
 ens assegurem de tenir els PIPs necessaris per arrencar SniperGuard.
+=======
+
+### 3.1.1 Instal·lar els requeriments si no ho han descarregat prèviament a partir de requirements.txt
+`python -m pip install -r requirements.txt`
+
+### 3.1.2 Instal·lar els requeriments manualment
+`pip install rich`
+`pip install Pillow`
+
+
+>>>>>>> origin/develop
 
 ### Opció A (terminal) i Opció B (GUI)
 Tenim a dipossició dos arxius ".py" que ens ajuden a arrencar quina versió volem:
@@ -95,6 +107,7 @@ Tenim a dipossició dos arxius ".py" que ens ajuden a arrencar quina versió vol
 
 ## 4) Instruccions detallades d’ús i exemples
 
+<<<<<<< HEAD
 Un cop arrenquem la nostre versió favorita de SniperGuard,
 procedim a aprendre que podem fer en cada una d'elles.
 
@@ -104,6 +117,21 @@ usuari quines opcions tenim.
 Per seleccionar cada opció en tots els menús de SniperGuard:
 simplement escribim el número del "ID" d'aquella acció,
 i premem la tecla "Enter/Intro".
+=======
+### 4.1 Arrencada desde GUI
+Executa (millor com a administrador):
+
+```cmd 
+python GUI.py
+```
+
+### 4.2 Arrencada desde consola
+Executa (millor com a administrador):
+
+```cmd 
+python main.py
+```
+>>>>>>> origin/develop
 
 **Exemple recomanat (segur)**
 Es recomanable sempre primer inspeccionar que hi ha (BAR),
@@ -274,8 +302,7 @@ Els fitxers son:
 
 ## 5) Breu descripció de l’estructura del codi
 
-- `start.py`  
-  Punt d’entrada recomanat. Verifica dependències i, si cal, instal·la `requirements.txt`. Després llança `main.py`.
+
 
 - `main.py`  
   Lògica principal de l’aplicació per consola:
@@ -309,7 +336,6 @@ Els fitxers son:
 
 - `sounds/`, `img/`, `GUI.py`  
   Recursos multimèdia i possible GUI.
-
 
 
 
