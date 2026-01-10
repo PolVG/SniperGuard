@@ -28,18 +28,16 @@ COL_DANGER = "#FF5A5F"
 COL_OK = "#2BD576"
 PROGRESSBAR_THEME = "clam"
 
-'''
-Font Paraules
-'''
+
+#Font Paraules
 FONT_UI = ("Segoe UI", 11)
 FONT_UI_BOLD = ("Segoe UI", 11, "bold")
 FONT_TITLE = ("Segoe UI", 11, "bold")
 
 window = tk.Tk()
 
-'''
-Inicialitzar GUI
-'''
+
+#Inicialitzar GUI
 window.title("SniperGuard")
 window.geometry("900x700")
 window.resizable(False, False)
@@ -57,7 +55,7 @@ style.configure(
     darkcolor=COL_ACCENT,
 )
 
-# Configuració de la quadrícula principal
+#Configuració de la quadrícula principal
 window.columnconfigure(0, weight=0)
 window.columnconfigure(1, weight=1)
 window.rowconfigure(0, weight=0)
@@ -69,13 +67,14 @@ sidebar_frame.grid(row=0, column=0, rowspan=2, sticky="ns")
 sidebar_frame.grid_propagate(False)
 
 
-# --- FALTA COMENTAR ---
+#Establece los fondos de las páginas de cleaning, hardening y sonido 
 cleaning_screen = tk.Frame(window, bg=COL_BG)
 hardening_screen = tk.Frame(window, bg=COL_BG)
 sound_screen = tk.Frame(window, bg=COL_BG)
-#pantalla settings 
 settings_screen = tk.Frame(window, bg=COL_BG)
 
+
+#Se situan en la pantalla y se asegura que ocupen la mayor cantidad de espacio posible
 cleaning_screen.grid(row=1, column=1, sticky="nsew")
 hardening_screen.grid(row=1, column=1, sticky="nsew")
 sound_screen.grid(row=1, column=1, sticky="nsew")
@@ -84,7 +83,7 @@ settings_screen.grid(row=1, column=1, sticky="nsew")
 IMG_WID = 70
 IMG_HGT = 70
 
-
+#Función generada con IA, destaca el botón cuando pasas por encima
 def add_hover(widget, normal_bg, hover_bg):
     def on_enter(event):
         widget.config(bg=hover_bg)
@@ -96,12 +95,13 @@ def add_hover(widget, normal_bg, hover_bg):
     widget.bind("<Leave>", on_leave)
 
 
+#Genera un aviso en pantalla en caso de error o información que deba mostrarse al usuario
 def crear_avis(message):
     def cmd():
         messagebox.showinfo("Informació", message)
     return cmd
 
-
+#Función con ayuda de IA, genera los botones de la barra lateral
 def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_color=None, hover_color=None):
     img = Image.open(image_path)
     img_resized = img.resize((IMG_WID, IMG_HGT))
@@ -133,6 +133,8 @@ banner_label = tk.Label(
 banner_label.grid(row=0, column=1, sticky="n", pady=(14, 0))
 
 
+#Actualiza el titulo del banner, controla el cambio de pantallas 
+#y recibe el parametro name de la pantalla que debe mostrar
 def show_screen(name):
     if name == "hardening":
         hardening_screen.tkraise()
@@ -162,6 +164,7 @@ sidebar_buttons = [
     ("img/opciones_sin_fondo.png", lambda: show_screen("settings")),
     ]
 
+#Bucle para establecer las imágenes en la barra lateral
 for img_path, cmd in sidebar_buttons:
     create_sidebar_button(
         sidebar_frame,
@@ -174,10 +177,7 @@ for img_path, cmd in sidebar_buttons:
 
 show_screen("cleaning")
 
-
-# ------------------------------------------------------------
-# Cleaning screen UI
-# ------------------------------------------------------------
+#Interfaz de la pantalla de cleaning
 main_container = tk.Frame(cleaning_screen, bg=COL_BG)
 main_container.grid(row=0, column=0, sticky="nsew")
 main_container.rowconfigure(0, weight=1)
@@ -186,6 +186,8 @@ main_container.columnconfigure(0, weight=1)
 center_frame = tk.Frame(main_container, bg=COL_BG)
 center_frame.grid(row=0, column=0)
 
+#Estos dos bloques sirve para configurar la barra de progreso
+#Este pone la barra en pantalla
 progress_bar = ttk.Progressbar(
     center_frame,
     orient="horizontal",
@@ -195,6 +197,7 @@ progress_bar = ttk.Progressbar(
 )
 progress_bar.grid(row=0, column=0, pady=(20, 0))
 
+#Este muestra el porcentage que indica la barra
 progress_label = tk.Label(
     center_frame,
     text="0%",
@@ -204,6 +207,7 @@ progress_label = tk.Label(
 )
 progress_label.grid(row=1, column=0, pady=6)
 
+#Este bloque define y muestra en pantalla los botones y paneles
 content_frame = tk.Frame(center_frame, bg=COL_BG)
 content_frame.grid(row=2, column=0, pady=10)
 
@@ -214,6 +218,7 @@ panels_frame = tk.Frame(content_frame, bg=COL_BG)
 panels_frame.grid(row=0, column=1, sticky="n")
 panels_frame.columnconfigure(0, weight=1)
 
+#Reestablece todos los eleemntos de la interfaz a su estado inicial
 def reset_gui():
     progress_bar["value"] = 0
     progress_label.config(text="0%")
@@ -224,7 +229,8 @@ def reset_gui():
     deleted_label.grid_remove()
     kept_label.grid_remove()
 
-
+#Función con ayuda de IA, enlaza el progreso de los logs con la carga
+#que muestra la barra de progreso
 def execute_action_temp(action_id: str, run_callback):
     deleted_label.grid_remove()
     kept_label.grid_remove()
@@ -267,6 +273,7 @@ selected_position_var = tk.StringVar(value="2.1")
 selected_mode_var = tk.StringVar(value="1")
 selected_action_var = tk.StringVar(value="1")
 
+#Función que indica que modo de análisis ha sido escogido
 def run_selected_cleaning():
     action = selected_action_var.get()
     mode_choice = selected_mode_var.get()
@@ -290,6 +297,7 @@ def run_selected_cleaning():
 options_label = tk.Label(buttons_frame, text="Opcions", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
 options_label.grid(row=0, column=0, padx=10, pady=(0, 10), sticky="w")
 
+#Define y muestra el aspecto del botón para iniciar el proceso seleccionado
 start_button = tk.Button(
     buttons_frame,
     text="Iniciar",
@@ -307,6 +315,7 @@ start_button = tk.Button(
 start_button.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="w")
 add_hover(start_button, COL_ACCENT, "#7BE3FF")
 
+#Define y muestra el aspecto de la etiqueta de opciones avanzadas
 advanced_label = tk.Label(
     buttons_frame,
     text="Opcions avançades",
@@ -336,6 +345,7 @@ tk.Radiobutton(
 mode_frame = tk.Frame(buttons_frame, bg=COL_BG)
 mode_frame.grid(row=4, column=0, padx=10, pady=(0, 10), sticky="w")
 
+#Muestra las opciones de modo disponibles para el cleaning
 tk.Label(mode_frame, text="Mode:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
 tk.Radiobutton(
@@ -365,6 +375,7 @@ tk.Radiobutton(
 action_frame = tk.Frame(buttons_frame, bg=COL_BG)
 action_frame.grid(row=5, column=0, padx=10, pady=(0, 10), sticky="w")
 
+#Muestra las opciones de acción disponibles para el cleaning
 tk.Label(action_frame, text="Acció:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
 tk.Radiobutton(
@@ -406,6 +417,7 @@ tk.Radiobutton(
 status_frame = tk.Frame(buttons_frame, bg=COL_BG)
 status_frame.grid(row=6, column=0, padx=10, pady=(10, 0), sticky="w")
 
+#Se definen y muestran las etiquetas para archivos eliminados y conservados
 deleted_label = tk.Label(status_frame, text="Fitxers eliminats", font=FONT_UI, bg=COL_BG, fg=COL_DANGER)
 kept_label = tk.Label(status_frame, text="Fitxers conservats", font=FONT_UI, bg=COL_BG, fg=COL_OK)
 
@@ -414,6 +426,7 @@ kept_label.grid(row=1, column=0, sticky="w")
 deleted_label.grid_remove()
 kept_label.grid_remove()
 
+#Se define el espcaio donde se mostraran los logs
 logs_label = tk.Label(panels_frame, text="Tots els logs", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
 logs_label.grid(row=0, column=0, padx=10, pady=(0, 0), sticky="w")
 
@@ -432,7 +445,7 @@ logs_text = tk.Text(
 logs_text.grid(row=1, column=0, padx=10, pady=(10, 0))
 
 
-# --- FALTA COMENTAR ---
+#Se define la estructura de la página de hardening
 hard_main = tk.Frame(hardening_screen, bg=COL_BG)
 hard_main.pack(fill="both", expand=True)
 
@@ -454,7 +467,7 @@ hard_title.grid(row=0, column=0, sticky="w", pady=(0, 15))
 hard_mode_var = tk.StringVar(value="BAR")
 hard_action_var = tk.StringVar(value="1")
 
-# --- FALTA COMENTAR ---
+#Se define el espcaio donde se mostraran los logs
 hard_logs_label = tk.Label(
     hard_right,
     text="Tots els logs (Hardening)",
@@ -479,7 +492,8 @@ hard_logs_text = tk.Text(
 hard_logs_text.pack(pady=(10, 0))
 
 
-# --- FALTA COMENTAR ---
+#Función con ayuda de IA, enlaza el progreso de los logs con la carga
+#que muestra la barra de progreso
 def execute_action_hard(action_id: str, run_callback):
     hard_start_button.config(state="disabled")
     hard_logs_text.delete("1.0", tk.END)
@@ -514,7 +528,7 @@ def execute_action_hard(action_id: str, run_callback):
     finally:
         hard_start_button.config(state="normal")
 
-
+#Función que indica que botones deben mostrar cuando se haya escogido un modo
 def refresh_hardening_actions():
     for w in hard_action_frame.winfo_children():
         w.destroy()
@@ -534,7 +548,7 @@ def refresh_hardening_actions():
         tk.Radiobutton(hard_action_frame, text="Executar Windows Update", variable=hard_action_var, value="2",
                        bg=COL_BG, fg=COL_TEXT, selectcolor=COL_PANEL, activebackground=COL_BG, activeforeground=COL_TEXT).grid(row=2, column=0, sticky="w")
 
-
+#Función que indica que tipo de hardening debe aplicarse basado en las elecciones del usuario
 def run_selected_hardening():
     mode = hard_mode_var.get()
     action = hard_action_var.get()
@@ -562,7 +576,7 @@ def run_selected_hardening():
 
     execute_action_hard(f"HARD.{mode}.{action}", callback)
 
-
+#Se define el botón de inicio del hardening y se muestra
 hard_start_button = tk.Button(
     hard_left,
     text="Iniciar",
@@ -583,6 +597,7 @@ add_hover(hard_start_button, COL_ACCENT, "#7BE3FF")
 hard_mode_frame = tk.Frame(hard_left, bg=COL_BG)
 hard_mode_frame.grid(row=2, column=0, sticky="w")
 
+#Muestra las opciones de modo disponibles para el hardening
 tk.Label(hard_mode_frame, text="Mode:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
 tk.Radiobutton(
@@ -617,7 +632,7 @@ hard_action_frame.grid(row=3, column=0, sticky="w", pady=(12, 0))
 refresh_hardening_actions()
 
 
-# --- FALTA COMENTAR ---
+#Muestra las opciones de acción disponibles para el hardening
 sound_frame = tk.Frame(sound_screen, bg=COL_BG)
 sound_frame.pack(fill="both", expand=True)
 
@@ -639,13 +654,13 @@ sound_desc = tk.Label(
 )
 sound_desc.pack(pady=(0, 20))
 
-# --- FALTA COMENTAR ---
+#Hecho con IA, detecta si los sonidos estan activados
 if not hasattr(recursos, "SOUND_ENABLED"):
     recursos.SOUND_ENABLED = False
 
 sound_enabled_var = tk.BooleanVar(value=bool(recursos.SOUND_ENABLED))
 
-# --- FALTA COMENTAR ---
+#Función con IA, para reproducir el sonido de activar sonidos
 def toggle_sound():
     recursos.SOUND_ENABLED = bool(sound_enabled_var.get())
     if recursos.SOUND_ENABLED:
@@ -654,6 +669,7 @@ def toggle_sound():
         except Exception:
             pass
 
+#Se define el botón para activar los sonidos
 sound_check = tk.Checkbutton(
     sound_frame,
     text="Activar Sons FX",
@@ -668,10 +684,7 @@ sound_check = tk.Checkbutton(
 )
 sound_check.pack()
 
-
-
 #Funciones para el texto de la resolucion y la posicion actual de la barra deslizadora
-#estas funciones las voy a llamar luego cuando programe los botones 
 def cambiar_resolucion(resolucion_seleccionada):
     window.geometry(resolucion_seleccionada)
 
@@ -682,46 +695,46 @@ def ajustar_volumen(valor):
     else:
         recursos.SOUND_ENABLED = True
     
-#esto servira para abrir la carpeta donde se guardan los logs
+#Esto servirá para abrir la carpeta donde se guardan los logs
 def obrir_logs():
     import os
-    log_dir = Path("logs") # esto es para comprobar si la carpeta existe
+    log_dir = Path("logs") #Esto es para comprobar si la carpeta existe
     if not log_dir.exists():
         log_dir.mkdir()
     os.startfile(log_dir.resolve())
 
-#la funcion que cambia el tema de la interfaz completa
+#Función con ayuda de IA, cambia el tema de la interfaz completa
 def switch_theme():
-    #pongo en global todas las vars
+    #Se ponen en global todas las vars
     global COL_BG, COL_TEXT, COL_PANEL, COL_SIDEBAR, COL_BTN, COL_BORDER, COL_MUTED
     
     if COL_BG == "#0B0F14": #Si detecta que esta oscuro pasa a claro todas las siguientes vars
         COL_BG, COL_TEXT, COL_PANEL = "#FFFFFF", "#121926", "#F2F5F9"
         COL_SIDEBAR, COL_BTN, COL_BORDER = "#E1E8F0", "#D1D9E6", "#B7C0CC"
         COL_MUTED = "#556677"
-    else: #para volver al original los vuelve al oscuro
+    else: #Para volver al original los vuelve al oscuro
         COL_BG, COL_TEXT, COL_PANEL = "#0B0F14", "#F2F5F9", "#161F2E"
         COL_SIDEBAR, COL_BTN, COL_BORDER = "#121926", "#1B2638", "#2A3A52"
         COL_MUTED = "#B7C0CC"
     
-    # actualiza las pestañas principales y los widgests
+    #Actualiza las pestañas principales y los widgests
     window.configure(bg=COL_BG)
     banner_label.config(bg=COL_BG, fg=COL_ACCENT if COL_BG == "#0B0F14" else "#0056b3")
     sidebar_frame.config(bg=COL_SIDEBAR)
     logo_label.config(bg=COL_SIDEBAR)
     
-    # actualiza el fondo del color que deseemos
+    #Actualiza el fondo del color que deseemos
     for screen in [cleaning_screen, hardening_screen, settings_screen, settings_container]:
         screen.config(bg=COL_BG)
         
-    # todos los contenedores de Cleaning se actualizan
+    #Todos los contenedores de Cleaning se actualizan
     main_container.config(bg=COL_BG)
     center_frame.config(bg=COL_BG)
     content_frame.config(bg=COL_BG)
     buttons_frame.config(bg=COL_BG)
     panels_frame.config(bg=COL_BG)
     
-    # se actualizan los textos
+    #Se actualizan los textos
     for widget in settings_container.winfo_children():
         if isinstance(widget, tk.Label):
             widget.config(bg=COL_BG, fg=COL_TEXT)
@@ -735,19 +748,19 @@ def switch_theme():
 settings_container = tk.Frame(settings_screen, bg=COL_BG)
 settings_container.pack(fill="both", expand=True, padx=50, pady=50)
 
-#seleccionar size de la interfaz 
+#Seleccionar size de la interfaz 
 tk.Label(
     settings_container, text="Resolucio de la pantalla", 
     bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE
 ).pack(anchor="w", pady=(0, 10))
 
-# Menú desplegable para el tamaño
-opciones_resolucion = ["900x700", "1024x768", "1280x720", "800x600"] #las opciones de resolucion
-var_resolucion = tk.StringVar(value="900x700")  #se pueden añadir maas
+#Menú desplegable para el tamaño
+opciones_resolucion = ["800x600", "900x700", "1024x768", "1280x720"] #las opciones de resolucion
+var_resolucion = tk.StringVar(value="900x700")  #Se pueden añadir maas
 
 menu_res = tk.OptionMenu(
     settings_container, var_resolucion, *opciones_resolucion, 
-    command=cambiar_resolucion #llamo a la funcion anterior para poner la resolución a la que se ha cambiado
+    command=cambiar_resolucion #Llamo a la funcion anterior para poner la resolución a la que se ha cambiado
 )
 menu_res.config(
     bg=COL_BTN, fg=COL_TEXT, highlightthickness=0, 
@@ -757,13 +770,13 @@ menu_res.config(
 menu_res["menu"].config(bg=COL_PANEL, fg=COL_TEXT, font=FONT_UI)
 menu_res.pack(anchor="w", pady=(0, 40))
 
-# seleccionar volumen 
+#Seleccionar volumen 
 tk.Label(
     settings_container, text="Volum del programa", 
     bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE
 ).pack(anchor="w", pady=(0, 10))
 
-# Barra deslizadora para el volumen
+#Barra deslizadora para el volumen
 slider_volumen = tk.Scale(
     settings_container,
     from_=0, to=100,
@@ -775,12 +788,12 @@ slider_volumen = tk.Scale(
     highlightthickness=0,
     length=400,
     font=FONT_UI,
-    command=ajustar_volumen #llamo a la funcion aqui
+    command=ajustar_volumen #Llamo a la funcion aqui
 )
-slider_volumen.set(50) # Valor inicial
+slider_volumen.set(50) #Valor inicial
 slider_volumen.pack(anchor="w")
 
-#texto que aparece debajo de la barra
+#Texto que aparece debajo de la barra
 tk.Label(
     settings_container, 
     text="Ajusta per activar o desactivar els efectes de so", 
@@ -789,16 +802,17 @@ tk.Label(
 
 #Botones de Carpeta Logs y el tema 
 tk.Label(settings_container, text="Altres Ajustaments", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE).pack(anchor="w", pady=(10, 10))
-#esto son los botones horizontales
+
+#Esto son los botones horizontales
 btns_frame = tk.Frame(settings_container, bg=COL_BG)
 btns_frame.pack(anchor="w")
 
-#el boton para abrir los logs
+#El boton para abrir los logs
 btn_logs = tk.Button(btns_frame, text="Obrir carpeta de Logs 📁", command=obrir_logs, font=FONT_UI_BOLD, bg=COL_BTN, fg=COL_TEXT, relief="flat", padx=15, pady=5)
 btn_logs.pack(side="left", padx=(0, 10))
 add_hover(btn_logs, COL_BTN, COL_BTN_HOVER)
 
-# Botón Cambiar Tema
+# Botón cambiar el tema
 btn_tema = tk.Button(btns_frame, text="Canviar a Mode Clar Fosc 🌓", command=switch_theme, font=FONT_UI_BOLD, bg=COL_BTN, fg=COL_TEXT, relief="flat", padx=15, pady=5)
 btn_tema.pack(side="left")
 add_hover(btn_tema, COL_BTN, COL_BTN_HOVER)
