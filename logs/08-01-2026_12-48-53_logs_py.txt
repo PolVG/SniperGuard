@@ -1,0 +1,21 @@
+[08-01-2026 12:48:53] ✅📝 Nou fitxer de log creat: 08-01-2026_12-48-53_logs_py.txt
+[08-01-2026 12:48:53] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[08-01-2026 12:48:53] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[08-01-2026 12:48:53] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[08-01-2026 12:48:53] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[08-01-2026 12:48:53] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[08-01-2026 12:48:53] [🔍 DEBUG] LOG_FILE(2026-01-08) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-08_logs_py.txt
+[08-01-2026 12:48:53] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[08-01-2026 12:48:53] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[08-01-2026 12:49:15] [✅ NOTICE] Secció sons FX
+[08-01-2026 12:49:18] [✅ NOTICE] Usuari ha seleccionat SONS FX
+[08-01-2026 12:49:18] [✅ NOTICE] S'ha activat el so a SniperGuard
+[08-01-2026 12:49:18] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[08-01-2026 12:49:18] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[08-01-2026 12:49:18] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[08-01-2026 12:49:18] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[08-01-2026 12:49:18] [🔍 DEBUG] LOG_FILE(2026-01-08) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-08_logs_py.txt
+[08-01-2026 12:49:18] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[08-01-2026 12:49:20] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.

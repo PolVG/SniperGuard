@@ -1,0 +1,28 @@
+[08-01-2026 12:37:36] ✅📝 Nou fitxer de log creat: 08-01-2026_12-37-36_logs_py.txt
+[08-01-2026 12:37:36] 🚀 Inici d'execució de SniperGuard
+================================================================================
+
+[08-01-2026 12:37:36] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[08-01-2026 12:37:36] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[08-01-2026 12:37:36] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[08-01-2026 12:37:36] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[08-01-2026 12:37:36] [🔍 DEBUG] LOG_FILE(2026-01-08) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-08_logs_py.txt
+[08-01-2026 12:37:37] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[08-01-2026 12:37:37] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.
+[08-01-2026 12:41:32] [✅ NOTICE] Hardening seleccionat
+[08-01-2026 12:41:48] [✅ NOTICE] Usuari ha seleccionat mode BAR
+[08-01-2026 12:41:48] [🔍 DEBUG] Mostrant al usuari les opcions disponibles de hardening.
+[08-01-2026 12:41:48] [ℹ️  INFO] Mode BAR actiu: mostrant opcions de comprovació
+[08-01-2026 12:41:58] [ℹ️  INFO] L'usuari ha triat opció hardening_menu: '1' (mode=1)
+[08-01-2026 12:41:58] [ℹ️  INFO] Executant acció: Comprovar si Windows Defender està actiu
+[08-01-2026 12:41:59] [ℹ️  INFO] Preparant execució de script: \\VBoxSvr\DEF2_SniperGuard\pyapp\HARD_WinDefender.py
+[08-01-2026 12:42:36] [✅ NOTICE] {'RealTimeProtectionEnabled': True}
+[08-01-2026 12:42:36] [✅ NOTICE] Windows Defender està activat.
+[08-01-2026 12:42:38] [✅ NOTICE] Script HARD_WinDefender.py finalitzat OK
+[08-01-2026 12:42:38] [ℹ️  INFO] ==== SNIPERGUARD iniciant  ====
+[08-01-2026 12:42:38] [🔍 DEBUG] PROJECT_ROOT = \\VBoxSvr\DEF2_SniperGuard\
+[08-01-2026 12:42:38] [🔍 DEBUG] BASE_DIR = \\VBoxSvr\DEF2_SniperGuard\
+[08-01-2026 12:42:38] [🔍 DEBUG] LOGS_DIR = \\VBoxSvr\DEF2_SniperGuard\logs
+[08-01-2026 12:42:38] [🔍 DEBUG] LOG_FILE(2026-01-08) = \\VBoxSvr\DEF2_SniperGuard\logs\2026-01-08_logs_py.txt
+[08-01-2026 12:42:38] [🔍 DEBUG] Executant la funció 'print_banner()' per mostrar el banner inicial.
+[08-01-2026 12:42:39] [✅ NOTICE] SniperGuard s'ha executat correctament amb privilegis administratius.

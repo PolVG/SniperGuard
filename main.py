@@ -1,9 +1,4 @@
 
-"""
-IMPORTANT! El fitxer s'arrenca des de 'start.py' per verificar
-           automaticament si l'usuari te les dependencies
-           necesarries per arrencar SniperGuard
-"""
 # llibreries externes
 import sys, os
 import subprocess
@@ -501,7 +496,7 @@ def choose_mode():
         table.add_column("Descripció", justify="center",header_style="bold white", style="bold white")
 
         table.add_row("1.", "Identificar estat (BAR)", "Només comprovar")
-        table.add_row("2.", "Identificar hardening (DEL)", "comprovar + netejar")
+        table.add_row("2.", "Identificar cleaning (DEL)", "comprovar + netejar")
         table.add_row("3.", "Sortir", "Tornar al menú principal")
         console.print(table)
 
