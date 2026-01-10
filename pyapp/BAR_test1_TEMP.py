@@ -69,15 +69,15 @@ def barometre(size_mb, file_count):
 
     if size_mb >= URGENT_SIZE_MB or file_count >= URGENT_FILES:
         log("Estat URGENT detectat", 300)
-        return "🔴", "URGENT (molt recomanat netejar)"
+        return "[RED]", "URGENT (molt recomanat netejar)"
 
     elif size_mb >= RECOMMENDED_SIZE_MB or file_count >= RECOMMENDED_FILES:
         log("Estat RECOMANABLE detectat", 250)
-        return "🟡", "RECOMANABLE"
+        return "[YELLOW]", "RECOMANABLE"
 
     else:
         log("Estat OK (no cal netejar)", 200)
-        return "🟢", "NO CAL, però es pot netejar"
+        return "[GREEN]", "NO CAL, però es pot netejar"
 
 
 def analitzar_carpeta(nom, ruta_str):
@@ -90,12 +90,12 @@ def analitzar_carpeta(nom, ruta_str):
 
     if not ruta.exists():
         log(f"La ruta no existeix: {ruta}", 300)
-        print("⚠️  No existeix.")
+        print("WARNING: No existeix.")
         return
 
     if not ruta.is_dir():
         log(f"La ruta no és una carpeta: {ruta}", 300)
-        print("⚠️  No és una carpeta.")
+        print("WARNING: No és una carpeta.")
         return
 
     size_bytes, file_count = calcular_mida_i_fitxers(ruta)

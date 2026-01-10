@@ -1,5 +1,0 @@
-[21-12-2025 18:00:54] [main] ✅📝 S'ha creat un nou fitxer de log anomenat: C:\Users\hola\Desktop\projecte\projecte\logs\ID73_logs_py.txt .
-[21-12-2025 18:00:54] [main] [ℹ️ INFO] Executant run_cleaning_from_gui() des de GUI
-[21-12-2025 18:00:54] [recursos] [⚠️ WARNING] Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides
-[21-12-2025 18:00:54] [main] [ℹ️ INFO] Executant acció (GUI): Estat paperera de reciclatge
-[21-12-2025 18:00:54] [main] [❌ ERROR] No existeix el fitxer: C:\Users\hola\Desktop\projecte\pyapp\BAR_test4_Empty_Recycle_Bin.py

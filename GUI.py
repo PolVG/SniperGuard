@@ -8,6 +8,8 @@ from datetime import datetime
 
 #Llibreries internes
 import main
+import recursos
+from recursos import play_sound
 from modules.LogRegister import init_log_file, CURRENT_LOG_FILE
 
 
@@ -26,18 +28,16 @@ COL_DANGER = "#FF5A5F"
 COL_OK = "#2BD576"
 PROGRESSBAR_THEME = "clam"
 
-'''
-Font Paraules
-'''
+
+#Font Paraules
 FONT_UI = ("Segoe UI", 11)
 FONT_UI_BOLD = ("Segoe UI", 11, "bold")
 FONT_TITLE = ("Segoe UI", 11, "bold")
 
 window = tk.Tk()
 
-'''
-Inicialitzar GUI
-'''
+
+#Inicialitzar GUI
 window.title("SniperGuard")
 window.geometry("900x700")
 window.resizable(False, False)
@@ -55,11 +55,11 @@ style.configure(
     darkcolor=COL_ACCENT,
 )
 
-# Configuració de la quadrícula principal
-window.columnconfigure(0, weight=0)   
-window.columnconfigure(1, weight=1)   
-window.rowconfigure(0, weight=0)      
-window.rowconfigure(1, weight=1)      
+#Configuració de la quadrícula principal
+window.columnconfigure(0, weight=0)
+window.columnconfigure(1, weight=1)
+window.rowconfigure(0, weight=0)
+window.rowconfigure(1, weight=1)
 
 
 sidebar_frame = tk.Frame(window, bg=COL_SIDEBAR, width=150)
@@ -67,11 +67,23 @@ sidebar_frame.grid(row=0, column=0, rowspan=2, sticky="ns")
 sidebar_frame.grid_propagate(False)
 
 
+#Establece los fondos de las páginas de cleaning, hardening y sonido 
+cleaning_screen = tk.Frame(window, bg=COL_BG)
+hardening_screen = tk.Frame(window, bg=COL_BG)
+sound_screen = tk.Frame(window, bg=COL_BG)
+settings_screen = tk.Frame(window, bg=COL_BG)
+
+
+#Se situan en la pantalla y se asegura que ocupen la mayor cantidad de espacio posible
+cleaning_screen.grid(row=1, column=1, sticky="nsew")
+hardening_screen.grid(row=1, column=1, sticky="nsew")
+sound_screen.grid(row=1, column=1, sticky="nsew")
+settings_screen.grid(row=1, column=1, sticky="nsew") 
+
 IMG_WID = 70
 IMG_HGT = 70
 
-
-# Funcions auxiliars
+#Función generada con IA, destaca el botón cuando pasas por encima
 def add_hover(widget, normal_bg, hover_bg):
     def on_enter(event):
         widget.config(bg=hover_bg)
@@ -83,20 +95,13 @@ def add_hover(widget, normal_bg, hover_bg):
     widget.bind("<Leave>", on_leave)
 
 
-'''
-def crear_avis(message):
-Aquesta funció crea una comanda que mostra un missatge d'informació quan s'executa.
-'''
+#Genera un aviso en pantalla en caso de error o información que deba mostrarse al usuario
 def crear_avis(message):
     def cmd():
         messagebox.showinfo("Informació", message)
     return cmd
 
-
-'''
-def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_color=None, hover_color=None):
-Aquesta funció crea un botó de barra lateral amb una imatge i efectes de hover.
-'''
+#Función con ayuda de IA, genera los botones de la barra lateral
 def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_color=None, hover_color=None):
     img = Image.open(image_path)
     img_resized = img.resize((IMG_WID, IMG_HGT))
@@ -118,31 +123,6 @@ def create_sidebar_button(parent, image_path, command, padding=(10, 10), bg_colo
     return btn
 
 
-logo_img = Image.open("img/SniperGuardLogo.png")
-logo_resized = logo_img.resize((IMG_WID, IMG_HGT))
-logo_photo = ImageTk.PhotoImage(logo_resized)
-logo_label = tk.Label(sidebar_frame, image=logo_photo, bg=COL_SIDEBAR)
-logo_label.image = logo_photo
-logo_label.pack(pady=10, padx=10)
-
-sidebar_buttons = [
-    ("img/cleaner_sin_fondo.png", "Estàs actualment en aquesta pantalla."),
-    ("img/registry_sin_nombre.png", "Botó en desenvolupament."),
-    ("img/herramientas_sin_fondo.png", "Botó en desenvolupament."),
-    ("img/opciones_sin_fondo.png", "Botó en desenvolupament."),
-]
-
-for img_path, msg in sidebar_buttons:
-    cmd = crear_avis(msg)
-    create_sidebar_button(
-        sidebar_frame,
-        img_path,
-        cmd,
-        padding=(10, 10),
-        bg_color=COL_SIDEBAR,
-        hover_color=COL_BTN_HOVER,
-    )
-
 banner_label = tk.Label(
     window,
     text="NETEJA",
@@ -153,14 +133,61 @@ banner_label = tk.Label(
 banner_label.grid(row=0, column=1, sticky="n", pady=(14, 0))
 
 
-main_container = tk.Frame(window, bg=COL_BG)
-main_container.grid(row=1, column=1, sticky="nsew")
+#Actualiza el titulo del banner, controla el cambio de pantallas 
+#y recibe el parametro name de la pantalla que debe mostrar
+def show_screen(name):
+    if name == "hardening":
+        hardening_screen.tkraise()
+        banner_label.config(text="HARDENING")
+    elif name == "sound":
+        sound_screen.tkraise()
+        banner_label.config(text="SONS FX")
+    elif name == "settings":
+        settings_screen.tkraise()
+        banner_label.config(text="SETTINGS")
+    else:
+        cleaning_screen.tkraise()
+        banner_label.config(text="NETEJA")
+
+
+logo_img = Image.open("img/SniperGuardLogo.png")
+logo_resized = logo_img.resize((IMG_WID, IMG_HGT))
+logo_photo = ImageTk.PhotoImage(logo_resized)
+logo_label = tk.Label(sidebar_frame, image=logo_photo, bg=COL_SIDEBAR)
+logo_label.image = logo_photo
+logo_label.pack(pady=10, padx=10)
+
+sidebar_buttons = [
+    ("img/cleaner_sin_fondo.png", lambda: show_screen("cleaning")),
+    ("img/herramientas_sin_fondo.png", lambda: show_screen("hardening")),
+    ("img/registry_sin_nombre.png", lambda: show_screen("sound")),
+    ("img/opciones_sin_fondo.png", lambda: show_screen("settings")),
+    ]
+
+#Bucle para establecer las imágenes en la barra lateral
+for img_path, cmd in sidebar_buttons:
+    create_sidebar_button(
+        sidebar_frame,
+        img_path,
+        cmd,
+        padding=(10, 10),
+        bg_color=COL_SIDEBAR,
+        hover_color=COL_BTN_HOVER,
+    )
+
+show_screen("cleaning")
+
+#Interfaz de la pantalla de cleaning
+main_container = tk.Frame(cleaning_screen, bg=COL_BG)
+main_container.grid(row=0, column=0, sticky="nsew")
 main_container.rowconfigure(0, weight=1)
 main_container.columnconfigure(0, weight=1)
 
 center_frame = tk.Frame(main_container, bg=COL_BG)
 center_frame.grid(row=0, column=0)
 
+#Estos dos bloques sirve para configurar la barra de progreso
+#Este pone la barra en pantalla
 progress_bar = ttk.Progressbar(
     center_frame,
     orient="horizontal",
@@ -170,6 +197,7 @@ progress_bar = ttk.Progressbar(
 )
 progress_bar.grid(row=0, column=0, pady=(20, 0))
 
+#Este muestra el porcentage que indica la barra
 progress_label = tk.Label(
     center_frame,
     text="0%",
@@ -179,6 +207,7 @@ progress_label = tk.Label(
 )
 progress_label.grid(row=1, column=0, pady=6)
 
+#Este bloque define y muestra en pantalla los botones y paneles
 content_frame = tk.Frame(center_frame, bg=COL_BG)
 content_frame.grid(row=2, column=0, pady=10)
 
@@ -189,68 +218,39 @@ panels_frame = tk.Frame(content_frame, bg=COL_BG)
 panels_frame.grid(row=0, column=1, sticky="n")
 panels_frame.columnconfigure(0, weight=1)
 
-'''
-Aquesta funció esta feta per IA
-
-def reset_gui():
-Aquesta funció reinicia la interfície gràfica d'usuari, restablint la barra de progrés, els textos de resum i logs, i l'estat dels botons.
-'''
+#Reestablece todos los eleemntos de la interfaz a su estado inicial
 def reset_gui():
     progress_bar["value"] = 0
     progress_label.config(text="0%")
-
-    summary_text.delete("1.0", tk.END)
     logs_text.delete("1.0", tk.END)
 
-    delete_button.config(state="disabled")
-    keep_button.config(state="disabled")
     start_button.config(state="normal")
 
     deleted_label.grid_remove()
     kept_label.grid_remove()
 
-
-'''
-Aquesta funció esta feta per IA
-
-def execute_action_temp(action_id: str, run_callback):
-Aquesta funció executa una acció específica i actualitza la interfície gràfica d'usuari amb els resultats i els logs generats durant l'execució.
-'''
+#Función con ayuda de IA, enlaza el progreso de los logs con la carga
+#que muestra la barra de progreso
 def execute_action_temp(action_id: str, run_callback):
     deleted_label.grid_remove()
     kept_label.grid_remove()
 
     start_button.config(state="disabled")
-    delete_button.config(state="disabled")
-    keep_button.config(state="disabled")
-
-    summary_text.delete("1.0", tk.END)
     logs_text.delete("1.0", tk.END)
 
     log_path = init_log_file()
     log_file_path = log_path
 
     try:
-        try:
-            run_callback()
-        except Exception as e:
-            messagebox.showerror("Error", f"S'ha produït un error executant l'acció.\n{e}")
-            return
+        run_callback()
 
-        try:
-            with open(log_file_path, "r", encoding="utf-8") as f:
-                lines = f.readlines()
-                total = len(lines)
-        except FileNotFoundError:
-            messagebox.showerror("Error", f"No s'ha trobat el fitxer a: {log_file_path}")
-            return
+        with open(log_file_path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
 
+        total = len(lines)
         if total == 0:
-            summary_text.insert(tk.END, "Arxiu buit.")
+            logs_text.insert(tk.END, "Arxiu buit.\n")
             return
-
-        sections = []
-        current_section = None
 
         for i, line in enumerate(lines):
             current_percent = int(((i + 1) / total) * 100)
@@ -260,79 +260,24 @@ def execute_action_temp(action_id: str, run_callback):
             logs_text.insert(tk.END, line)
             logs_text.see(tk.END)
 
-            text = line.strip()
-
-            if text.startswith("="):
-                name = text.strip("=").strip()
-                if name:
-                    current_section = {"nom": name}
-                    sections.append(current_section)
-
-            elif line.startswith("Ruta:") and current_section is not None:
-                current_section["ruta"] = line.split("Ruta:", 1)[1].strip()
-
-            elif line.lstrip().startswith("Mida total") and current_section is not None:
-                current_section["mida_total"] = line.split(":", 1)[1].strip()
-
-            elif line.lstrip().startswith("Fitxers") and current_section is not None:
-                current_section["fitxers"] = line.split(":", 1)[1].strip()
-
-            elif line.lstrip().startswith("Baròmetre") and current_section is not None:
-                current_section["barometre"] = line.split(":", 1)[1].strip()
-
             window.update()
-            time.sleep(0.03)
+            time.sleep(0.01)
 
-        summary_text.insert(tk.END, "RESUM DE L'ANÀLISI\n")
-        summary_text.insert(tk.END, f"Acció: {action_id}\n")
-        summary_text.insert(tk.END, f"Fitxer log: {log_path.name}\n")
-        summary_text.insert(tk.END, "----------------------------------------\n")
-
-        useful_sections = [s for s in sections if "ruta" in s]
-
-        if not useful_sections:
-            summary_text.insert(
-                tk.END,
-                "No s'ha trobat cap carpeta analitzada. (DE MOMENT ÉS FUNCIONAL, A LA SEGUENT ENTREGA SERÀ FUNCIONAL)\n",
-            )
-        else:
-            for sec in useful_sections:
-                nom = sec.get("nom", "Secció")
-                ruta = sec.get("ruta", "Desconeguda")
-                mida = sec.get("mida_total", "Desconeguda")
-                fitxers = sec.get("fitxers", "Desconegut")
-                barometre = sec.get("barometre", "Sense dades")
-
-                summary_text.insert(tk.END, f"{nom}\n")
-                summary_text.insert(tk.END, f"  Ruta       : {ruta}\n")
-                summary_text.insert(tk.END, f"  Mida total : {mida}\n")
-                summary_text.insert(tk.END, f"  Fitxers    : {fitxers}\n")
-                summary_text.insert(tk.END, f"  Baròmetre  : {barometre}\n")
-                summary_text.insert(tk.END, "----------------------------------------\n")
-
-        summary_text.see(tk.END)
-
+    except Exception as e:
+        messagebox.showerror("Error", f"S'ha produït un error executant l'acció.\n{e}")
     finally:
         start_button.config(state="normal")
-        delete_button.config(state="normal")
-        keep_button.config(state="normal")
 
 
 selected_position_var = tk.StringVar(value="2.1")
 selected_mode_var = tk.StringVar(value="1")
 selected_action_var = tk.StringVar(value="1")
 
-'''
-Aquesta funció esta feta per IA
-
-def run_selected_cleaning():
-Aquesta funció obté les opcions seleccionades per l'usuari i executa l'acció de neteja corresponent.
-'''
+#Función que indica que modo de análisis ha sido escogido
 def run_selected_cleaning():
     action = selected_action_var.get()
     mode_choice = selected_mode_var.get()
 
-   
     if mode_choice not in {"1", "2"}:
         messagebox.showerror("Error", "Mode no vàlid.")
         return
@@ -341,7 +286,6 @@ def run_selected_cleaning():
         messagebox.showerror("Error", "Acció no vàlida.")
         return
 
-    # x.y.z
     action_id = f"2.{mode_choice}.{action}"
 
     def callback():
@@ -350,45 +294,10 @@ def run_selected_cleaning():
     execute_action_temp(action_id, callback)
 
 
-'''
-Aquesta funció esta feta per IA
-
-def confirm_delete():
-Aquesta funció mostra un diàleg de confirmació abans d'eliminar els fitxers i actualitza la interfície gràfica d'usuari segons l'acció realitzada.
-'''
-def confirm_delete():
-    question = messagebox.askquestion(
-        "Eliminació",
-        "Els següents fitxers s'eliminaran.\nEstàs segur?",
-    )
-    if question == "yes":
-        try:
-            keep_button.config(state="disabled")
-            
-            execute_action_temp("2.2.1", lambda: main.run_script("DEL_test1_TEMP.py"))
-            deleted_label.grid_remove()
-            kept_label.grid_remove()
-            deleted_label.grid(row=0, column=0, sticky="w")
-        except Exception as e:
-            messagebox.showerror("Error", f"No s'han pogut eliminar els fitxers. {e}")
-
-
-'''
-Aquesta funció esta feta per IA
-
-def mark_keep():
-Aquesta funció actualitza la interfície gràfica d'usuari per indicar que els fitxers han estat conservats.
-'''
-def mark_keep():
-    deleted_label.grid_remove()
-    kept_label.grid_remove()
-    kept_label.grid(row=1, column=0, sticky="w")
-
-
-
 options_label = tk.Label(buttons_frame, text="Opcions", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
 options_label.grid(row=0, column=0, padx=10, pady=(0, 10), sticky="w")
 
+#Define y muestra el aspecto del botón para iniciar el proceso seleccionado
 start_button = tk.Button(
     buttons_frame,
     text="Iniciar",
@@ -404,43 +313,9 @@ start_button = tk.Button(
     highlightthickness=0,
 )
 start_button.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="w")
+add_hover(start_button, COL_ACCENT, "#7BE3FF")
 
-keep_button = tk.Button(
-    buttons_frame,
-    text="Conservar",
-    command=mark_keep,
-    width=18,
-    state="disabled",
-    font=FONT_UI_BOLD,
-    bg=COL_BTN,
-    fg=COL_TEXT,
-    activebackground=COL_BTN_HOVER,
-    activeforeground=COL_TEXT,
-    relief="flat",
-    bd=0,
-    highlightthickness=1,
-    highlightbackground=COL_BORDER,
-)
-keep_button.grid(row=2, column=0, padx=10, pady=(0, 10), sticky="w")
-
-delete_button = tk.Button(
-    buttons_frame,
-    text="Eliminar",
-    command=confirm_delete,
-    width=18,
-    state="disabled",
-    font=FONT_UI_BOLD,
-    bg=COL_BTN,
-    fg=COL_TEXT,
-    activebackground=COL_BTN_HOVER,
-    activeforeground=COL_TEXT,
-    relief="flat",
-    bd=0,
-    highlightthickness=1,
-    highlightbackground=COL_BORDER,
-)
-delete_button.grid(row=3, column=0, padx=10, pady=(0, 10), sticky="w")
-
+#Define y muestra el aspecto de la etiqueta de opciones avanzadas
 advanced_label = tk.Label(
     buttons_frame,
     text="Opcions avançades",
@@ -448,10 +323,10 @@ advanced_label = tk.Label(
     fg=COL_TEXT,
     font=FONT_TITLE,
 )
-advanced_label.grid(row=4, column=0, padx=10, pady=(10, 5), sticky="w")
+advanced_label.grid(row=2, column=0, padx=10, pady=(10, 5), sticky="w")
 
 position_frame = tk.Frame(buttons_frame, bg=COL_BG)
-position_frame.grid(row=5, column=0, padx=10, pady=(0, 10), sticky="w")
+position_frame.grid(row=3, column=0, padx=10, pady=(0, 10), sticky="w")
 
 tk.Label(position_frame, text="Posició:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
@@ -468,8 +343,9 @@ tk.Radiobutton(
 ).grid(row=1, column=0, sticky="w")
 
 mode_frame = tk.Frame(buttons_frame, bg=COL_BG)
-mode_frame.grid(row=6, column=0, padx=10, pady=(0, 10), sticky="w")
+mode_frame.grid(row=4, column=0, padx=10, pady=(0, 10), sticky="w")
 
+#Muestra las opciones de modo disponibles para el cleaning
 tk.Label(mode_frame, text="Mode:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
 tk.Radiobutton(
@@ -497,8 +373,9 @@ tk.Radiobutton(
 ).grid(row=2, column=0, sticky="w")
 
 action_frame = tk.Frame(buttons_frame, bg=COL_BG)
-action_frame.grid(row=7, column=0, padx=10, pady=(0, 10), sticky="w")
+action_frame.grid(row=5, column=0, padx=10, pady=(0, 10), sticky="w")
 
+#Muestra las opciones de acción disponibles para el cleaning
 tk.Label(action_frame, text="Acció:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
 
 tk.Radiobutton(
@@ -538,8 +415,9 @@ tk.Radiobutton(
 ).grid(row=3, column=0, sticky="w")
 
 status_frame = tk.Frame(buttons_frame, bg=COL_BG)
-status_frame.grid(row=8, column=0, padx=10, pady=(10, 0), sticky="w")
+status_frame.grid(row=6, column=0, padx=10, pady=(10, 0), sticky="w")
 
+#Se definen y muestran las etiquetas para archivos eliminados y conservados
 deleted_label = tk.Label(status_frame, text="Fitxers eliminats", font=FONT_UI, bg=COL_BG, fg=COL_DANGER)
 kept_label = tk.Label(status_frame, text="Fitxers conservats", font=FONT_UI, bg=COL_BG, fg=COL_OK)
 
@@ -548,42 +426,395 @@ kept_label.grid(row=1, column=0, sticky="w")
 deleted_label.grid_remove()
 kept_label.grid_remove()
 
-summary_label = tk.Label(panels_frame, text="Resum", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
-summary_label.grid(row=0, column=0, padx=10, pady=(0, 5), sticky="w")
-
-summary_text = tk.Text(
-    panels_frame,
-    bg=COL_PANEL,
-    fg=COL_TEXT,
-    insertbackground=COL_TEXT,
-    height=10,
-    width=60,
-    font=("Consolas", 10),
-    relief="flat",
-    highlightthickness=1,
-    highlightbackground=COL_BORDER,
-)
-summary_text.grid(row=1, column=0, padx=10, pady=(0, 10))
-
+#Se define el espcaio donde se mostraran los logs
 logs_label = tk.Label(panels_frame, text="Tots els logs", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE)
-logs_label.grid(row=2, column=0, padx=10, pady=(15, 0), sticky="w")
+logs_label.grid(row=0, column=0, padx=10, pady=(0, 0), sticky="w")
 
 logs_text = tk.Text(
     panels_frame,
     bg=COL_PANEL,
     fg=COL_TEXT,
     insertbackground=COL_TEXT,
-    height=10,
+    height=23,
     width=60,
     font=("Consolas", 10),
     relief="flat",
     highlightthickness=1,
     highlightbackground=COL_BORDER,
 )
-logs_text.grid(row=3, column=0, padx=10, pady=(10, 0))
+logs_text.grid(row=1, column=0, padx=10, pady=(10, 0))
 
-add_hover(start_button, COL_ACCENT, "#7BE3FF")
-add_hover(keep_button, COL_BTN, COL_BTN_HOVER)
-add_hover(delete_button, COL_BTN, COL_BTN_HOVER)
+
+#Se define la estructura de la página de hardening
+hard_main = tk.Frame(hardening_screen, bg=COL_BG)
+hard_main.pack(fill="both", expand=True)
+
+hard_left = tk.Frame(hard_main, bg=COL_BG)
+hard_left.pack(side="left", anchor="n", padx=(40, 10), pady=(40, 10))
+
+hard_right = tk.Frame(hard_main, bg=COL_BG)
+hard_right.pack(side="left", anchor="n", padx=(10, 10), pady=(40, 10))
+
+hard_title = tk.Label(
+    hard_left,
+    text="Opcions Hardening",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    font=("Segoe UI", 16, "bold"),
+)
+hard_title.grid(row=0, column=0, sticky="w", pady=(0, 15))
+
+hard_mode_var = tk.StringVar(value="BAR")
+hard_action_var = tk.StringVar(value="1")
+
+#Se define el espcaio donde se mostraran los logs
+hard_logs_label = tk.Label(
+    hard_right,
+    text="Tots els logs (Hardening)",
+    bg=COL_BG,
+    fg=COL_TEXT,
+    font=FONT_TITLE,
+)
+hard_logs_label.pack(anchor="w")
+
+hard_logs_text = tk.Text(
+    hard_right,
+    bg=COL_PANEL,
+    fg=COL_TEXT,
+    insertbackground=COL_TEXT,
+    height=23,
+    width=60,
+    font=("Consolas", 10),
+    relief="flat",
+    highlightthickness=1,
+    highlightbackground=COL_BORDER,
+)
+hard_logs_text.pack(pady=(10, 0))
+
+
+#Función con ayuda de IA, enlaza el progreso de los logs con la carga
+#que muestra la barra de progreso
+def execute_action_hard(action_id: str, run_callback):
+    hard_start_button.config(state="disabled")
+    hard_logs_text.delete("1.0", tk.END)
+
+    log_path = init_log_file()
+    log_file_path = log_path
+
+    try:
+        run_callback()
+
+        with open(log_file_path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+
+        total = len(lines)
+        if total == 0:
+            hard_logs_text.insert(tk.END, "Arxiu buit.\n")
+            return
+
+        for i, line in enumerate(lines):
+            current_percent = int(((i + 1) / total) * 100)
+            progress_bar["value"] = current_percent
+            progress_label.config(text=f"{current_percent}%")
+
+            hard_logs_text.insert(tk.END, line)
+            hard_logs_text.see(tk.END)
+
+            window.update()
+            time.sleep(0.01)
+
+    except Exception as e:
+        messagebox.showerror("Error", f"S'ha produït un error executant l'acció.\n{e}")
+    finally:
+        hard_start_button.config(state="normal")
+
+#Función que indica que botones deben mostrar cuando se haya escogido un modo
+def refresh_hardening_actions():
+    for w in hard_action_frame.winfo_children():
+        w.destroy()
+
+    tk.Label(hard_action_frame, text="Acció:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
+
+    if hard_mode_var.get() == "BAR":
+        tk.Radiobutton(hard_action_frame, text="Defender està actiu", variable=hard_action_var, value="1",
+                       bg=COL_BG, fg=COL_TEXT, selectcolor=COL_PANEL, activebackground=COL_BG, activeforeground=COL_TEXT).grid(row=1, column=0, sticky="w")
+        tk.Radiobutton(hard_action_frame, text="Defender: updates disponibles", variable=hard_action_var, value="2",
+                       bg=COL_BG, fg=COL_TEXT, selectcolor=COL_PANEL, activebackground=COL_BG, activeforeground=COL_TEXT).grid(row=2, column=0, sticky="w")
+        tk.Radiobutton(hard_action_frame, text="Windows Update: comprovar", variable=hard_action_var, value="3",
+                       bg=COL_BG, fg=COL_TEXT, selectcolor=COL_PANEL, activebackground=COL_BG, activeforeground=COL_TEXT).grid(row=3, column=0, sticky="w")
+    else:
+        tk.Radiobutton(hard_action_frame, text="Actualitzar Windows Defender", variable=hard_action_var, value="1",
+                       bg=COL_BG, fg=COL_TEXT, selectcolor=COL_PANEL, activebackground=COL_BG, activeforeground=COL_TEXT).grid(row=1, column=0, sticky="w")
+        tk.Radiobutton(hard_action_frame, text="Executar Windows Update", variable=hard_action_var, value="2",
+                       bg=COL_BG, fg=COL_TEXT, selectcolor=COL_PANEL, activebackground=COL_BG, activeforeground=COL_TEXT).grid(row=2, column=0, sticky="w")
+
+#Función que indica que tipo de hardening debe aplicarse basado en las elecciones del usuario
+def run_selected_hardening():
+    mode = hard_mode_var.get()
+    action = hard_action_var.get()
+
+    if mode == "BAR":
+        scripts = {
+            "1": "HARD_WinDefender.py",
+            "2": "HARD_WinDefenderUpdateAvailable.py",
+            "3": "BAR_test5_UPDATE.py",
+        }
+    else:
+        scripts = {
+            "1": "HARD_WinDefenderUpdate.py",
+            "2": "HARD_WindowsUpdate.py",
+        }
+
+    if action not in scripts:
+        messagebox.showerror("Error", "Acció hardening no vàlida.")
+        return
+
+    script = scripts[action]
+
+    def callback():
+        main.run_script(script)
+
+    execute_action_hard(f"HARD.{mode}.{action}", callback)
+
+#Se define el botón de inicio del hardening y se muestra
+hard_start_button = tk.Button(
+    hard_left,
+    text="Iniciar",
+    command=run_selected_hardening,
+    font=FONT_UI_BOLD,
+    width=18,
+    bg=COL_ACCENT,
+    fg=COL_ACCENT_DARKTXT,
+    activebackground="#7BE3FF",
+    activeforeground=COL_ACCENT_DARKTXT,
+    relief="flat",
+    bd=0,
+    highlightthickness=0,
+)
+hard_start_button.grid(row=1, column=0, sticky="w", pady=(0, 20))
+add_hover(hard_start_button, COL_ACCENT, "#7BE3FF")
+
+hard_mode_frame = tk.Frame(hard_left, bg=COL_BG)
+hard_mode_frame.grid(row=2, column=0, sticky="w")
+
+#Muestra las opciones de modo disponibles para el hardening
+tk.Label(hard_mode_frame, text="Mode:", bg=COL_BG, fg=COL_MUTED, font=FONT_UI).grid(row=0, column=0, sticky="w")
+
+tk.Radiobutton(
+    hard_mode_frame,
+    text="Identificar (BAR)",
+    variable=hard_mode_var,
+    value="BAR",
+    command=refresh_hardening_actions,
+    bg=COL_BG,
+    fg=COL_TEXT,
+    selectcolor=COL_PANEL,
+    activebackground=COL_BG,
+    activeforeground=COL_TEXT,
+).grid(row=1, column=0, sticky="w")
+
+tk.Radiobutton(
+    hard_mode_frame,
+    text="Aplicar (HARD)",
+    variable=hard_mode_var,
+    value="HARD",
+    command=refresh_hardening_actions,
+    bg=COL_BG,
+    fg=COL_TEXT,
+    selectcolor=COL_PANEL,
+    activebackground=COL_BG,
+    activeforeground=COL_TEXT,
+).grid(row=2, column=0, sticky="w")
+
+hard_action_frame = tk.Frame(hard_left, bg=COL_BG)
+hard_action_frame.grid(row=3, column=0, sticky="w", pady=(12, 0))
+
+refresh_hardening_actions()
+
+
+#Muestra las opciones de acción disponibles para el hardening
+sound_frame = tk.Frame(sound_screen, bg=COL_BG)
+sound_frame.pack(fill="both", expand=True)
+
+sound_title = tk.Label(
+    sound_frame,
+    text="Sons FX",
+    bg=COL_BG,
+    fg=COL_ACCENT,
+    font=("Segoe UI", 22, "bold"),
+)
+sound_title.pack(pady=(40, 10))
+
+sound_desc = tk.Label(
+    sound_frame,
+    text="Activa o desactiva els sons del programa.",
+    bg=COL_BG,
+    fg=COL_MUTED,
+    font=FONT_UI,
+)
+sound_desc.pack(pady=(0, 20))
+
+#Hecho con IA, detecta si los sonidos estan activados
+if not hasattr(recursos, "SOUND_ENABLED"):
+    recursos.SOUND_ENABLED = False
+
+sound_enabled_var = tk.BooleanVar(value=bool(recursos.SOUND_ENABLED))
+
+#Función con IA, para reproducir el sonido de activar sonidos
+def toggle_sound():
+    recursos.SOUND_ENABLED = bool(sound_enabled_var.get())
+    if recursos.SOUND_ENABLED:
+        try:
+            play_sound("reloading.wav")
+        except Exception:
+            pass
+
+#Se define el botón para activar los sonidos
+sound_check = tk.Checkbutton(
+    sound_frame,
+    text="Activar Sons FX",
+    variable=sound_enabled_var,
+    command=toggle_sound,
+    bg=COL_BG,
+    fg=COL_TEXT,
+    selectcolor=COL_PANEL,
+    activebackground=COL_BG,
+    activeforeground=COL_TEXT,
+    font=FONT_UI_BOLD,
+)
+sound_check.pack()
+
+#Funciones para el texto de la resolucion y la posicion actual de la barra deslizadora
+def cambiar_resolucion(resolucion_seleccionada):
+    window.geometry(resolucion_seleccionada)
+
+def ajustar_volumen(valor):
+    volumen = int(valor)
+    if volumen == 0:
+        recursos.SOUND_ENABLED = False
+    else:
+        recursos.SOUND_ENABLED = True
+    
+#Esto servirá para abrir la carpeta donde se guardan los logs
+def obrir_logs():
+    import os
+    log_dir = Path("logs") #Esto es para comprobar si la carpeta existe
+    if not log_dir.exists():
+        log_dir.mkdir()
+    os.startfile(log_dir.resolve())
+
+#Función con ayuda de IA, cambia el tema de la interfaz completa
+def switch_theme():
+    #Se ponen en global todas las vars
+    global COL_BG, COL_TEXT, COL_PANEL, COL_SIDEBAR, COL_BTN, COL_BORDER, COL_MUTED
+    
+    if COL_BG == "#0B0F14": #Si detecta que esta oscuro pasa a claro todas las siguientes vars
+        COL_BG, COL_TEXT, COL_PANEL = "#FFFFFF", "#121926", "#F2F5F9"
+        COL_SIDEBAR, COL_BTN, COL_BORDER = "#E1E8F0", "#D1D9E6", "#B7C0CC"
+        COL_MUTED = "#556677"
+    else: #Para volver al original los vuelve al oscuro
+        COL_BG, COL_TEXT, COL_PANEL = "#0B0F14", "#F2F5F9", "#161F2E"
+        COL_SIDEBAR, COL_BTN, COL_BORDER = "#121926", "#1B2638", "#2A3A52"
+        COL_MUTED = "#B7C0CC"
+    
+    #Actualiza las pestañas principales y los widgests
+    window.configure(bg=COL_BG)
+    banner_label.config(bg=COL_BG, fg=COL_ACCENT if COL_BG == "#0B0F14" else "#0056b3")
+    sidebar_frame.config(bg=COL_SIDEBAR)
+    logo_label.config(bg=COL_SIDEBAR)
+    
+    #Actualiza el fondo del color que deseemos
+    for screen in [cleaning_screen, hardening_screen, settings_screen, settings_container]:
+        screen.config(bg=COL_BG)
+        
+    #Todos los contenedores de Cleaning se actualizan
+    main_container.config(bg=COL_BG)
+    center_frame.config(bg=COL_BG)
+    content_frame.config(bg=COL_BG)
+    buttons_frame.config(bg=COL_BG)
+    panels_frame.config(bg=COL_BG)
+    
+    #Se actualizan los textos
+    for widget in settings_container.winfo_children():
+        if isinstance(widget, tk.Label):
+            widget.config(bg=COL_BG, fg=COL_TEXT)
+        if isinstance(widget, tk.Frame): # El contenedor de botones
+            widget.config(bg=COL_BG)
+
+
+
+
+#Contenido de la pantalla Ajustes
+settings_container = tk.Frame(settings_screen, bg=COL_BG)
+settings_container.pack(fill="both", expand=True, padx=50, pady=50)
+
+#Seleccionar size de la interfaz 
+tk.Label(
+    settings_container, text="Resolucio de la pantalla", 
+    bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE
+).pack(anchor="w", pady=(0, 10))
+
+#Menú desplegable para el tamaño
+opciones_resolucion = ["800x600", "900x700", "1024x768", "1280x720"] #las opciones de resolucion
+var_resolucion = tk.StringVar(value="900x700")  #Se pueden añadir maas
+
+menu_res = tk.OptionMenu(
+    settings_container, var_resolucion, *opciones_resolucion, 
+    command=cambiar_resolucion #Llamo a la funcion anterior para poner la resolución a la que se ha cambiado
+)
+menu_res.config(
+    bg=COL_BTN, fg=COL_TEXT, highlightthickness=0, 
+    activebackground=COL_BTN_HOVER, relief="flat", 
+    font=FONT_UI, width=15
+)
+menu_res["menu"].config(bg=COL_PANEL, fg=COL_TEXT, font=FONT_UI)
+menu_res.pack(anchor="w", pady=(0, 40))
+
+#Seleccionar volumen 
+tk.Label(
+    settings_container, text="Volum del programa", 
+    bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE
+).pack(anchor="w", pady=(0, 10))
+
+#Barra deslizadora para el volumen
+slider_volumen = tk.Scale(
+    settings_container,
+    from_=0, to=100,
+    orient="horizontal",
+    bg=COL_BG,
+    fg=COL_MUTED,
+    troughcolor=COL_PANEL,
+    activebackground=COL_ACCENT,
+    highlightthickness=0,
+    length=400,
+    font=FONT_UI,
+    command=ajustar_volumen #Llamo a la funcion aqui
+)
+slider_volumen.set(50) #Valor inicial
+slider_volumen.pack(anchor="w")
+
+#Texto que aparece debajo de la barra
+tk.Label(
+    settings_container, 
+    text="Ajusta per activar o desactivar els efectes de so", 
+    bg=COL_BG, fg=COL_MUTED, font=("Segoe UI", 9)
+).pack(anchor="w", pady=(5, 0))
+
+#Botones de Carpeta Logs y el tema 
+tk.Label(settings_container, text="Altres Ajustaments", bg=COL_BG, fg=COL_TEXT, font=FONT_TITLE).pack(anchor="w", pady=(10, 10))
+
+#Esto son los botones horizontales
+btns_frame = tk.Frame(settings_container, bg=COL_BG)
+btns_frame.pack(anchor="w")
+
+#El boton para abrir los logs
+btn_logs = tk.Button(btns_frame, text="Obrir carpeta de Logs 📁", command=obrir_logs, font=FONT_UI_BOLD, bg=COL_BTN, fg=COL_TEXT, relief="flat", padx=15, pady=5)
+btn_logs.pack(side="left", padx=(0, 10))
+add_hover(btn_logs, COL_BTN, COL_BTN_HOVER)
+
+# Botón cambiar el tema
+btn_tema = tk.Button(btns_frame, text="Canviar a Mode Clar Fosc 🌓", command=switch_theme, font=FONT_UI_BOLD, bg=COL_BTN, fg=COL_TEXT, relief="flat", padx=15, pady=5)
+btn_tema.pack(side="left")
+add_hover(btn_tema, COL_BTN, COL_BTN_HOVER)
 
 window.mainloop()

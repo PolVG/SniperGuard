@@ -61,11 +61,11 @@ def main():
     print(f"Reinici pendent    : {'SÍ' if reboot_pending else 'NO'}")
 
     if pending_count == 0:
-        print("\n🟢 OK — No hi ha actualitzacions pendents.")
+        print("\nOK — No hi ha actualitzacions pendents.")
         return
 
     # Baròmetre simple: si hi ha pendents -> 🔴
-    print("\n🔴 URGENT — Tens actualitzacions pendents per instal·lar.\n")
+    print("\nURGENT — Tens actualitzacions pendents per instal·lar.\n")
     for u in pending:
         title = u.get("title", "")
         kb = u.get("kb", "")

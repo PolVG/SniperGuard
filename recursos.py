@@ -1,18 +1,22 @@
-'''
-Aquest programa s'ha fet a partir de l'us de IA es fara manualment a la seguent entrega
-
-'''
-
-
 from modules.LogRegister import log
 import os,sys, ctypes
+
+from pathlib import Path
+import zipfile
+import winsound
+
+BASE_DIR = Path(__file__).resolve().parent
+SOUNDS_DIR = BASE_DIR / "sounds"
+
 # Llegeix una opció per input i valida que:
 #  no sigui buida, sigui un dígit, i el número sigui una opció del menú.
 # ID 400 logs = ERROR
 
+SOUND_ENABLED = False
 
 '''
-def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 400):
+def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 400): 
+
 Aquesta funció demana a l'usuari una entrada i valida que sigui vàlida segons les opcions proporcionades.
 Rep com a paràmetres:
 - prompt: El missatge que es mostrarà a l'usuari per demanar l'entrada.
@@ -42,27 +46,161 @@ def check_input_user(prompt: str, valid_options: set[str], log_level_bad: int = 
 
     return choice
 
+
 """
-    def check_admin_privileges():
+[AQUESTA FUNCIÓ ESTA FET AMB IA]
 Aquesta funció comprova si l'usuari té privilegis elevats (administrador) en un sistema Windows.
-Retorna:    True si l'usuari té privilegis elevats, False en cas contrari.
+Retorna: Retorna False en el cas que l'usuari no sigui administrador.
 """
 def check_admin_privileges():
 
-    privilegis_elevats = False
 
-    # Detecta si l'usuari té privilegis elevats
-    # detectant si el procés de Python s'executa amb Windows\NT
-    if os.name == "nt":
-        try:
-            privilegis_elevats = ctypes.windll.shell32.IsUserAnAdmin() != 0
-        except Exception:
-            privilegis_elevats = False
+    # Detecta si l'usuari té privilegis elevats en un entorn windows
+    try:
+        privilegis_elevats = ctypes.windll.shell32.IsUserAnAdmin()
+    except Exception:
+        privilegis_elevats = False
 
-    # Missatge a l'usuari
-    if privilegis_elevats:
-        log("El programa s'està executant amb privilegis elevats.",250)
-    else:
-        log("Execució amb privilegis d'usuari normal. Algunes funcionalitats quedaran resitringides",300)
-
+    # Retorna l'estat actual dels permisos.
     return privilegis_elevats
+
+
+
+'''
+def erase_logs():
+Aquesta funció elimina tots els fitxers de log que es troben a la carpeta LOGS_DIR.
+Retorna: True si els logs s'han eliminat correctament, False en cas contrari.
+'''
+def erase_logs():
+   
+    
+    PROJECT_ROOT = Path(__file__).resolve().parent
+    LOGS_DIR = PROJECT_ROOT / "logs"
+    
+    try:
+        if not LOGS_DIR.exists(): # .exists() retorna True si la ruta existeix
+            log(f"La carpeta de logs no existeix: {LOGS_DIR}", 300)
+            return False
+        
+        deleted_count = 0
+        for log_file in LOGS_DIR.glob("*.txt"): # .glob() retorna tots els fitxers amb l'extensió .txt
+            try:
+                log_file.unlink() # .unlink() elimina el fitxer
+                deleted_count += 1
+                log(f"Fitxer de log eliminat: {log_file.name}", 100)# .name retorna només el nom del fitxer
+            except Exception as e:
+                log(f"Error al eliminar {log_file.name}: {e}", 400)
+        
+        log(f"Total de fitxers de log eliminats: {deleted_count}", 250)
+        return True
+    
+    except Exception as e:
+        log(f"Error en eliminate_logs(): {e}", 500)
+        return False
+
+
+'''
+def compress_logs():
+Aquesta funció comprimeix tots els fitxers de log en un arxiu ZIP amb el nom 'logsfiles.zip'.
+Retorna: True si la compressió ha estat exitosa, False en cas contrari.
+'''
+def compress_logs():
+
+    
+    PROJECT_ROOT = Path(__file__).resolve().parent
+    LOGS_DIR = PROJECT_ROOT / "logs"
+    ZIP_FILE = LOGS_DIR / "logsfiles.zip"
+    
+    try:
+        if not LOGS_DIR.exists():
+            log(f"La carpeta de logs no existeix: {LOGS_DIR}", 300)
+            return False
+        
+        # Crear el fitxer ZIP
+        with zipfile.ZipFile(ZIP_FILE, 'w', zipfile.ZIP_DEFLATED) as zipf: # ZIP_DEFLATED és per la compressió
+            log_files = list(LOGS_DIR.glob("*.txt")) # glob() retorna tots els fitxers amb l'extensió .txt
+            
+            if not log_files:
+                log("No hi ha fitxers de log per comprimir.", 300)
+                return False
+            
+            for log_file in log_files:
+                # Afegir fitxer al ZIP (només el nom del fitxer, no la ruta completa)
+                zipf.write(log_file, arcname=log_file.name) # arcname evita incloure la ruta completa dins del ZIP
+                log(f"Fitxer afegit al ZIP: {log_file.name}", 100)
+        
+        log(f"Arxiu ZIP creat correctament: {ZIP_FILE}", 250)
+        print(f"\n✅ Fitxers comprimits a: {ZIP_FILE}\n")
+        return True
+    
+    except Exception as e:
+        log(f"Error en compress_logs(): {e}", 500)
+        print(f"\n❌ Error comprimint fitxers: {e}\n")
+        return False
+
+'''
+def decompress_logs():
+Aquesta funció busca el primer arxiu ZIP de logs i el descomprimeix a la carpeta de logs.
+Retorna: True si la descompressió ha estat exitosa, False en cas contrari.
+'''
+def decompress_logs():
+    
+
+    PROJECT_ROOT = Path(__file__).resolve().parent
+    LOGS_DIR = PROJECT_ROOT / "logs"
+
+    try:
+        if not LOGS_DIR.exists():
+            log(f"La carpeta de logs no existeix: {LOGS_DIR}", 300)
+            return False
+
+        zip_files = sorted(LOGS_DIR.glob("*.zip"))
+        if not zip_files:
+            log("No s'ha trobat cap fitxer ZIP de logs.", 300)
+            return False
+
+        target_zip = zip_files[0] # Selecciona el primer fitxer ZIP trobat
+        if not zipfile.is_zipfile(target_zip):
+            log(f"El fitxer no és un ZIP vàlid: {target_zip}", 400)
+            return False
+
+        with zipfile.ZipFile(target_zip, 'r') as zipf:
+            zipf.extractall(LOGS_DIR)
+
+        log(f"Arxiu ZIP descomprimit correctament: {target_zip}", 250)
+        print(f"\n✅ Fitxers descomprimits des de: {target_zip}\n")
+        return True
+
+    except Exception as e:
+        log(f"Error en decompress_logs(): {e}", 500)
+        print(f"\n❌ Error descomprimint fitxers: {e}\n")
+        return False
+
+
+
+BASE_DIR = Path(__file__).resolve().parent
+SOUNDS_DIR = BASE_DIR / "sounds"
+
+"""
+AQUESTA FUNCIO ESTA FETA AMB IA
+
+def play_sound(filename: str, async_play: bool = True):
+    Reprodueix un fitxer de so des de la carpeta de sons.
+"""
+def play_sound(filename: str, async_play: bool = True):
+
+    # Si el so està desactivat, no fem res
+    if not SOUND_ENABLED:
+        return
+    
+    sound_path = SOUNDS_DIR / filename
+
+    if not sound_path.exists():
+        log(f"ERROR! So no trobat: {sound_path}",400)
+        return
+
+    flags = winsound.SND_FILENAME
+    if async_play:
+        flags |= winsound.SND_ASYNC
+    log("S'ha activat el so a SniperGuard",250)
+    winsound.PlaySound(str(sound_path), flags)

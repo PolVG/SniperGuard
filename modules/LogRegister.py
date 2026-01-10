@@ -1,58 +1,108 @@
 import os
-import inspect
-import re
-import configparser
 from datetime import datetime
 from pathlib import Path
+from rich import *
+from rich.console import *
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+import configparser
 
-# Rutes globals del fitxer de logs
-# Pujem dos nivells de l'arrel del projecte per oferir la ruta: /var/www/html/projecteimatges/config/config.ini
-# PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..','..'))
-# LOGS_DIR = os.path.join(PROJECT_ROOT, "logs")
-# LOG_FILE = os.path.join(LOGS_DIR, datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
-# CONFIG_PATH = os.path.join(PROJECT_ROOT, "config", "config.ini")
+'''
+Aclariments generals sobre el sistema de logs: 
+l'encoding utilitzat és UTF-8 per assegurar 
+la compatibilitat amb caràcters especials i emojis.
+'''
+
+# Consola rich per a la sortida de text formatat
+console = Console()
+
+# Rutes de fitxers i directoris
 BASE_DIR = Path(__file__).resolve().parent       
 PROJECT_ROOT = BASE_DIR.parent     
 LOGS_DIR = PROJECT_ROOT / "logs"
-LOG_FILE = LOGS_DIR / (datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt")
 CONFIG_PATH = PROJECT_ROOT / "config" / "config.ini"
-
 CURRENT_LOG_FILE = None
-#
-# obtenirTextNivell() -> Funció que serveix per classificar 
-#                        el log segons el seu valor númeric
-#
-# Parametres:
-#
-# nivell = Tipus d'etiqueta assignat al log en format int.
-#          El tornem en format 'str' perquè el format de la
-#          etiqueta sigui compatible amb el log.
-def obtenir_text_nivell(nivell: int) -> str:
+
+
+'''
+AQUESTA FUNCIÓ ESTA FETA AMB IA
+
+
+def _try_set_current_log_file_from_env():
+Intenta establir el fitxer de log actual des de la variable d'entorn SNIPERGUARD_LOG_FILE.
+Retorna True si s'ha establert correctament, False en cas contrari.
+
+'''
+
+def _try_set_current_log_file_from_env():
+    global CURRENT_LOG_FILE
+
+    env_path = os.environ.get("SNIPERGUARD_LOG_FILE")
+    if not env_path:
+        return False
+
+    try:
+        candidate = Path(env_path)
+        candidate.parent.mkdir(parents=True, exist_ok=True)
+
+        if not candidate.exists():
+            with open(candidate, "a", encoding="utf-8"):
+                pass
+
+        CURRENT_LOG_FILE = candidate
+        return True
+    except Exception:
+        return False
+
+# LOG_LEVEL = 100  # Nivell mínim de logs a registrar
+'''
+get_current_log_file():
+Retorna la ruta del fitxer de log actual.
+'''
+def get_current_log_file():    
+    return CURRENT_LOG_FILE
+
+'''
+def get_time():
+Retorna temps en format DD-MM-YYYY HH: MM:SS (per dins dels logs)
+'''
+def get_time():
+    return datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+'''
+def get_filename_time():
+Retorna temps vàlid per a noms de fitxer (sense :  ni espais) ja que aquests caràcters poden causar problemes en alguns sistemes operatius com es Windows.
+'''
+
+def get_filename_time():
+    return datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
+
+
+'''
+def obtain_text_level(nivell: int):
+Retorna l'etiqueta del nivell de log
+'''
+def obtain_text_level(nivell: int):
+    
     nivells = {
         100: '[🔍 DEBUG]',
-        200: '[ℹ️ INFO]',
+        200: '[ℹ️  INFO]',
         250: '[✅ NOTICE]',
-        300: '[⚠️ WARNING]',
+        300: '[⚠️  WARNING]',
         400: '[❌ ERROR]',
-        500: '[🛑 CRITICAL]',
-        550: '[🚨 ALERT]',
-        600: '[☠️ EMERGENCY]',
     }
-    
-    # Si la etiqueta està dintre del rang de la taula, 
-    # retorna tant la 'key' associat al seu 'value'.
-    # Si el número NO està dintre del array associatiu, retorna '[UNKNOWN]'.
     return nivells.get(nivell, '[UNKNOWN]')
 
-#
-# obtenir_nivell_log_des_de_ini() -> Funció que serveix per classificar el log segons el seu
-#                                    valor númeric especificat al invocador 'obtenirTextNivell()'
-def obtenir_nivell_log_des_de_ini(config_path=CONFIG_PATH) -> int:
-    
-    """
-    Llegeix el paràmetre 'log_level_py' de la secció [log] del fitxer config.ini
-    Retorna el valor com a enter, o llança excepcions detallades si hi ha errors.
-    """
+
+'''
+def check_current_log_level(config_path=CONFIG_PATH) -> int:
+Llegeix el paràmetre 'log_level_py' de la secció [log] del fitxer config.ini
+Retorna el valor com a enter, o llança excepcions detallades si hi ha errors.
+
+
+'''
+
+def check_current_log_level(config_path=CONFIG_PATH) -> int:
 
     # Comprovem si el fitxer config.ini existeix
     if not os.path.exists(config_path):
@@ -83,99 +133,169 @@ def obtenir_nivell_log_des_de_ini(config_path=CONFIG_PATH) -> int:
     # "200" = 200 -> Ara sí que podem convertir-lo de String a INT sense problemes.
     valor = valor.strip('"').strip("'")
     
-    # print(valor)
-
+ 
     try:
         # Intentem convertir el valor a enter. Si no és possible, llancem un error
         return int(valor)
     except ValueError:
         raise Exception("❌📄 ERROR! El paràmetre 'log_level_py' no és un enter vàlid")
 
+'''
 def init_log_file():
-    """
-    Inicialitza el fitxer de log per a una execució concreta.
-    El nom inclou data, hora i un ID d'acció (p. ex. ID2.1.1).
-    Retorna la ruta completa del fitxer.
-    """
+Inicialitza el fitxer de log creant-lo i escrivint la capçalera inicial.
+Retorna: La ruta del fitxer de log creat.
+'''
+def init_log_file():
+
     global CURRENT_LOG_FILE
+    
+    os.makedirs(LOGS_DIR, exist_ok=True)# Crear la carpeta de logs si no existeix, es gestiona amb exist_ok=True per evitar errors si ja existeix
+    
 
-    os.makedirs(LOGS_DIR, exist_ok=True)
-
-    counter_file = LOGS_DIR / "last_log_id.txt"
-
-    # Llegir l'últim ID
-    if counter_file.exists():
-        with open(counter_file, "r") as f:
-            last_id = int(f.read().strip() or "0")
-    else:
-        last_id = 0
-
-    # Incrementar ID
-    new_id = last_id + 1
-
-    # Guardar el nou ID
-    with open(counter_file, "w") as f:
-        f.write(str(new_id))
-
-    filename = f"ID{new_id}_logs_py.txt"
+    filename = f"{get_filename_time()}_logs_py.txt" # Nom del fitxer amb el temps de creacio
     CURRENT_LOG_FILE = LOGS_DIR / filename
-
+    
+    # Si el fitxer no existeix, crea'l i afegeix la capçalera avisant que el fitxer es nou
+    with open(CURRENT_LOG_FILE, "w", encoding="utf-8") as f:
+        f.write(f"[{get_time()}] ✅📝 Nou fitxer de log creat: {filename}\n")
+        f.write(f"[{get_time()}] 🚀 Inici d'execució de SniperGuard\n")
+        f.write("="*80 + "\n\n")
+    
     return CURRENT_LOG_FILE
 
-# log(msg, nivell) -> Escriu una entrada de log si el nivell és prou alt
-def log(msg: str, nivell: int = 200):
+
+
+'''
+def log(msg: str, nivell:  int = 200):
+Registra un missatge al fitxer de log amb el nivell especificat.
+Parametres:
+msg: Missatge a registrar.   
+nivell: Nivell de severitat del missatge (per defecte és 200 - INFO).
+'''
+
+def log(msg: str, nivell:  int = 200):
     try:
-        nivell_permes = obtenir_nivell_log_des_de_ini()
+        nivell_permes = check_current_log_level()
     except Exception as e:
         print(e)
         return  # Atura el log si no es pot llegir el fitxer de configuració
-
-    if nivell < nivell_permes:
-        return  # El nivell no arriba al mínim requerit
     
-    # Per cada log, guarda la data i hora de registre.
-    timestamp = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-
-    # Obtenir el nom net del fitxer que ha cridat el log
-    frame = inspect.stack()[1]
-    raw_name = os.path.splitext(os.path.basename(frame.filename))[0]
-    caller_name = re.sub(r'^\d+_', '', raw_name)  # Elimina prefixos com 9_ o 12_
-
-    global CURRENT_LOG_FILE
+    if nivell < nivell_permes:
+        return # El nivell no arriba al mínim requerit
     
     if CURRENT_LOG_FILE is None:
-        # MODE COMPATIBILITAT: si ningú ha cridat init_log_file(),
-        # fem servir el fitxer diari com abans.
-        daily_name = datetime.now().strftime("%Y-%m-%d") + "_logs_py.txt"
-        CURRENT_LOG_FILE = LOGS_DIR / daily_name
-
-    log_file = CURRENT_LOG_FILE
+        if not _try_set_current_log_file_from_env():
+            init_log_file()
     
-    # Si el fitxer no existeix, crea'l i afegeix la capçalera avisant que el fitxer es nou
-    if not os.path.exists(log_file):
-        # Crea la carpeta si no existeix. Tot i així, aquesta línea de codi no es necessaria
-        # ja que PHP ja s'encarrega abans de comprobar si la carpeta 'logs' existeix.
-        os.makedirs(LOGS_DIR, exist_ok=True)  
-        with open(log_file, "w", encoding="utf-8") as f:
-            f.write(f"[{timestamp}] [{caller_name}] ✅📝 S'ha creat un nou fitxer de log anomenat: {log_file} .\n")
+    text_nivell = obtain_text_level(nivell)
+    full_msg = f"[{get_time()}] {text_nivell} {msg}"
     
-    # Format complet del missatge de log
-    etiqueta = obtenir_text_nivell(nivell)
-    full_msg = f"[{timestamp}] [{caller_name}] {etiqueta} {msg}"
-    
-    # Afegim el log
-    with open(log_file, "a", encoding="utf-8") as f:
+    with open(CURRENT_LOG_FILE, "a", encoding="utf-8") as f:
         f.write(full_msg + "\n")
 
-"""
 
-  registrarLog() -> Funció que serveix per gravar cada un dels logs 
-                    que genera el nostre projecte.
-                    Si no especifiquem el valor númeric del log,
-                    s'oferirà el valor per defecte '100' (DEBUG)
- Parametres:
-   $missatge = Missatge especificat al invocador 'registarLog()' per escriureu al log
-   $nivell   = Especifiquem quina classificació té el log.
+# ---------- RICH: taula del baròmetre ---
+LEVEL_STYLE = {
+    100: "grey15",       # DEBUG
+    200: "cyan",      # INFO
+    250: "green",     # NOTICE
+    300: "yellow",    # WARNING
+    400: "bold red",  # ERROR
+}
+
+
+'''
+def print_log_levels_table():
+Mostra la taula del baròmetre. Si reps active_level, remarquem l'actiu.
+Afegeix logs de depuració per saber que s'ha invocat correctament.
+'''
+def print_log_levels_table():
+    log("Entrant a print_log_levels_table()", 100)
+    print()
+
+    table = Table(show_lines=True)
+
+    panel = Panel(
+        Align.center("[bold cyan underline] Baròmetre de Nivells de Log [/bold cyan underline]", vertical="middle"),
+        border_style="green",
+        style="on grey15",
+        padding=(1, 6),
+    )
+    console.print(panel)
+
+    log("Panell del barómetre mostrat correctament.", 100)
+
+    table.add_column("ID", justify="right", no_wrap=True)
+    table.add_column("Descripció", justify="left")
+
+    log("Procedint a mostrar la taula.", 100)
+    for lvl in (100, 200, 250, 300, 400):
+        style = LEVEL_STYLE.get(lvl, "white")
+        label = obtain_text_level(lvl)
+
+        table.add_row(
+            f"[{style}]{lvl}",
+            f"[{style}]{label}",
+       
+        )
+    console.print(table)
+    log("Taula mostrada correctament.", 250)
+
+
+'''
+AQUESTA FUNCIÓ ESTA FETA AMB IA
+
+def update_log_level_ini(new_level: int, config_path=CONFIG_PATH):
+Actualitza el paràmetre 'log_level_py' al fitxer config.ini amb el nou nivell especificat.
+Paràmetres:
+new_level: Nou nivell de log a establir.
+config_path: Ruta del fitxer config.ini (per defecte és CONFIG_PATH).
+
+'''
+
+  
+def update_log_level_ini(new_level: int, config_path=CONFIG_PATH):
+    
+    # El fitxer config.ini amb els seus permisos, 
+    # ja s'ha comprobat anteriorment amb el métode check_current_log_level()
+
+    log(f"Inicialitzant 'update_log_level_ini()' amb el nivell: {new_level}", 100)
+    
+    config = configparser.ConfigParser()
+    config.read(config_path)
+    
+    config["log"]["log_level_py"] = f"\"{new_level}\""
+
+    with open(config_path, "w", encoding="utf-8") as f:
+        config.write(f)
+    log("update_log_level_ini(): fitxer desat correctament.", 250)
+
+
+'''
+def manage_logs(current_log, new_log):
+Actualitza el nivell mínim de logs a registrar segons la selecció de l'usuari.
+choice: string validat (ex. "200", "300"...)    
+new_log: nou nivell de log a establir
+current_log: nivell de log actual abans del canvi
+
+
+'''    
+
+def manage_logs(current_log, new_log):
+
+    log(f"Log escollit per l'usuari: {new_log}",250)
+    update_log_level_ini(int(new_log))
+    
+    # Invoquem el nivell mínim de log que ha especificat l'usuari
+    console.print(f"Nivell mínim de logs canviat per l'usuari: Antic: {current_log} Nou: {new_log}")
+    
+    # Recorda que aquest log no es mostrarà si hem agafat un baròemtre superior a 250
+    log(f"Nivell mínim de logs canviat per l'usuari: Antic: {current_log} Nou: {new_log}", 250)
+    
+
+    
+"""
+EXPLICACIÓ DE LOGS
 
 +------------+----------------+------------------------------------------+------------------------------+
 | Nivell     | Valor numèric  | Descripció                               | Emoji i motiu               |
@@ -184,12 +304,6 @@ def log(msg: str, nivell: int = 200):
 | INFO       | 200            | Esdeveniments informatius (estat normal) | ℹ️ Informació estàndard     |
 | NOTICE     | 250            | Esdeveniments normals però rellevants    | ✅ Tot correcte i notable   |
 | WARNING    | 300            | Alguna cosa no ideal, però no crítica    | ⚠️ Precaució, pot empitjorar|
-| ERROR      | 400            | Errors que impedeixen una acció          | ❌ Alguna cosa ha fallat     |
-| CRITICAL   | 500            | Problema greu, cal atenció immediata     | 🛑 Alguna cosa crítica ha fallat    |
-
-| ALERT      | 550            | S'ha de resoldre immediatament           | 🚨 Alarma, acció urgent     |
-| EMERGENCY  | 600            | El sistema és inutilitzable              | ☠️ Perill extrem, tot cau   |
+| ERROR      | 400            | Errors que impedeixen una acció          | ❌ Alguna cosa ha fallat    |
 +------------+----------------+------------------------------------------+------------------------------+
-
-
 """
